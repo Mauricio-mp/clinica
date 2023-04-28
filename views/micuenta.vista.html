@@ -1,0 +1,112 @@
+
+
+
+<div class="auth-wrapper" style="margin-right: 210px;">
+    <div class="container-fluid h-80">
+        <div class="row flex-row h-80 bg-white">
+            <div class="col-xl-6 col-lg-6 col-md-5 p-0 d-md-block d-lg-block d-sm-none d-none">
+                <div class="lavalite-bg" style="background-image: url('img/fondox5.jpg')">
+                    <div class="lavalite-overlay"></div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-4 col-md-7 my-auto p-0">
+                <div class="authentication-form mx-auto">
+                    <div class="logo-centered">
+                        <a href="../index.html"><img src="../src/img/brand.svg" alt=""></a>
+                    </div>
+                    <div class="center">
+                        <img src="./img/9.png" style=" width:100%;" ;align="center">
+
+                    </div>
+                    <form method="POST" id="formLOgin">                     
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Ingrese su usuario" name="usuario" id="usuario">
+                            <i class="ik ik-user"></i>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" placeholder="Ingrese Contrase&ntilde;a" name="Contrasenia" id="Contrasenia">
+                            <i class="ik ik-lock"></i>
+                        </div>
+                        <div class="row">
+                            <div class="col text-left">
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" onclick="mostrarContra()"  name="item_checkbox" value="option1">
+                                    <span class="custom-control-label">&nbsp; Mostrar Contrase&ntilde;a</span>
+                                </label>
+                            </div>
+
+                        </div>
+                        <div class="sign-btn text-center">
+                            <button type="submit" class="btn btn-primary" >Iniciar</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    init();
+function init(){
+
+ var div = document.getElementById('div1');
+ var div2 = document.getElementById('div2');
+ var padre1 = div.parentNode;
+ var padre2 = div2.parentNode;
+
+
+padre1.removeChild(div);
+padre2.removeChild(div2);
+
+document.getElementById('body').style.backgroundColor  = "#f8f4fc";
+
+        
+}
+    $(document).ready(function() {
+        $("#form").keypress(function(e) {
+            if (e.which == 13) {
+                muyfunction();
+            }
+        });
+    });
+    function muyfunction() {
+        var usuario = $('#usuario').val();
+        var contra = $('#Contrasenia').val();
+
+        if (usuario == '' || contra == '') {
+            showDangerToast('por favor no deje campos vacios');
+        } else {
+             $.post("index.php?page=micuenta", {
+                            op: "login",
+                            usuario: usuario,
+                            contra: contra
+                            
+                        }, function(response) {
+                            console.log(response);
+                            if(response==false){
+                             showDangerToast('Usuario y Contrase&ntilde;a incorrecto');
+                            }else{
+                                window.location.href='index.php?page=home'; 
+                            }
+                            
+                        });
+
+
+           
+        }
+
+
+
+    }
+
+    function mostrarContra() {
+        var tipo = document.getElementById("Contrasenia");
+        if (tipo.type == "password") {
+            tipo.type = "text";
+        } else {
+            tipo.type = "password";
+        }
+    }
+</script>

@@ -1,0 +1,23 @@
+.fondo{
+    
+    background-image: url("../img/fondox_4.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size:cover;
+
+   /* background-size:100%, 70%, cover; */
+   border: 1px solid red;
+    /*background-size: contain;*/
+    
+}
+
+
+
+.texto{
+    text-align:left;
+    font-size:18px;
+    color:black;
+    
+    
+}

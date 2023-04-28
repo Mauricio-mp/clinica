@@ -1,0 +1,92 @@
+<link rel="stylesheet" href="css/home.css">
+<div class="kt-portlet">
+	<div class="kt-portlet__head">
+		<div class="kt-portlet__head-label">
+			<h3 class="kt-portlet__head-title">
+				Ingreso de Incapacidad
+			</h3>
+		</div>
+	</div>
+	<!--begin::Form-->
+<!-- tomado del Achivo rangos.js-->
+	<form class="kt-form kt-form--fit kt-form--label-right" id="FormIncapacidad" >
+		
+		<div class="kt-portlet__body">
+			
+			
+			<div class="form-group">
+				<label>Ingrese Busqueda</label>
+				<div class=" col-lg-10 col-md-9 col-sm-12">
+				<select class="custom-select form-control" onchange="cambio(event)" name="selectBusqueda" >
+					<option value="nombre" selected>Nombre</option>
+					<option value="Codigo" >Codigo de empleado</option>				  
+					  <option value="identidad">identidad</option>
+					
+				</select>
+				</div>
+			</div>
+			
+			<div class="form-group identidad" style="display:none">
+				<label>Numero de Identici&oacute;n</label>
+				<div></div>
+				<div class=" col-lg-4 col-md-9 col-sm-12">
+					<input class="form-control" id="idenficacionCita" name="identificacion" type="text"/>
+				<!--	<span class="form-text text-muted">Phone number mask: <code>99-9999999</code></span>  -->
+				</div>
+			</div>
+			<div class="form-group empleadoCodigo" style="display:none">
+				<label>Codigo de Empleado</label>
+				<div></div>
+				<div class=" col-lg-4 col-md-9 col-sm-12">
+					<input type="text" class="form-control" id="codigoEmpleado" placeholder="Codigo de Empleado">
+				</div>
+			</div>
+			<div class="form-group NOmbre_EmpleDO">
+				<label>Nombre del empleado</label>
+				<div></div>
+				<div class=" col-lg-4 col-md-9 col-sm-12">
+					<select class="form-control kt-select2" id="cbxCita" name="param">
+					
+					</select>
+				</div>
+			</div>
+		</div>
+		
+		<div class="kt-portlet__foot kt-portlet__foot--fit-x">
+			<div class="kt-form__actions">
+				<div class="row">
+					<div class="col-lg-2"></div>
+					<div class="col-lg-10">
+						<button type="submit"  class="btn btn-primary" >Aceptar</button>
+						<button type="button" class="btn btn-secondary">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="kt-portlet__body">
+			<!--begin: Datatable -->
+			<table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_ajax">
+										<thead>
+										  <tr>
+														  <th>Order ID</th>
+														  <th>Country</th>
+														  <th>Ship City</th>
+														  <th>Company Name</th>
+														  <th>Ship Date</th>
+														  <th>Status</th>
+														  <th>Type</th>
+														  <th>Actions</th>
+											  </tr>
+							</thead>
+				
+				
+						</table>
+			<!--end: Datatable -->
+		</div>
+	</form>
+
+	<!--end::Form-->
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="views/ViewJs/cita.js"></script>
