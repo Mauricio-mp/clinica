@@ -11,7 +11,6 @@ error_reporting(E_ALL);
 */
 session_start();
 ob_start();
-
   require_once("libs/template_engine.php");
 require_once("models/cita.model.php");
 addToContext("page_title","Incapacidad");
@@ -35,37 +34,14 @@ addToContext("form_title","Busqueda");
       echo number_format($total,2);
       break;
       case 'mostrar':
-       
-
-        echo json_encode(array("data"=> array(
-          "OrderID"=>"1",
-          "Country"=>"estados Unidos",
-          "ShipCity"=>"nos e",
-          "CompanyName"=>"no se",
-          "ShipDate"=>"no se",
-          "Status"=>0,
-          "Type"=>1,
-          "Actions"=>"no se"),
-          array(
-            "OrderID"=>"1",
-            "Country"=>"estados Unidos",
-            "ShipCity"=>"nos e",
-            "CompanyName"=>"no se",
-            "ShipDate"=>"no se",
-            "Status"=>0,
-            "Type"=>1,
-            "Actions"=>"no se"),
-            array(
-              "OrderID"=>"1",
-              "Country"=>"estados Unidos",
-              "ShipCity"=>"nos e",
-              "CompanyName"=>"no se",
-              "ShipDate"=>"no se",
-              "Status"=>0,
-              "Type"=>1,
-              "Actions"=>"no se")
-        )
-        );
+        $op=new clinica();
+        $codigoEmpleado=$_GET['codigoEmpleado'];
+        $selectBusqueda=$_GET['selectBusqueda'];
+        $identificacion=$_GET['identificacion'];
+        $param=$_GET['param'];
+        $total =$op->Busqueda($codigoEmpleado,$selectBusqueda,$identificacion,$param);
+        $arrayName = array('data' => $total);
+        echo json_encode($arrayName); 
  
         break;
      case 'Guardar':
