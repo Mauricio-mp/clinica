@@ -19,8 +19,11 @@ class clinica extends Conexion implements cita
 				try {
 
 					$conn= self::SQLServer();
-					$sql=mssql_query("SELECT cempno,cfname,clname,cstatus,cfedid,cdeptno,dbirth from prempy where cempno='$codigoEmpleado'");
-			  
+					$sql=mssql_query("SELECT cempno,cfname,clname,cstatus,cfedid,py.cdeptno,nmonthpay,dbirth,pdt.cdeptname,job.cDesc,py.csex from prempy py
+					inner join dbo.prdept pdt on pdt.cdeptno = py.cdeptno  
+					inner join dbo.HRJobs job on job.cJobTitlNO = py.cjobtitle 
+					where py.cempno='$codigoEmpleado'");
+					
 					while($fila=mssql_fetch_array($sql)){
 						$fecha=date('d/m/Y', strtotime($fila['dbirth']));
 					  $fila[1]=utf8_encode($fila[1]);
@@ -28,6 +31,7 @@ class clinica extends Conexion implements cita
 					  $fila[2]=utf8_encode($fila[2]);
 					  $fila['clname']=utf8_encode($fila['clname']);
 					  $fila['fecha']=$fecha;
+					  
 					  if($fila['cstatus']=='A'){
 						$fila['cstatus']=1;
 					  }else if ($fila['cstatus']=='I'){
@@ -35,6 +39,8 @@ class clinica extends Conexion implements cita
 					  }else if ($fila['cstatus']=='T'){
 						$fila['cstatus']=3;
 					  }
+
+					  
 					  $arr[]=$fila;
 					}
 					return $arr;
@@ -51,7 +57,10 @@ class clinica extends Conexion implements cita
 				try {
 
 					$conn= self::SQLServer();
-					$sql=mssql_query("SELECT cempno,cfname,clname,cstatus,cfedid,cdeptno,dbirth from prempy where cfedid='$identificacion'");
+					$sql=mssql_query("SELECT cempno,cfname,clname,cstatus,cfedid,py.cdeptno,nmonthpay,dbirth,pdt.cdeptname,job.cDesc,py.csex   from prempy py
+					inner join dbo.prdept pdt on pdt.cdeptno = py.cdeptno  
+					inner join dbo.HRJobs job on job.cJobTitlNO = py.cjobtitle 
+					where py.cfedid='$identificacion'");
 			  
 					while($fila=mssql_fetch_array($sql)){
 						
@@ -84,7 +93,10 @@ class clinica extends Conexion implements cita
 					try {
 	
 						$conn= self::SQLServer();
-						$sql=mssql_query("SELECT cempno,cfname,clname,cstatus,cfedid,cdeptno,dbirth from prempy where cempno='$param'");
+						$sql=mssql_query("SELECT cempno,cfname,clname,cstatus,cfedid,py.cdeptno,nmonthpay,dbirth,pdt.cdeptname,job.cDesc,py.csex   from prempy py
+						inner join dbo.prdept pdt on pdt.cdeptno = py.cdeptno  
+						inner join dbo.HRJobs job on job.cJobTitlNO = py.cjobtitle 
+						where py.cempno='$param'");
 				  
 						while($fila=mssql_fetch_array($sql)){
 							

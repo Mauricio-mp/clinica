@@ -26,6 +26,16 @@ addToContext("form_title","Busqueda");
   
   
     switch ($opcion) {
+      case 'llenar':
+        $codigo=$_POST['codigo'];
+        $identificacion=null;
+        $param=null;
+        $op=new clinica();
+        $total =$op->Busqueda($codigoEmpleado='006351',$selectBusqueda='Codigo',$identificacion,$param);
+        $arrayName = array('data' => $total);
+        echo json_encode($arrayName); 
+ 
+        break;
     case 'ActualizarSueldo':
       $FechaInicio=$_POST['FechaInicio'];
       $textdias=$_POST['textdias'];

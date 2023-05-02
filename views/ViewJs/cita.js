@@ -1,6 +1,9 @@
 
 
 $( document ).ready(function() {
+  $('.form_DatosGenerales').hide();
+
+
   $.post("index.php?page=cita&op=empleado", {
   }, function(response) {
   
@@ -23,7 +26,27 @@ console.log(form);
 }
 
 function myfunct(codigo){
-  alert(codigo);
+
+  $('.form_DatosGenerales').show('slow');
+  $('#FormIncapacidad').hide('slow');
+
+  $.post("index.php?page=cita&op=llenar", {
+    codigo: codigo             
+})
+.done(function(data) {
+    const json= JSON.parse(data);
+    console.log(json['data'][0]['cempno']);
+
+    $('#CodigoEmpleado').val(json['data'][0]['cempno']);
+    $('#Nombre').val(json['data'][0]['clname']);
+    $('#Apellido').val(json['data'][0]['cfname']);
+    $('#Identidad').val(json['data'][0]['cfedid']);
+    $('#FechaNacimiento').val(json['data'][0]['dbirth']);
+    $('#txtOcupacion').val(json['data'][0]['cDesc']);
+    $('#Dependencia').val(json['data'][0]['cdeptname']);
+    $('#txtSexo').val(json['data'][0]['csex']);
+});
+
 }
 
 function cambio(e) {
@@ -76,9 +99,9 @@ init:function(){$("#tabla_ajax1").DataTable(
       {targets:-1,
         title:"Actions",
         orderable:!1,
-        render:function(a,t,e,n)
+        render:function(data, type, row, meta)
         {
-          return'\n                        <span class="dropdown">\n                            <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true">\n                              <i class="la la-ellipsis-h"></i>\n                            </a>\n                            <div class="dropdown-menu dropdown-menu-right">\n                                <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\n                                <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\n                                <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\n                            </div>\n                        </span>\n                        <a href="javascript:myfunct('+t['cempno']+')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class="la la-edit"></i>\n                        </a>'
+          return'\n                        <span class="dropdown">\n                            <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true">\n                              <i class="la la-ellipsis-h"></i>\n                            </a>\n                            <div class="dropdown-menu dropdown-menu-right">\n                                <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\n                                <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\n                                <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\n                            </div>\n                        </span>\n                        <a href="javascript:myfunct(\' '+row['cempno']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class="la la-edit"></i>\n                        </a>'
        }
     },
     {targets:-5,render:function(a,t,e,n)
