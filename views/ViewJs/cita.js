@@ -1,7 +1,7 @@
 
 
 $( document ).ready(function() {
-  $('.form_DatosGenerales').hide();
+  /*$('.form_DatosGenerales').hide();*/
 
 
   $.post("index.php?page=cita&op=empleado", {
@@ -17,7 +17,22 @@ $( document ).ready(function() {
   });
 });
 
+function GuardarFormPreclinica(){
+  alert('holoa');
+}
 
+
+$('#FechaNacimiento').on("input", function () { 
+  var idinput= this.value;
+  
+  $.post("index.php?page=cita&op=fecha", {
+    idinput:idinput
+  }, function(response) {
+
+    $('#txtEdad').val(response.trim());
+  
+  });
+});
 function buscarEmpleado() {
 var form= $('#FormIncapacidad').serialize();
 //alert('hola');
@@ -31,20 +46,24 @@ function myfunct(codigo){
   $('#FormIncapacidad').hide('slow');
 
   $.post("index.php?page=cita&op=llenar", {
-    codigo: codigo             
+    codigo:codigo             
 })
 .done(function(data) {
-    const json= JSON.parse(data);
+
+   
+   const json= JSON.parse(data);
     console.log(json['data'][0]['cempno']);
 
-    $('#CodigoEmpleado').val(json['data'][0]['cempno']);
-    $('#Nombre').val(json['data'][0]['clname']);
-    $('#Apellido').val(json['data'][0]['cfname']);
-    $('#Identidad').val(json['data'][0]['cfedid']);
-    $('#FechaNacimiento').val(json['data'][0]['dbirth']);
-    $('#txtOcupacion').val(json['data'][0]['cDesc']);
-    $('#Dependencia').val(json['data'][0]['cdeptname']);
-    $('#txtSexo').val(json['data'][0]['csex']);
+    $('#CodigoEmpleado').val(json['data'][0]['cempno'].trim());
+    $('#Nombre').val(json['data'][0]['clname'].trim());
+    $('#Apellido').val(json['data'][0]['cfname'].trim());
+    $('#txtIdentidad').val(json['data'][0]['cfedid'].trim());
+    $('#FechaNacimiento').val(json['data'][0]['fecha'].trim());
+    $('#txtOcupacion').val(json['data'][0]['cDesc'].trim());
+    $('#Dependencia').val(json['data'][0]['cdeptname'].trim());
+    $('#txtSexo').val(json['data'][0]['csex'].trim());
+    $('#txtEdad').val(json['data'][0]['edad'].trim());
+    
 });
 
 }

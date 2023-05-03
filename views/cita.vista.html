@@ -9,8 +9,8 @@
 	</div>
 	<!--begin::Form-->
 <!-- tomado del Achivo rangos.js-->
-<form lass="kt-form kt-form--fit kt-form--label-right ">
-	<div class="kt-portlet__body form_DatosGenerales">
+<form method="POST" lass="kt-form kt-form--fit kt-form--label-right" id="FormularioPleclinica" >
+	<div class="kt-portlet__body form_DatosGenerales" style="display:none;">
 		<ul class="nav nav-tabs nav-fill" role="tablist">
 			<li class="nav-item">
 				<a class="nav-link active" data-toggle="tab" href="#kt_tabs_1_1">Datos Generales</a>
@@ -43,12 +43,12 @@
 				<div class="form-group row">
 					<div class="col-lg-4">
 						<label>Identidad</label>
-						<input type="text" class="form-control" id="Identidad"  name="Identidad" placeholder="Identidad">
+						<input type="text" class="form-control" id="txtIdentidad"  name="txtIdentidad" placeholder="Identidad">
 						
 					</div>
 					<div class="col-lg-4">
 						<label class="">Fecha de Naciminento</label>
-						<input type="text" class="form-control" id="FechaNacimiento" name="FechaNacimiento" placeholder="Fecha de Naciminento">
+						<input type="date" class="form-control" id="FechaNacimiento" name="FechaNacimiento" placeholder="Fecha de Naciminento">
 						
 					</div>
 					<div class="col-lg-2">
@@ -83,7 +83,7 @@
 				<div class="form-group row">
 					<div class="col-lg-4">
 						<label class="">Religion</label>
-						<textarea class="form-control" id="txtReligion"  name="txtReligion"  placeholder="Religion"></textarea>
+						<input class="form-control" id="txtReligion"  name="txtReligion"  placeholder="Religion">
 					</div>
 					<div class="col-lg-4">
 						<label class="">Raza</label>
@@ -111,61 +111,61 @@
 					<div class="form-group row">
 						<label for="example-text-input" class="col-2 col-form-label">PA:</label>
 						<div class="col-4">
-							<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+							<input class="form-control" type="text"  id="example-text-input" placeholder="PA">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label for="example-text-input" class="col-2 col-form-label">FC:</label>
 						<div class="col-4">
-							<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+							<input class="form-control" type="text"  id="example-text-input" placeholder="FC">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label for="example-text-input" class="col-2 col-form-label">Pulso</label>
 						<div class="col-4">
-							<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+							<input class="form-control" type="text"  id="example-text-input" placeholder="Pulso">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label for="example-text-input" class="col-2 col-form-label">FR</label>
 						<div class="col-4">
-							<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+							<input class="form-control" type="text"  id="example-text-input" placeholder="FR">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label for="example-text-input" class="col-2 col-form-label">T°</label>
 						<div class="col-4">
-							<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+							<input class="form-control" type="text"  id="example-text-input" placeholder="T°">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label for="example-text-input" class="col-2 col-form-label">Sp02</label>
 						<div class="col-4">
-							<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+							<input class="form-control" type="text"  id="example-text-input" placeholder="Sp02">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label for="example-text-input" class="col-2 col-form-label">Glu</label>
 						<div class="col-4">
-							<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+							<input class="form-control" type="text"  id="example-text-input" placeholder="Glu">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="example-text-input" class="col-2 col-form-label">Peso</label>
+						<label for="example-text-input" class="col-2 col-form-label">Peso (Kg)</label>
 						<div class="col-4">
-							<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+							<input class="form-control" type="text"  id="txtpeso" placeholder="Peso">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="example-text-input" class="col-2 col-form-label">Talla</label>
+						<label for="example-text-input" class="col-2 col-form-label">Talla (Mts)</label>
 						<div class="col-4">
-							<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+							<input class="form-control" type="text"  id="txtTalla" placeholder="Talla">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label for="example-text-input" class="col-2 col-form-label">IMC</label>
 						<div class="col-4">
-							<input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+							<input class="form-control" type="text"  id="example-text-input" placeholder="IMC">
 						</div>
 					</div>
 				</div>
@@ -175,8 +175,8 @@
 		</div>  
 		<div class="kt-portlet__foot">
 			<div class="kt-form__actions">
-				<button type="reset" class="btn btn-success">Submit</button>
-				<button type="reset" class="btn btn-secondary">Cancel</button>
+				<button type="submit" class="btn btn-success">Submit</button>
+				<button type="reset" onclick="location.href='index.php?page=cita'" class="btn btn-secondary">Cancel</button>
 			</div>
 		</div>    
 	</div>

@@ -1,4 +1,53 @@
 var KTFormControls={init:function(){
+    $("#FormularioPleclinica").validate({
+        lang: 'es',
+        live: 'enabled',
+        onkeydown:true,
+        rules:
+        {
+            txtIdentidad:{
+                required:true,
+                minlength:2
+            }
+            
+        },
+        messages: {
+       
+            txtIdentidad: {
+              required: "Necesitamos obtener su clave ",
+              minlength:"Ingrese almenos 2 caracteres",
+            }
+            
+           
+          },
+          errorElement: "em",
+          errorPlacement: function ( error, element ) {
+            // Add the `help-block` class to the error element
+            error.addClass( "help-block" );
+
+            // Add `has-feedback` class to the parent div.form-group
+            // in order to add icons to inputs
+          
+            // Add the span element, if doesn't exists, and apply the icon classes to it.
+            if ( !element.next( "span" )[ 0 ] ) {
+                $( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+            }
+        },onkeyup: function(element){
+            this.element(element);
+    
+        },invalidHandler:function(e,r)
+        {
+           
+            $("#kt_form_denis_msg").removeClass("kt--hide").show(),KTUtil.scrollTop()
+        },submitHandler:function(e){
+           
+            GuardarFormPreclinica();
+        },success: function(label){
+           
+            
+        }
+    }),
+
     $("#FormIncapacidad").validate({
         lang: 'us',
         live: 'enabled',

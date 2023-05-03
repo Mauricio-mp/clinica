@@ -26,12 +26,20 @@ addToContext("form_title","Busqueda");
   
   
     switch ($opcion) {
+      case 'fecha':
+        $idinput=$_POST['idinput'];
+
+        $date1 = new DateTime(date('Y-m-d', strtotime($idinput)));
+        $date2 = new DateTime();
+        $diff = $date1->diff($date2);
+        echo $diff->y."";
+        break;
       case 'llenar':
-        $codigo=$_POST['codigo'];
+        $codigoEmpleado=trim($_POST['codigo']);
         $identificacion=null;
         $param=null;
         $op=new clinica();
-        $total =$op->Busqueda($codigoEmpleado='006351',$selectBusqueda='Codigo',$identificacion,$param);
+        $total =$op->Busqueda($codigoEmpleado,$selectBusqueda='Codigo',$identificacion,$param);
         $arrayName = array('data' => $total);
         echo json_encode($arrayName); 
  
@@ -47,7 +55,7 @@ addToContext("form_title","Busqueda");
         $op=new clinica();
         $codigoEmpleado=$_GET['codigoEmpleado'];
         $selectBusqueda=$_GET['selectBusqueda'];
-        $identificacion=$_GET['identificacion'];
+        $identificacion=$_GET['txtIdentidad'];
         $param=$_GET['param'];
         $total =$op->Busqueda($codigoEmpleado,$selectBusqueda,$identificacion,$param);
         $arrayName = array('data' => $total);
