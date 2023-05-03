@@ -6,12 +6,17 @@
 	{
 		public function mostrarInfiEmpleados();
 		public function Busqueda($codigoEmpleado,$selectBusqueda,$identificacion,$param);
+		public function guardarPreclinica();
 	}
 class clinica extends Conexion implements cita
 {
 	function __construct(){
         $this->msg='';
-    } 
+	} 
+	public function guardarPreclinica()
+	{
+		# code...
+	}
 
 	public function Busqueda($codigoEmpleado,$selectBusqueda,$identificacion,$param){
 		switch ($selectBusqueda) {

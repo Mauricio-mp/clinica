@@ -91,6 +91,25 @@ addToContext("form_title","Busqueda");
     
     
       break;
+      case 'InPrec':
+        $CodigoEmpleado=$_GET['CodigoEmpleado'];
+        $Nombre=$_GET['Nombre'];
+        $Apellido=$_GET['Apellido'];
+        $txtIdentidad=$_GET['txtIdentidad'];
+        $FechaNacimiento=$_GET['FechaNacimiento'];
+        $txtEdad=$_GET['txtEdad'];
+        $txtSexo=$_GET['txtSexo'];
+        $EstadoCivil=$_GET['EstadoCivil'];
+        $txtOcupacion=$_GET['txtOcupacion'];
+        $Dependencia=$_GET['Dependencia'];
+        $txtReligion=$_GET['txtReligion'];
+        $txtRaza=$_GET['txtRaza'];
+        $txtTipoSanguineo=$_GET['txtTipoSanguineo'];
+        $txtResidencia=$_GET['txtResidencia'];
+
+        $clinica= new Clinica();
+        print_r($clinica->guardarPreclinica());
+        break;
       case 'empleado':
         $cita= new clinica();
 

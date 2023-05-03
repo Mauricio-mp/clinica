@@ -18,7 +18,16 @@ $( document ).ready(function() {
 });
 
 function GuardarFormPreclinica(){
-  alert('holoa');
+  const form =$('#FormularioPleclinica').serialize();
+
+
+  $.post("index.php?page=cita&op=InPrec&"+form, {
+  }, function(response) {
+  
+    console.log(response);
+  
+  });
+
 }
 
 

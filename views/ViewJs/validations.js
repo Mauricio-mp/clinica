@@ -20,18 +20,13 @@ var KTFormControls={init:function(){
             
            
           },
-          errorElement: "em",
-          errorPlacement: function ( error, element ) {
-            // Add the `help-block` class to the error element
-            error.addClass( "help-block" );
-
-            // Add `has-feedback` class to the parent div.form-group
-            // in order to add icons to inputs
-          
-            // Add the span element, if doesn't exists, and apply the icon classes to it.
-            if ( !element.next( "span" )[ 0 ] ) {
-                $( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
-            }
+          errorPlacement:function(e,r)
+        {
+            
+            
+          /*  $('#BtnGuardarCambio').attr('disabled', true); */
+            var i=r.closest(".input-group");
+            i.length?i.after(e.addClass("invalid-feedback")):r.after(e.addClass("invalid-feedback"))
         },onkeyup: function(element){
             this.element(element);
     
