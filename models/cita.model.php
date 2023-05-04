@@ -6,16 +6,58 @@
 	{
 		public function mostrarInfiEmpleados();
 		public function Busqueda($codigoEmpleado,$selectBusqueda,$identificacion,$param);
-		public function guardarPreclinica();
+		public function guardarPreclinica($identificacion,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia);
+		public function guardarSignosVitales($registroGuardado);
 	}
 class clinica extends Conexion implements cita
 {
 	function __construct(){
         $this->msg='';
 	} 
-	public function guardarPreclinica()
+	public function guardarSignosVitales($registroGuardado){
+		$conn= self::connect();
+		$insert=$conn->prepare("INSERT INTO public.tb_signosVitales(tb_persona) VALUES(:persona)");
+		$insert->execute(["persona"=>$registroGuardado]);
+
+		return 0;
+
+	}
+	public function guardarPreclinica($identificacion,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia)
 	{
-		# code...
+		try {
+			// |||||||||||||pfechacreacion|pusuariocreacion|pultimamdoficacion|usuariomodificacion|
+			$conn= self::connect();
+			$sql=$conn->prepare("INSERT INTO public.tb_persona (pidenticacion,pcodigo,pnombre,papellido,pfechanacimiento,pedad,psexo
+			,pestadocivil,pocupacion,pdependencia,preligion,prazan,ptiposanguineo,presidenciaactual,pfechacreacion) VALUES(:identidad,:codigo,:nombre,:apellido,:fechaNacimiento,:edad,:sexo,:estadoCivil,:ocupacion,:dependencia,:religion,:prazan,:ptiposanguineo,:presidenciaactual,now())");
+			$sql->execute(["identidad"=>$identificacion,
+			"codigo"=>$CodigoEmpleado,
+			"nombre"=>$Nombre,
+			"apellido"=>$Apellido,
+			"fechaNacimiento"=>$FechaNacimiento,
+			"edad"=>$txtEdad,
+			"sexo"=>$txtSexo,
+			"estadoCivil"=>$EstadoCivil,
+			"ocupacion"=>$txtOcupacion,
+			"dependencia"=>$Dependencia,
+			"religion"=>$txtReligion,
+			"prazan"=>$txtRaza,
+			"ptiposanguineo"=>$txtTipoSanguineo,
+			"presidenciaactual"=>$txtResidencia]);
+			if ($sql) {
+				$consultadb=$conn->prepare("SELECT MAX(tp.pidpersona) as num FROM public.tb_persona tp");
+				$consultadb->execute();
+				$filas=$consultadb->fetchAll();
+				
+				$bool=$filas[0]['num'];
+			}else{
+				$bool=FALSE;
+			}
+			return $bool;
+
+		
+		} catch (PDOException $exception) {
+			exit($exception->getMessage());
+		}
 	}
 
 	public function Busqueda($codigoEmpleado,$selectBusqueda,$identificacion,$param){

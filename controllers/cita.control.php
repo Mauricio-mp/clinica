@@ -92,6 +92,7 @@ addToContext("form_title","Busqueda");
     
       break;
       case 'InPrec':
+        //datos generales
         $CodigoEmpleado=$_GET['CodigoEmpleado'];
         $Nombre=$_GET['Nombre'];
         $Apellido=$_GET['Apellido'];
@@ -107,8 +108,12 @@ addToContext("form_title","Busqueda");
         $txtTipoSanguineo=$_GET['txtTipoSanguineo'];
         $txtResidencia=$_GET['txtResidencia'];
 
+         //Signos vitales
+
         $clinica= new Clinica();
-        print_r($clinica->guardarPreclinica());
+        $registroGuardado=$clinica->guardarPreclinica($txtIdentidad,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia);
+
+        print_r($clinica->guardarSignosVitales($registroGuardado));
         break;
       case 'empleado':
         $cita= new clinica();

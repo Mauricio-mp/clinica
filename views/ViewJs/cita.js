@@ -64,8 +64,8 @@ function myfunct(codigo){
     console.log(json['data'][0]['cempno']);
 
     $('#CodigoEmpleado').val(json['data'][0]['cempno'].trim());
-    $('#Nombre').val(json['data'][0]['clname'].trim());
-    $('#Apellido').val(json['data'][0]['cfname'].trim());
+    $('#Nombre').val(json['data'][0]['cfname'].trim());
+    $('#Apellido').val(json['data'][0]['clname'].trim());
     $('#txtIdentidad').val(json['data'][0]['cfedid'].trim());
     $('#FechaNacimiento').val(json['data'][0]['fecha'].trim());
     $('#txtOcupacion').val(json['data'][0]['cDesc'].trim());
