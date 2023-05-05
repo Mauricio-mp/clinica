@@ -120,9 +120,30 @@ create table tb_signosVitales (
     UsuarioCreacion VARCHAR(15)
     
 );
-DROP TABLE public.tb_signosvitales
+create table tb_Catalogos (
+	cId serial primary KEY,
+	cNombre VARCHAR(150),
+	ctipo VARCHAR(150),
+    estado boolean,
+    FechaIngreso timestamp,
+    usuarioIngreso VARCHAR(15)
+    
+);
+
+INSERT INTO public.tb_Catalogos (cnombre,ctipo,estado,fechaingreso,usuarioingreso) 
+VALUES('Soltero (a)','Estado-Civil',true,NOW(),'sistema'),
+('Casado (a)','Estado-Civil',true,NOW(),'sistema'),
+('No Aplica','Estado-Civil',true,NOW(),'sistema'),
+('Viudo (a)','Estado-Civil',true,NOW(),'sistema'),
+('Unión de Hecho','Estado-Civil',true,NOW(),'sistema'),
+('Divorciado (a)','Estado-Civil',true,NOW(),'sistema');
+
+
+
+
+DROP TABLE public.tb_Catalogos
 -----------------
-select * from public.tb_persona
+select * from public.tb_Catalogos tb where tb.estado=true
 
 select * from public.tb_signosvitales
 
@@ -140,4 +161,7 @@ select * from public.permisos
 
 select * from public.roles_permisos
 
+
+select * from public.catalogos
+select * from public.delitos
 

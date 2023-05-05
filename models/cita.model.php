@@ -8,12 +8,22 @@
 		public function Busqueda($codigoEmpleado,$selectBusqueda,$identificacion,$param);
 		public function guardarPreclinica($identificacion,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia);
 		public function guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion);
+		public function GetListaEstadoCivil();
 	}
 class clinica extends Conexion implements cita
 {
 	function __construct(){
         $this->msg='';
 	} 
+
+	public function GetListaEstadoCivil()
+	{
+		$conn= self::connect();
+		$sql=$conn->prepare("SELECT * FROM public.tb_Catalogos tb where tb.estado=true");
+		$filas=$sql->fetchAll();
+
+		return $filas;
+	}
 	public function guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion){
 		$conn= self::connect();
 		$insert=$conn->prepare("INSERT INTO public.tb_signosVitales(tb_persona,presionarterial,frecuenciacardiaca,pulso,frecuenciarespiratoria,terperaturacorporal,saturacionoxigeno,glucosa,peso,talla,imc,motivo,estado,observacion,fechacreacion)

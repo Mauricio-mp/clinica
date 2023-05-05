@@ -22,7 +22,8 @@ addToContext("form_title","Busqueda");
   	$opcion =$_GET['op'];
  // $opcion='empleado';
     $id=$_GET['id'];
-
+    $clinicaNew=new Clinica();
+    $cuenta['listaEStadoCivil']=$clinicaNew->GetListaEstadoCivil();
   
   
     switch ($opcion) {

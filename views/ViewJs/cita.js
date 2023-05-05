@@ -3,7 +3,19 @@
 $( document ).ready(function() {
   /*$('.form_DatosGenerales').hide();*/
 
-
+$('#peso').on("input", function () { 
+  var peso= this.value;
+  const talla = $('#talla').val();
+const imc= peso /Math.pow(talla, 2); 
+  $('#imc').val(imc.toFixed(2));
+});
+$('#talla').on("input", function () { 
+  var talla= this.value;
+  const peso = $('#peso').val();
+  const imc= peso /Math.pow(talla, 2); 
+  $('#imc').val(imc.toFixed(2));
+ 
+});
   $.post("index.php?page=cita&op=empleado", {
   }, function(response) {
   

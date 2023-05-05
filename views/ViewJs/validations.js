@@ -14,7 +14,7 @@ var KTFormControls={init:function(){
         messages: {
        
             txtIdentidad: {
-              required: "Necesitamos obtener su clave ",
+              required: "La identidad es requerida",
               minlength:"Ingrese almenos 2 caracteres",
             }
             
