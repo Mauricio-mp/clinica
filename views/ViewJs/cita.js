@@ -24,7 +24,15 @@ function GuardarFormPreclinica(){
   $.post("index.php?page=cita&op=InPrec&"+form, {
   }, function(response) {
   
-    console.log(response);
+   if(response==1){
+    showSuccessToast('Ficha Ingresada con Exito');
+    $('.form_DatosGenerales').hide('slow');
+    $('#FormIncapacidad').show('slow');
+    $('.form_DatosGenerales').trigger('reset');
+    $('#FormIncapacidad').trigger('reset');
+   }else{
+    showDangerToast(response);
+   }
   
   });
 

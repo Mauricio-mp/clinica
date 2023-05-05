@@ -77,7 +77,54 @@ VALUES('fernando Lopez', 1, 'Secretaria', '2022-07-26', '006352', '2022-11-14', 
 
 
 -------------- 
+create table tb_persona (
+	pIdPersona serial primary KEY,
+	pIdenticacion VARCHAR(150),
+    pCodigo VARCHAR(150) null,
+    pNombre VARCHAR(150) null,
+    pApellido VARCHAR(150) null,
+    pFechaNAcimiento timestamp null,
+    pEdad int null,
+    pSexo VARCHAR(2),
+    pEstadoCivil VARCHAR(150) NULL,
+    pOcupacion VARCHAR(150) NULL,
+    pDependencia VARCHAR(150) NULL,
+    pReligion VARCHAR(150) NULL,
+    pRazan VARCHAR(150) NULL,
+    pTipoSanguineo VARCHAR(150) NULL,
+    pResidenciaActual VARCHAR(250) null,
+    pFechaCreacion timestamp null,
+    pusuarioCreacion VARCHAR(50),
+    pultimaMdoficacion timestamp,
+    usuarioModificacion VARCHAR(50)
+    
+);
 
+create table tb_signosVitales (
+	pId serial primary KEY,
+	tb_persona VARCHAR(10),
+	PresionArterial VARCHAR(10),
+    FrecuenciaCardiaca VARCHAR(10),
+    Pulso VARCHAR(10),
+    FrecuenciaRespiratoria VARCHAR(10),
+    TerperaturaCorporal VARCHAR(10),
+    SaturacionOxigeno VARCHAR(10),
+    Glucosa VARCHAR(10),
+    Peso VARCHAR(10),
+    Talla VARCHAR(10),
+    IMC VARCHAR(10),
+	motivo VARCHAR(255),
+	Estado int,
+	Observacion VARCHAR(255),
+    FechaCreacion timestamp,
+    UsuarioCreacion VARCHAR(15)
+    
+);
+DROP TABLE public.tb_signosvitales
+-----------------
+select * from public.tb_persona
+
+select * from public.tb_signosvitales
 
 
 select * from public.usuarios where id_usuario=1;

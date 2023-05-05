@@ -7,19 +7,34 @@
 		public function mostrarInfiEmpleados();
 		public function Busqueda($codigoEmpleado,$selectBusqueda,$identificacion,$param);
 		public function guardarPreclinica($identificacion,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia);
-		public function guardarSignosVitales($registroGuardado);
+		public function guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion);
 	}
 class clinica extends Conexion implements cita
 {
 	function __construct(){
         $this->msg='';
 	} 
-	public function guardarSignosVitales($registroGuardado){
+	public function guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion){
 		$conn= self::connect();
-		$insert=$conn->prepare("INSERT INTO public.tb_signosVitales(tb_persona) VALUES(:persona)");
-		$insert->execute(["persona"=>$registroGuardado]);
+		$insert=$conn->prepare("INSERT INTO public.tb_signosVitales(tb_persona,presionarterial,frecuenciacardiaca,pulso,frecuenciarespiratoria,terperaturacorporal,saturacionoxigeno,glucosa,peso,talla,imc,motivo,estado,observacion,fechacreacion)
+		 VALUES(:persona,:PA,:FC,:pulso,:FR,:temperatura,:Sp02,:glu,:peso,:talla,:imc,:motivo,:estado,:observacion,now())");
 
-		return 0;
+		$insert->execute(["persona"=>$registroGuardado,
+		"PA"=>$PA,
+		"FC"=>$FC,
+		"pulso"=>$pulso,
+		"FR"=>$FR,
+		"temperatura"=>$temperatura,
+		"Sp02"=>$Sp02,
+		"glu"=>$Glu,
+		"peso"=>$peso,
+		"talla"=>$talla,
+		"imc"=>$imc,
+		"motivo"=>$motivo,
+		"estado"=>1,
+		"observacion"=>$txtObservacion]);
+
+		return ($insert)? true: false;
 
 	}
 	public function guardarPreclinica($identificacion,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia)
@@ -78,6 +93,10 @@ class clinica extends Conexion implements cita
 					  $fila[2]=utf8_encode($fila[2]);
 					  $fila['clname']=utf8_encode($fila['clname']);
 					  $fila['fecha']=$fecha;
+					  $fila['cdeptname']=utf8_encode($fila['cdeptname']);
+					  $fila[8]=utf8_encode($fila[8]);
+					  $fila['cDesc']=utf8_encode($fila['cDesc']);
+					  $fila[9]=utf8_encode($fila[9]);
 					  $date1 = new DateTime(date('Y-m-d', strtotime($fila['dbirth'])));
 					  $date2 = new DateTime();
 					  $diff = $date1->diff($date2);
@@ -108,7 +127,7 @@ class clinica extends Conexion implements cita
 				try {
 
 					$conn= self::SQLServer();
-					$sql=mssql_query("SELECT cempno,cfname,clname,cstatus,cfedid,py.cdeptno,nmonthpay,dbirth,pdt.cdeptname,job.cDesc,py.csex   from prempy py
+					$sql=mssql_query("SELECT cempno,cfname,clname,cstatus,cfedid,py.cdeptno,nmonthpay,dbirth,pdt.cdeptname,job.cDesc,py.csex from prempy py
 					inner join dbo.prdept pdt on pdt.cdeptno = py.cdeptno  
 					inner join dbo.HRJobs job on job.cJobTitlNO = py.cjobtitle 
 					where py.cfedid='$identificacion'");
@@ -116,33 +135,33 @@ class clinica extends Conexion implements cita
 					while($fila=mssql_fetch_array($sql)){
 						
 						$fecha=date('Y-m-d', strtotime($fila['dbirth']));
-						$fila[1]=utf8_encode($fila[1]);
-						$fila['cfname']=utf8_encode($fila['cfname']);
-						$fila[2]=utf8_encode($fila[2]);
-						$fila['clname']=utf8_encode($fila['clname']);
-						$fila['fecha']=$fecha;
-						$date1 = new DateTime(date('Y-m-d', strtotime($fila['dbirth'])));
-						$date2 = new DateTime();
-						$diff = $date1->diff($date2);
-						$fila['edad']= $diff->y."";
-  
-						if($fila['cstatus']=='A'){
-						  $fila['cstatus']=1;
-						}else if ($fila['cstatus']=='I'){
-						  $fila['cstatus']=2;
-						}else if ($fila['cstatus']=='T'){
-						  $fila['cstatus']=3;
-						}
-  
-						
-						$arr[]=$fila;
+					  $fila[1]=utf8_encode($fila[1]);
+					  $fila['cfname']=utf8_encode($fila['cfname']);
+					  $fila[2]=utf8_encode($fila[2]);
+					  $fila['clname']=utf8_encode($fila['clname']);
+					  $fila['fecha']=$fecha;
+					  $fila['cdeptname']=utf8_encode($fila['cdeptname']);
+					  $fila[8]=utf8_encode($fila[8]);
+					  $fila['cDesc']=utf8_encode($fila['cDesc']);
+					  $fila[9]=utf8_encode($fila[9]);
+					  $date1 = new DateTime(date('Y-m-d', strtotime($fila['dbirth'])));
+					  $date2 = new DateTime();
+					  $diff = $date1->diff($date2);
+					  $fila['edad']= $diff->y."";
+
+					  if($fila['cstatus']=='A'){
+						$fila['cstatus']=1;
+					  }else if ($fila['cstatus']=='I'){
+						$fila['cstatus']=2;
+					  }else if ($fila['cstatus']=='T'){
+						$fila['cstatus']=3;
+					  }
+
+					  
+					  $arr[]=$fila;
 					}
 					return $arr;
-				
-			  
-			  
-			   
-					  
+
 					  } catch (PDOException $exception) {
 						  exit($exception->getMessage());
 					  }
@@ -164,6 +183,10 @@ class clinica extends Conexion implements cita
 					  $fila[2]=utf8_encode($fila[2]);
 					  $fila['clname']=utf8_encode($fila['clname']);
 					  $fila['fecha']=$fecha;
+					  $fila['cdeptname']=utf8_encode($fila['cdeptname']);
+					  $fila[8]=utf8_encode($fila[8]);
+					  $fila['cDesc']=utf8_encode($fila['cDesc']);
+					  $fila[9]=utf8_encode($fila[9]);
 					  $date1 = new DateTime(date('Y-m-d', strtotime($fila['dbirth'])));
 					  $date2 = new DateTime();
 					  $diff = $date1->diff($date2);

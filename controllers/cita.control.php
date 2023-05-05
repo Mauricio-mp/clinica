@@ -4,11 +4,11 @@
  * Created By DMLL
  * Last Modification 2014-10-14 20:04
  */
-/*
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL); 
-*/
+
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL); 
+
 session_start();
 ob_start();
   require_once("libs/template_engine.php");
@@ -109,11 +109,25 @@ addToContext("form_title","Busqueda");
         $txtResidencia=$_GET['txtResidencia'];
 
          //Signos vitales
+         $PA=$_GET['PA'];
+         $FC=$_GET['FC'];
+         $pulso=$_GET['pulso'];
+         $FR=$_GET['FR'];
+         $temperatura=$_GET['temparatura'];
+         $Sp02=$_GET['Sp02'];
+         $Glu=$_GET['Glu'];
+         $peso=$_GET['peso'];
+         $talla=$_GET['talla'];
+         $imc=$_GET['imc'];
+         $motivo=$_GET['motivo'];
+         $txtObservacion=$_GET['txtObservacion'];
 
         $clinica= new Clinica();
         $registroGuardado=$clinica->guardarPreclinica($txtIdentidad,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia);
 
-        print_r($clinica->guardarSignosVitales($registroGuardado));
+        print_r($clinica->guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion));
+
+
         break;
       case 'empleado':
         $cita= new clinica();
