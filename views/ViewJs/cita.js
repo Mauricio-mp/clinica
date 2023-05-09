@@ -16,6 +16,8 @@ $('#talla').on("input", function () {
   $('#imc').val(imc.toFixed(2));
  
 });
+
+
   $.post("index.php?page=cita&op=empleado", {
   }, function(response) {
   

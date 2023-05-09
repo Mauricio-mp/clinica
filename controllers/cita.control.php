@@ -24,7 +24,7 @@ addToContext("form_title","Busqueda");
     $id=$_GET['id'];
     $clinicaNew=new Clinica();
     $cuenta['listaEStadoCivil']=$clinicaNew->GetListaEstadoCivil();
-  
+    $cuenta['TipoSanguineo']=$clinicaNew->GetListaSangre();
   
     switch ($opcion) {
       case 'fecha':

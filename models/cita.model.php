@@ -9,6 +9,7 @@
 		public function guardarPreclinica($identificacion,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia);
 		public function guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion);
 		public function GetListaEstadoCivil();
+		public function GetListaSangre();
 	}
 class clinica extends Conexion implements cita
 {
@@ -19,8 +20,18 @@ class clinica extends Conexion implements cita
 	public function GetListaEstadoCivil()
 	{
 		$conn= self::connect();
-		$sql=$conn->prepare("SELECT * FROM public.tb_Catalogos tb where tb.estado=true");
-		$filas=$sql->fetchAll();
+		$sql=$conn->prepare("SELECT * from public.tb_Catalogos tb where tb.ctipo='Estado-Civil' and tb.estado=true");
+		$sql->execute();
+		$filas=$sql->fetchAll(PDO::FETCH_ASSOC);
+
+		return $filas;
+	}
+	public function GetListaSangre()
+	{
+		$conn= self::connect();
+		$sql=$conn->prepare("select * from public.tb_Catalogos tb where tb.ctipo='Tipo-Sangre' and tb.estado=true");
+		$sql->execute();
+		$filas=$sql->fetchAll(PDO::FETCH_ASSOC);
 
 		return $filas;
 	}

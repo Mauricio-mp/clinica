@@ -45,9 +45,9 @@ ini_set('session.gc_maxlifetime', 28800);
                 redirectToUrl('index.php');
             }
             break;
-        case 'prueba':
+        case 'Registro':
             if(mw_estaLogueado()) {
-                require_once("controllers/prueba.control.php");
+                require_once("controllers/registro.control.php");
             }else{
                 redirectToUrl('index.php');
             }

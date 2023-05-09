@@ -12,6 +12,7 @@
             
         <link rel="shortcut icon" type="image/png" href="icon-2.png"  >
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700">    
+        <link href="themes/metronic/theme/default/demo1/dist/assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="css/Estilos.css">
         <link rel="stylesheet" href="plugins/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -137,22 +138,37 @@
                             {{if generar}}
                          <div class="nav-lavel">citas</div>
                             <div class="nav-item has-sub">
+                                <a href="javascript:void(0)"><i class="ik ik-archive"></i><span>Preclinica</span> </a>
+                                
+                                <div class="submenu-content">
+                                    <a href="index.php?page=cita" class="menu-item">Ficha Clinica</a>
+                                    
+                                </div>
+                                
+                                 <div class="submenu-content">
+                                    <a href="index.php?page=Registro" class="menu-item">Registro de Fichas</a>
+                                    
+                                </div>
+                               
+                            </div>
+                            {{endif generar}}
+                            <div class="nav-lavel">Expedientes</div>
+                            <div class="nav-item has-sub">
                                 <a href="javascript:void(0)"><i class="ik ik-archive"></i><span>Citas</span> </a>
-                                {{if citas}}
+                                
                                 <div class="submenu-content">
                                     <a href="index.php?page=cita" class="menu-item">Gestionar Cita</a>
                                     
                                 </div>
-                                {{endif citas}}
-                                {{if anular}}
+                               
                                  <div class="submenu-content">
                                     <a href="index.php?page=anular&id={{user}}" class="menu-item">Anular permiso</a>
                                     
                                 </div>
-                                {{endif anular}}
+                                
                             </div>
-                            {{endif generar}}
-
+                           
+                            
                             <div class="nav-lavel">Navigation</div>
                             <div class="nav-item">
                                 <a href="index.php?page=reporte&id={{user}}"><i class="ik ik-bar-chart-2"></i><span>generar Reporte</span></a>
@@ -604,8 +620,9 @@
  <script src="dist/js/theme.min.js"></script>
  <script src="js/form-advanced.js"></script>
  <script src="js/datatables.js"></script>
+ <script src="themes/metronic/theme/default/demo1/dist/assets/plugins/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
  <script src="themes/metronic/theme/default/demo1/dist/assets/js/pages/crud/forms/widgets/select2.js" type="text/javascript"></script>
- <script src="themes/metronic/theme/default/demo1/dist/assets/js/pages/crud/datatables/data-sources/ajax-client-side.js" type="text/javascript"></script>
+ <!--<script src="themes/metronic/theme/default/demo1/dist/assets/js/pages/crud/datatables/data-sources/ajax-client-side.js" type="text/javascript"></script> -->
  <script src="themes/metronic/theme/default/demo1/dist/assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js" type="text/javascript"></script>
  <script src="themes/metronic/theme/default/demo1/dist/assets/js/pages/crud/forms/widgets/input-mask.js" type="text/javascript"></script>
 <!-- <script src="themes/metronic/theme/default/demo1/dist/assets/js/pages/crud/forms/validation/form-controls.js" type="text/javascript"></script> -->

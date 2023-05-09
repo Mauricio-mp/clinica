@@ -65,8 +65,12 @@
 				</div>
 				<div class="form-group row">
 					<div class="col-lg-4">
-						<label class="">Estado Civil</label>
-						<input type="text" class="form-control" id="EstadoCivil"  name="EstadoCivil"  placeholder="Estado Civil">
+						<label class="">Estado Civil</label>EstadoCivil
+						<select class="form-control" id="EstadoCivil"  name="EstadoCivil" >
+							{{foreach listaEStadoCivil}}
+							<option value="{{cid}}">{{cnombre}}</option>
+							{{endfor listaEStadoCivil}}
+						</select>
 						
 					</div>
 					<div class="col-lg-4">
@@ -92,7 +96,14 @@
 					</div>
 					<div class="col-lg-4">
 						<label class="">Tipo Sanguineo</label>
-						<input type="text" class="form-control" id="txtTipoSanguineo" name="txtTipoSanguineo" placeholder="">
+						
+						<select class="form-control" id="txtTipoSanguineo" name="txtTipoSanguineo">
+							<option selected disabled>Ingrese Opcion</option>
+							{{foreach TipoSanguineo}}
+							<option value="{{cid}}">{{cnombre}}</option>
+							{{endfor TipoSanguineo}}
+							<option value="">Desconocido</option>
+						</select>	
 						
 					</div>
 				</div>

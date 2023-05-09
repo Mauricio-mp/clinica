@@ -139,17 +139,30 @@ VALUES('Soltero (a)','Estado-Civil',true,NOW(),'sistema'),
 ('Divorciado (a)','Estado-Civil',true,NOW(),'sistema');
 
 
+INSERT INTO public.tb_Catalogos (cnombre,ctipo,estado,fechaingreso,usuarioingreso) 
+VALUES('A+','Tipo-Sangre',true,NOW(),'sistema'),
+('O+','Tipo-Sangre',true,NOW(),'sistema'),
+('B+','Tipo-Sangre',true,NOW(),'sistema'),
+('AB+','Tipo-Sangre',true,NOW(),'sistema'),
+('A-','Tipo-Sangre',true,NOW(),'sistema'),
+('O-','Tipo-Sangre',true,NOW(),'sistema'),
+('B-','Tipo-Sangre',true,NOW(),'sistema'),
+('AB-','Tipo-Sangre',true,NOW(),'sistema');
 
 
-DROP TABLE public.tb_Catalogos
 -----------------
-select * from public.tb_Catalogos tb where tb.estado=true
+select * from public.tb_Catalogos tb where tb.ctipo='Estado-Civil' and tb.estado=true
 
 select * from public.tb_signosvitales
-
-
+select * from public.tb_persona
+SELECT * FROM public.tb_Catalogos tb where tb.estado=true
 select * from public.usuarios where id_usuario=1;
 
+
+select tp.pidenticacion,tp.pcodigo,tp.pnombre,tp.papellido,sv.motivo,sv.observacion,sv.fechacreacion from public.tb_persona tp
+INNER JOIN public.tb_signosvitales sv
+ON tp.pidpersona=CAST (sv.tb_persona AS INTEGER)
+order by tp.pfechacreacion DESC
 
 SELECT * from public.usuarios where usuario ='admin' and contrasenia='V1crWVRzbnQxMHgyM3kvdnlIa0NXZz09' and estado=true
 
@@ -165,3 +178,4 @@ select * from public.roles_permisos
 select * from public.catalogos
 select * from public.delitos
 
+update public.usuarios set contrasenia='V1crWVRzbnQxMHgyM3kvdnlIa0NXZz09' where id_usuario=1
