@@ -18,7 +18,6 @@ ob_start();
 	//$opcion='login';
   $cuenta=[];
 
- 
 switch ($opcion) {
 	case 'login':
 		 $usuario=$_POST['usuario'];

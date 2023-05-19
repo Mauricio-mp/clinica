@@ -178,7 +178,7 @@ class clinica extends Conexion implements cita
 						$fila['cstatus']=3;
 					  }
 
-					  
+					
 					  $arr[]=$fila;
 					}
 					return $arr;

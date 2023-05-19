@@ -30,6 +30,14 @@ ini_set('session.gc_maxlifetime', 28800);
 
     //Este switch se encarga de todo el enrutamiento
     switch($pageRequest){
+        case 'recibir':
+            if(mw_estaLogueado()) {
+               require_once("controllers/recibir.control.php");
+           }else{
+               redirectToUrl('index.php');
+           }
+      
+           break;
         case 'cambio':
              if(mw_estaLogueado()) {
                 require_once("controllers/cambio.control.php");

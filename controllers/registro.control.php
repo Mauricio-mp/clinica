@@ -18,6 +18,21 @@ require_once("models/Registro.model.php");
     $opcion =$_GET['op'];
     
     switch ($opcion) {
+      case 'EnviaraTraslado':
+        $json = json_decode($_COOKIE['user_logged'],true);
+        
+        $id=$_POST['id'];
+        $idPreclinica=$_POST['idPreclinica'];
+        $regsitro= new Registro();
+        print_r($regsitro->GuardarTraslado($id,$idPreclinica,$json[0]['id_usuario']));
+       
+        break;
+      case 'doctores':
+        $regsitro= new Registro();
+
+        $arrayName = array('data' => $regsitro->doctores());
+       echo json_encode($arrayName);
+        break;
      case 'llenar':
        $regsitro= new Registro();
 

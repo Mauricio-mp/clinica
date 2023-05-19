@@ -149,22 +149,57 @@ VALUES('A+','Tipo-Sangre',true,NOW(),'sistema'),
 ('B-','Tipo-Sangre',true,NOW(),'sistema'),
 ('AB-','Tipo-Sangre',true,NOW(),'sistema');
 
+create table tb_Expediente (
+	pId_Expediente serial primary KEY,
+	pId_Signos_vitales int,
+    SP varchar(250) null,
+    HEA varchar(250) null,
+    FOG varchar(250) null,
+
+
+     CONSTRAINT pk_relacion_signos
+      FOREIGN KEY(pId_Signos_vitales) 
+	  REFERENCES tb_signosVitales(pId)
+);
+
+create table tb_Expediente_traslado (
+    pId_SignosViatles serial primary KEY,
+    pId_Expediente INT NULL,
+	Usuario_emisor varchar(25) null,
+	responsable int null,
+    estado int null,
+    Fecha_traslado timestamp,
+
+      CONSTRAINT pk_relacion_traslado
+      FOREIGN KEY(pId_SignosViatles) 
+	  REFERENCES tb_signosVitales(pId)
+    
+);
+
+
+
+select * from public.tb_Expediente_traslado
+ALTER TABLE public.tb_Expediente_traslado ADD CONSTRAINT expediente_traslado_fkey FOREIGN KEY (pId_Expediente) REFERENCES public.tb_signosVitales(pId);
 
 -----------------
 select * from public.tb_Catalogos tb where tb.ctipo='Estado-Civil' and tb.estado=true
 
-select * from public.tb_signosvitales
+select * from public.tb_Expediente_traslado
 select * from public.tb_persona
 SELECT * FROM public.tb_Catalogos tb where tb.estado=true
 select * from public.usuarios where id_usuario=1;
 
+update public.tb_signosVitales set estado=1 where pid=9
+delete from public.tb_Expediente_traslado
 
-select tp.pidenticacion,tp.pcodigo,tp.pnombre,tp.papellido,sv.motivo,sv.observacion,sv.fechacreacion from public.tb_persona tp
+
+
+select sv.pId, tp.pidenticacion,tp.pcodigo,tp.pnombre,tp.papellido,sv.motivo,sv.observacion,sv.fechacreacion from public.tb_persona tp
 INNER JOIN public.tb_signosvitales sv
 ON tp.pidpersona=CAST (sv.tb_persona AS INTEGER)
 order by tp.pfechacreacion DESC
-
-SELECT * from public.usuarios where usuario ='admin' and contrasenia='V1crWVRzbnQxMHgyM3kvdnlIa0NXZz09' and estado=true
+select * from public.tb_signosVitales 
+SELECT * from public.usuarios where medico=true and estado=true usuario ='admin' and contrasenia='V1crWVRzbnQxMHgyM3kvdnlIa0NXZz09' and estado=true
 
 SELECT * FROM pg_catalog.pg_tables where schemaname='public'
 
