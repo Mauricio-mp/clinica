@@ -178,12 +178,21 @@ create table tb_Expediente_traslado (
 
 
 
+SELECT * from public.usuarios where medico=true and estado=true
 select * from public.tb_Expediente_traslado
 ALTER TABLE public.tb_Expediente_traslado ADD CONSTRAINT expediente_traslado_fkey FOREIGN KEY (pId_Expediente) REFERENCES public.tb_signosVitales(pId);
 
 -----------------
 select * from public.tb_Catalogos tb where tb.ctipo='Estado-Civil' and tb.estado=true
 
+select pid,et.usuario_emisor,et.estado,et.fecha_traslado,sv.motivo,sv.observacion,tp.pnombre,tp.papellido,tp.pidenticacion from public.tb_Expediente_traslado et
+INNER JOIN public.tb_signosvitales sv
+ON sv.pid=et.pid_signosviatles
+INNER JOIN public.tb_persona tp
+ON tp.pidpersona=CAST(sv.tb_persona AS INTEGER)
+where et.responsable=1 and et.estado=1
+
+select * from public.tb_signosvitales
 select * from public.tb_Expediente_traslado
 select * from public.tb_persona
 SELECT * FROM public.tb_Catalogos tb where tb.estado=true

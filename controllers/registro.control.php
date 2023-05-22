@@ -12,7 +12,6 @@ ob_start();
 addToContext("page_title","Registro de Preclinicas");
   require_once("libs/template_engine.php");
 require_once("models/Registro.model.php");
-
   function run(){
     $datos=[];
     $opcion =$_GET['op'];

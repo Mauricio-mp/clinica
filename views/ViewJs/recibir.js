@@ -1,6 +1,6 @@
 
-//Busqueda();
 BusquedaNuevo();
+
 var idPreclinica=0;
 var doctor=0;
 function myfunct(params) {
@@ -12,25 +12,17 @@ function myfunct(params) {
 function BusquedaNuevo (){
     "use strict";
     var KTDatatablesDataSourceAjaxClient={
-    init:function(){$("#tabla_registro").DataTable(
+    init:function(){$("#Tabla_Recibir").DataTable(
       {
         destroy:true,
         responsive:!0,
         pagingType:"full_numbers",
-        "order": [[ 6, 'desc' ]],
-       
-        ajax:{url:"index.php?page=Registro&op=llenar",
-       
+        "order": [[ 0, 'desc' ]],
+        ajax:{url:"index.php?page=recibir&op=llenar",
         type:"POST",
         data:{pagination:{perpage:50}}},
         columns:[
-        {data:"pidenticacion"},
-        {data:"pcodigo"},
-        {data:"pnombre"},
-        {data:"papellido"},
-        {data:"motivo"},
-        {data:"observacion"},
-        {data:"fechacreacion"},
+        {data:"pid"},
         {data:"estado"},
         {data:"Actions",
         responsivePriority:-1},
