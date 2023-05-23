@@ -72,7 +72,7 @@ console.log(form);
 }
 
 function myfunct(codigo){
-
+  alert(codigo);
   $('.form_DatosGenerales').show('slow');
   $('#FormIncapacidad').hide('slow');
 
@@ -81,9 +81,9 @@ function myfunct(codigo){
 })
 .done(function(data) {
 
-   
+
    const json= JSON.parse(data);
-    console.log(json['data'][0]['cempno']);
+
 
     $('#CodigoEmpleado').val(json['data'][0]['cempno'].trim());
     $('#Nombre').val(json['data'][0]['cfname'].trim());

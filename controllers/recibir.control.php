@@ -16,14 +16,16 @@ require_once("models/recibir.model.php");
     $datos=[];
     $opcion =$_GET['op'];
 
-    
-   
-  
+
+
     switch ($opcion) {
       case 'llenar':
+        $json = json_decode($_COOKIE['user_logged'],true);
         $Recibir= new Recibir();
-        $arrayName = array('data' => $Recibir->mostrarInfo());
-        echo json_encode($arrayName);
+       $arrayName = array('data' => $Recibir->mostrarInfo($json[0]['id_usuario']));
+      echo json_encode($arrayName);
+
+      
         break;
 
     	default:

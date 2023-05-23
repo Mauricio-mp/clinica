@@ -1,6 +1,5 @@
 
 BusquedaNuevo();
-
 var idPreclinica=0;
 var doctor=0;
 function myfunct(params) {
@@ -23,6 +22,13 @@ function BusquedaNuevo (){
         data:{pagination:{perpage:50}}},
         columns:[
         {data:"pid"},
+        {data:"pidenticacion"},
+        {data:"pnombre"},
+        {data:"papellido"},
+        {data:"motivo"},
+        {data:"observacion"},
+        {data:"fecha_traslado"},
+        {data:"hora"},
         {data:"estado"},
         {data:"Actions",
         responsivePriority:-1},

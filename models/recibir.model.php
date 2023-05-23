@@ -4,8 +4,8 @@
 	date_default_timezone_set('America/Tegucigalpa');
 	interface clinica
 	{
-		public function mostrarInfo();
-
+		public function mostrarInfo($id);
+	
 	}
 class Recibir extends Conexion implements clinica
 {
@@ -13,7 +13,7 @@ class Recibir extends Conexion implements clinica
         $this->msg='';
 	} 
 
-	public function mostrarInfo()
+	public function mostrarInfo($id)
 	{
 		try {
 			$conn= self::connect();
@@ -23,10 +23,12 @@ class Recibir extends Conexion implements clinica
     INNER JOIN public.tb_persona tp
     ON tp.pidpersona=CAST(sv.tb_persona AS INTEGER)
     where et.responsable=:responsable and et.estado=1");
-		$sql->execute(["responsable"=>1]);
+		$sql->execute(["responsable"=>$id]);
 		
-    $filas=$sql->fetchAll(PDO::FETCH_ASSOC);
-		return $filas;
+	$filas=$sql->fetchAll(PDO::FETCH_ASSOC);
+	
+	$d = array_map('recorrer', $filas);
+		return $d;
 
 		
 
@@ -42,6 +44,12 @@ class Recibir extends Conexion implements clinica
 
 
 
+}
+
+function recorrer($array){
+	$array['fecha_traslado']=date('d/m/Y', strtotime($array['fecha_traslado']));
+	$array['hora']=date('h:m: a', strtotime($array['fecha_traslado']));
+return $array;
 }
  ?>
 
