@@ -5,11 +5,7 @@ var doctor=0;
 var SignosVitales=0;
 function myfunct(params) {
   /*const json = JSON.parse(params); */
-  SignosVitales=params;
-  llenarCombo();
-  $('#kt_modal_4').modal('show');
-
-
+ alert(params);
 }
 function BusquedaNuevo (){
     "use strict";
@@ -20,19 +16,14 @@ function BusquedaNuevo (){
         responsive:!0,
         pagingType:"full_numbers",
         "order": [[ 0, 'desc' ]],
-        ajax:{url:"index.php?page=recibir&op=llenar",
+        ajax:{url:"index.php?page=Control&op=llenar",
         type:"POST",
         data:{pagination:{perpage:50}}},
         columns:[
-        {data:"pid"},
-        {data:"pidenticacion"},
-        {data:"pnombre"},
-        {data:"papellido"},
-        {data:"motivo"},
-        {data:"observacion"},
-        {data:"fecha_traslado"},
-        {data:"hora"},
-        {data:"estado"},
+        {data:"id_expediente"},
+        {data:"nombre"},
+        {data:"fechacreacion"},
+        
         {data:"Actions",
         responsivePriority:-1},
         
@@ -45,7 +36,7 @@ function BusquedaNuevo (){
             render:function(data, type, row, meta)
             {
               
-              return'\n                        <span class="dropdown">\n                         \n           \n                        </span>\n                        <a href="javascript:myfunct(\' '+row['pid']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class=""></i>\n             Recibir          </a>'
+              return'\n                        <span class="dropdown">\n                         \n           \n                        </span>\n                        <a href="javascript:myfunct(\' '+row['id_expediente']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class=""></i>\n             Gestionar          </a>'
            }
         },
         { targets: -2, 
@@ -96,7 +87,7 @@ $.post("index.php?page=recibir&op=GuardarExpediente", {
   SignosVitales:SignosVitales
     })
     .done(function(data) {
- alert(data);
+
        
        BusquedaNuevo();
        $('#kt_modal_4').modal('hide');

@@ -149,18 +149,7 @@ VALUES('A+','Tipo-Sangre',true,NOW(),'sistema'),
 ('B-','Tipo-Sangre',true,NOW(),'sistema'),
 ('AB-','Tipo-Sangre',true,NOW(),'sistema');
 
-create table tb_Expediente (
-	pId_Expediente serial primary KEY,
-	pId_Signos_vitales int,
-    SP varchar(250) null,
-    HEA varchar(250) null,
-    FOG varchar(250) null,
 
-
-     CONSTRAINT pk_relacion_signos
-      FOREIGN KEY(pId_Signos_vitales) 
-	  REFERENCES tb_signosVitales(pId)
-);
 
 create table tb_Expediente_traslado (
     pId_SignosViatles serial primary KEY,
@@ -176,7 +165,48 @@ create table tb_Expediente_traslado (
     
 );
 
+create table tb_Expediente (
+    Id_Expediente serial primary KEY,
+    Nombre VARCHAR (255) NOT NULL,
+    Id_Responsable INT NOT NULL,
+	FechaCreacion timestamp,
+    UsuarioCreacion int,
+    Estado INT NOT NULL,
+      CONSTRAINT pk_relacion_Responsable
+      FOREIGN KEY(Id_Responsable) 
+	  REFERENCES usuarios(id_usuario)
+    
+    
+);
 
+
+
+create table tb_Expediente_Preclinicas (
+    Id_Expediente INT NOT NULL,
+    pId_Signos INT NOT NULL,
+    Id_Persona varchar(150) NOT NULL,
+	FechaCreacion timestamp,
+
+      CONSTRAINT pk_Expediente_id
+      FOREIGN KEY(Id_Expediente) 
+	  REFERENCES tb_Expediente(Id_Expediente),
+
+       CONSTRAINT pk_Signos_id
+      FOREIGN KEY(pId_Signos) 
+	  REFERENCES tb_signosVitales(pId)
+
+      
+    
+    
+);
+
+DROP TABLE tb_Expediente
+DROP TABLE tb_Expediente_Preclinicas
+
+
+select * from public.tb_expediente
+select * from tb_signosvitales
+INSERT INTO public.tb_expediente(Nombre,Id_Responsable,FechaCreacion,UsuarioCreacion) VALUES('EXP-2023-1155',1,NOW(),1)
 
 SELECT * from public.usuarios where medico=true and estado=true
 select * from public.tb_Expediente_traslado
@@ -185,12 +215,7 @@ ALTER TABLE public.tb_Expediente_traslado ADD CONSTRAINT expediente_traslado_fke
 -----------------
 select * from public.tb_Catalogos tb where tb.ctipo='Estado-Civil' and tb.estado=true
 
-select pid,et.usuario_emisor,et.estado,et.fecha_traslado,sv.motivo,sv.observacion,tp.pnombre,tp.papellido,tp.pidenticacion from public.tb_Expediente_traslado et
-INNER JOIN public.tb_signosvitales sv
-ON sv.pid=et.pid_signosviatles
-INNER JOIN public.tb_persona tp
-ON tp.pidpersona=CAST(sv.tb_persona AS INTEGER)
-where et.responsable=1 and et.estado=1
+
 
 select * from public.tb_signosvitales
 select * from public.tb_Expediente_traslado

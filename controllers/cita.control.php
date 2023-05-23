@@ -40,7 +40,7 @@ addToContext("form_title","Busqueda");
         $identificacion=null;
         $param=null;
         $op=new clinica();
-        $total =$op->Busqueda($codigoEmpleado,$selectBusqueda,$identificacion,$param);
+        $total =$op->Busqueda($codigoEmpleado,$selectBusqueda='Codigo',$identificacion,$param);
         $arrayName = array('data' => $total);
         echo json_encode($arrayName); 
  

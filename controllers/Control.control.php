@@ -9,15 +9,14 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL); */
 session_start();
 ob_start();
-addToContext("page_title","Registro de Preclinicas");
+addToContext("page_title","Lista de Expedientes");
   require_once("libs/template_engine.php");
-require_once("models/recibir.model.php");
+require_once("models/Control.model.php");
   function run(){
     $datos=[];
     $opcion =$_GET['op'];
     $json = json_decode($_COOKIE['user_logged'],true);
     $Recibir= new Recibir();
-
 
     switch ($opcion) {
       case 'llenar':
@@ -26,16 +25,9 @@ require_once("models/recibir.model.php");
        $arrayName = array('data' => $Recibir->mostrarInfo($json[0]['id_usuario']));
       echo json_encode($arrayName);
         break;
-     case 'GuardarExpediente':
-      
-      $id_usuario=$json[0]['id_usuario'];
-      $SignosVitales=$_POST['SignosVitales'];
-      
-
-     print_r($Recibir->guardarExpediente($id_usuario,$SignosVitales));
-      break;
+    
     	default:
-    	renderizar("recibir",$datos);
+    	renderizar("Control",$datos);
     		break;
     }
 

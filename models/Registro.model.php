@@ -53,6 +53,7 @@ public function mostrarInfo()
 		$sql=$conn->prepare("SELECT sv.pId, tp.pidenticacion,tp.pcodigo,tp.pnombre,tp.papellido,sv.motivo,sv.observacion,sv.fechacreacion,sv.estado  from public.tb_persona tp
 		INNER JOIN public.tb_signosvitales sv
 		ON tp.pidpersona=CAST (sv.tb_persona AS INTEGER)
+		and sv.estado IN(1,2)
 		order by tp.pfechacreacion DESC");
 		$sql->execute();
 		$filas=$sql->fetchAll(PDO::FETCH_ASSOC);

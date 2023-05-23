@@ -72,7 +72,6 @@ console.log(form);
 }
 
 function myfunct(codigo){
-  alert(codigo);
   $('.form_DatosGenerales').show('slow');
   $('#FormIncapacidad').hide('slow');
 
