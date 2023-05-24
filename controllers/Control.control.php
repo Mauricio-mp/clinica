@@ -25,7 +25,11 @@ require_once("models/Control.model.php");
        $arrayName = array('data' => $Recibir->mostrarInfo($json[0]['id_usuario']));
       echo json_encode($arrayName);
         break;
-    
+        case 'llenarPreclinica':
+          $id=$_POST['id'];
+          $arrayName = array('data' => $Recibir->mostrarInfo($id));
+          echo json_encode($arrayName);
+          break;
     	default:
     	renderizar("Control",$datos);
     		break;

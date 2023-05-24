@@ -5,7 +5,7 @@
 	interface clinica
 	{
 		public function mostrarInfo($id);
-		public function guardarExpediente($id_usuario,$SignosVitales);
+		public function guardarExpediente($GlobalIdentidad,$id_usuario,$SignosVitales);
 	
 	}
 class Recibir extends Conexion implements clinica
@@ -14,7 +14,7 @@ class Recibir extends Conexion implements clinica
         $this->msg='';
 	} 
 
-	public function guardarExpediente($id_usuario,$SignosVitales)
+	public function guardarExpediente($GlobalIdentidad,$id_usuario,$SignosVitales)
 	{
 		
 
@@ -23,6 +23,7 @@ class Recibir extends Conexion implements clinica
 
 		$nombre='EXP-'.date('Y').'-'.$milisegundos;
 		$conn= self::connect();
+		
 		$sql=$conn->prepare("INSERT INTO public.tb_expediente(Nombre,Id_Responsable,FechaCreacion,UsuarioCreacion,Estado) VALUES(:nombre,:responsable,NOW(),:creado,:estado)");
 		$sql->execute(["nombre"=>$nombre,"responsable"=>$id_usuario,"creado"=>$id_usuario,"estado"=>1]);
 
@@ -30,7 +31,18 @@ class Recibir extends Conexion implements clinica
 		$actualizar=$conn->prepare("UPDATE public.tb_signosVitales set estado=3 where pid=:SignosVitales");
 		$actualizar->execute(["SignosVitales"=>$SignosVitales]);
 
-		($actualizar)? true:false;
+		$lastId=$conn->prepare("SELECT MAX(id_expediente) as ultimo FROM public.tb_Expediente where estado=1");
+		$lastId->execute();
+
+		$ultimiId=$lastId->fetchAll(PDO::FETCH_ASSOC);
+		$idultimo=$ultimiId[0]['ultimo'];
+		
+		
+		$InsertarPreclinica=$conn->prepare("INSERT INTO public.tb_Expediente_Preclinicas(id_expediente,pid_signos,id_persona,fechacreacion,persona_id)VALUES(:expediente,:signos,:persona,NOW(),:idPersona)");
+		$InsertarPreclinica->execute(["expediente"=>$idultimo,"signos"=>$SignosVitales,"persona"=>$GlobalIdentidad,"idPersona"=>$id_usuario]);
+		
+
+		return ($InsertarPreclinica)? true:false;
 		}catch (PDOException $exception) {
 			exit($exception->getMessage());
 		}

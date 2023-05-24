@@ -200,8 +200,23 @@ create table tb_Expediente_Preclinicas (
     
 );
 
-DROP TABLE tb_Expediente
-DROP TABLE tb_Expediente_Preclinicas
+
+ALTER TABLE public.tb_expediente_preclinicas ADD persona_id int
+----------------------
+
+
+delete from public.tb_expediente
+delete from public.tb_expediente_preclinicas
+
+SELECT * FROM tb_Expediente_Preclinicas 
+SELECT MAX(id_expediente) FROM public.tb_Expediente where estado=1
+
+SELECT id_expediente FROM public.tb_Expediente limit 1
+
+SELECT * from public.tb_expediente_preclinicas ep
+INNER JOIN public.tb_expediente e
+ON ep.id_expediente = e.id_expediente
+and ep.id_expediente=8
 
 
 select * from public.tb_expediente
@@ -209,7 +224,9 @@ select * from tb_signosvitales
 INSERT INTO public.tb_expediente(Nombre,Id_Responsable,FechaCreacion,UsuarioCreacion) VALUES('EXP-2023-1155',1,NOW(),1)
 
 SELECT * from public.usuarios where medico=true and estado=true
-select * from public.tb_Expediente_traslado
+DELETE  from public.tb_Expediente_traslado
+update public.tb_signosvitales set estado=1
+
 ALTER TABLE public.tb_Expediente_traslado ADD CONSTRAINT expediente_traslado_fkey FOREIGN KEY (pId_Expediente) REFERENCES public.tb_signosVitales(pId);
 
 -----------------

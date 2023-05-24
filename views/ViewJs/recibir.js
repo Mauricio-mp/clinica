@@ -3,9 +3,11 @@ BusquedaNuevo();
 var idPreclinica=0;
 var doctor=0;
 var SignosVitales=0;
-function myfunct(params) {
+var GlobalIdentidad=0;
+function myfunct(params,pidenticacion) {
   /*const json = JSON.parse(params); */
   SignosVitales=params;
+  GlobalIdentidad=pidenticacion;
   llenarCombo();
   $('#kt_modal_4').modal('show');
 
@@ -45,7 +47,7 @@ function BusquedaNuevo (){
             render:function(data, type, row, meta)
             {
               
-              return'\n                        <span class="dropdown">\n                         \n           \n                        </span>\n                        <a href="javascript:myfunct(\' '+row['pid']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class=""></i>\n             Recibir          </a>'
+              return'\n                        <span class="dropdown">\n                         \n           \n                        </span>\n                        <a href="javascript:myfunct(\' '+row['pid']+' \',\' '+row['pidenticacion']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class=""></i>\n             Recibir          </a>'
            }
         },
         { targets: -2, 
@@ -93,7 +95,8 @@ function BusquedaNuevo (){
  
 
 $.post("index.php?page=recibir&op=GuardarExpediente", {
-  SignosVitales:SignosVitales
+  SignosVitales:SignosVitales,
+  GlobalIdentidad:GlobalIdentidad
     })
     .done(function(data) {
  alert(data);

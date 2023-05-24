@@ -30,9 +30,9 @@ require_once("models/recibir.model.php");
       
       $id_usuario=$json[0]['id_usuario'];
       $SignosVitales=$_POST['SignosVitales'];
+      $GlobalIdentidad=$_POST['GlobalIdentidad'];
       
-
-     print_r($Recibir->guardarExpediente($id_usuario,$SignosVitales));
+     print_r($Recibir->guardarExpediente($GlobalIdentidad,$id_usuario,$SignosVitales));
       break;
     	default:
     	renderizar("recibir",$datos);
