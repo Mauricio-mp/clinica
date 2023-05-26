@@ -16,20 +16,27 @@ require_once("models/Control.model.php");
     $datos=[];
     $opcion =$_GET['op'];
     $json = json_decode($_COOKIE['user_logged'],true);
-    $Recibir= new Recibir();
+    $Control= new Recibir();
 
     switch ($opcion) {
       case 'llenar':
         
         
-       $arrayName = array('data' => $Recibir->mostrarInfo($json[0]['id_usuario']));
+       $arrayName = array('data' => $Control->mostrarInfo($json[0]['id_usuario']));
       echo json_encode($arrayName);
         break;
         case 'llenarPreclinica':
-          $id=$_POST['id'];
-          $arrayName = array('data' => $Recibir->mostrarInfo($id));
+         $id=$_POST['id'];
+          $arrayName = array('data' => $Control->BuscarPreclinicas($id));
           echo json_encode($arrayName);
           break;
+        case 'DetallePreclinica':
+          //$idPreclinica=$_POST['idPreclinica'];
+          $idPreclinica=10;
+          $datos=$Control->Detallepreclinica($idPreclinica);
+          echo json_encode($datos);
+          break;
+  
     	default:
     	renderizar("Control",$datos);
     		break;

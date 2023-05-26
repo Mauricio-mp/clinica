@@ -15,26 +15,80 @@
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Recibir Cita</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Detalle de cita</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						</button>
 					</div>
 					<div class="modal-body">
-						<form>
-							<div class="form-group">
-								<label for="recipient-name" class="form-control-label">Doctor:</label>
-							<select id="cbxDocotres" class="form-control" >
-							</select>
+						
+							<div class="form-group row">
+								<label for="exampleInputUsername2" class="col-sm-3 col-form-label">PA:</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="txtPA" placeholder="Username">
+								</div>
 							</div>
-							<div class="form-group">
-								<label for="message-text" class="form-control-label">Observacion:</label>
-								<textarea class="form-control" id="Observacino"></textarea>
+							<div class="form-group row">
+								<label for="exampleInputEmail2" class="col-sm-3 col-form-label">FC:</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="txtFC" placeholder="Email">
+								</div>
 							</div>
-						</form>
+							<div class="form-group row">
+								<label for="exampleInputMobile" class="col-sm-3 col-form-label">Puso:</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="txtPulso" placeholder="Mobile number">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="exampleInputPassword2" class="col-sm-3 col-form-label">FR</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="txtFR" placeholder="Password">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Temperatura (TÂ°)</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="txttemperatura" placeholder="Password">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Sp02</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="sp02" placeholder="Password">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Glu</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="txtGlu" placeholder="Password">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Peso</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="txtPeso" placeholder="Password">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Talla:</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="txtTalla" placeholder="Password">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">IMC:</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="txtIMC" placeholder="Password">
+								</div>
+							</div>
+							
+							<!-- <button type="submit" class="btn btn-primary mr-2">Submit</button>
+							<button class="btn btn-light">Cancel</button> -->
+					
 					</div>
 					<div class="modal-footer">
 						 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> 
-						<button type="button" id="BtnRecibirCita" class="btn btn-primary">Si, Recibir</button>
+						
 					</div>
 				</div>
 			</div>
@@ -57,7 +111,10 @@
 							  <tr>
 											  <th>Id</th>
 											  <th>Nombre</th>
-											  <th>Fecha de Creacion</th>
+											  <th>Apellido</th>
+											  <th>Fecha de Preclinica</th>
+											  <th>Motivo</th>
+											  <th>Observacion</th>
 											  <th>Actions</th>
 								  </tr>
 								  
@@ -71,7 +128,7 @@
 			<div class="card">
 				<div class="card-header" id="headingTwo4">
 					<div class="card-title collapsed" data-toggle="collapse" data-target="#collapseTwo4" aria-expanded="false" aria-controls="collapseTwo4">
-						<a href="javascript:void(0)"><i class="flaticon-pie-chart-1"></i><span> Expediente</span> </a>
+						<a href="javascript:void(0)"><i class="flaticon-pie-chart-1"></i><span> Antecedentes personales </span> </a>
 					</div>
 				</div>
 				<div id="collapseTwo4" class="collapse" aria-labelledby="headingTwo1" data-parent="#accordionExample4">
@@ -83,7 +140,19 @@
 			<div class="card">
 				<div class="card-header" id="headingThree4">
 					<div class="card-title collapsed" data-toggle="collapse" data-target="#collapseThree4" aria-expanded="false" aria-controls="collapseThree4">
-						<a href="javascript:void(0)"><i class="flaticon-pie-chart-1"></i><span> Expediente</span> </a>
+						<a href="javascript:void(0)"><i class="flaticon-pie-chart-1"></i><span> Examen Fisico</span> </a>
+					</div>
+				</div>
+				<div id="collapseThree4" class="collapse" aria-labelledby="headingThree1" data-parent="#accordionExample4">
+					<div class="card-body">
+						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-header" id="headingThree4">
+					<div class="card-title collapsed" data-toggle="collapse" data-target="#collapseThree4" aria-expanded="false" aria-controls="collapseThree4">
+						<a href="javascript:void(0)"><i class="flaticon-pie-chart-1"></i><span> Examen Laboratoriales</span> </a>
 					</div>
 				</div>
 				<div id="collapseThree4" class="collapse" aria-labelledby="headingThree1" data-parent="#accordionExample4">

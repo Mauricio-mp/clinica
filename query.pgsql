@@ -203,8 +203,11 @@ create table tb_Expediente_Preclinicas (
 
 ALTER TABLE public.tb_expediente_preclinicas ADD persona_id int
 ----------------------
-
-
+SELECT * from public.tb_signosvitales ts 
+		inner join public.tb_persona tp 
+		on CAST(ts.tb_persona AS INTEGER)  = tp.pidpersona
+		and ts.pid=13
+select * from public.tb_signosvitales
 delete from public.tb_expediente
 delete from public.tb_expediente_preclinicas
 

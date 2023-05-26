@@ -6,6 +6,7 @@
 	{
 		public function mostrarInfo($id);
 		public function BuscarPreclinicas($id);
+		public function Detallepreclinica($preclinica);
 
 	}
 class Recibir extends Conexion implements clinica
@@ -13,11 +14,29 @@ class Recibir extends Conexion implements clinica
 	function __construct(){
         $this->msg='';
 	} 
+	public function Detallepreclinica($preclinica)
+	{
+		try {
+			$conn= self::connect();
+		$sql=$conn->prepare("SELECT * from public.tb_signosvitales ts 
+		inner join public.tb_persona tp 
+		on CAST(ts.tb_persona AS INTEGER)  = tp.pidpersona
+		and ts.pid=:id");
+		$sql->execute(["id"=>$preclinica]);
+		
+		$filas=$sql->fetchAll(PDO::FETCH_ASSOC);
+		return $filas;
+
+		}catch (PDOException $exception) {
+			exit($exception->getMessage());
+		}
+	}
+
 	public function BuscarPreclinicas($id)
 	{
 		try {
 			$conn= self::connect();
-		$sql=$conn->prepare("SELECT ep.id_expediente,ep.pid_signos,tp.pidenticacion,tp.pnombre,tp.papellido,tp.pedad,ts.motivo,ts.observacion  from public.tb_expediente_preclinicas ep
+		$sql=$conn->prepare("SELECT ep.id_expediente,ep.pid_signos,tp.pidenticacion,tp.pnombre,tp.papellido,tp.pedad,ts.motivo,ts.observacion,ts.fechacreacion  from public.tb_expediente_preclinicas ep
 		INNER JOIN public.tb_expediente e
 		ON ep.id_expediente = e.id_expediente
 		inner join public.tb_signosvitales ts 
