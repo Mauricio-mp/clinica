@@ -36,7 +36,7 @@ class Recibir extends Conexion implements clinica
 	{
 		try {
 			$conn= self::connect();
-		$sql=$conn->prepare("SELECT ep.id_expediente,ep.pid_signos,tp.pidenticacion,tp.pnombre,tp.papellido,tp.pedad,ts.motivo,ts.observacion,ts.fechacreacion  from public.tb_expediente_preclinicas ep
+		$sql=$conn->prepare("SELECT ep.id_expediente,ep.pid_signos,tp.pidenticacion,tp.pnombre,tp.papellido,tp.pedad,ts.motivo,ts.observacion,TO_CHAR(ts.fechacreacion, 'DD/MM/YYYY') AS fechacreacion   from public.tb_expediente_preclinicas ep
 		INNER JOIN public.tb_expediente e
 		ON ep.id_expediente = e.id_expediente
 		inner join public.tb_signosvitales ts 

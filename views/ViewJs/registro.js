@@ -87,14 +87,15 @@ function BusquedaNuevo (){
 
     $('#BtoEnnviarPreclinica').click(function (e) { 
       e.preventDefault();
- 
+      var idCombo=$('#cbxDocotres').val();
+     
 
 $.post("index.php?page=Registro&op=EnviaraTraslado", {
   idPreclinica: idPreclinica,
-  id:doctor['data'][0]['id_usuario']   
+  id:idCombo   
     })
     .done(function(data) {
-
+      alert(idCombo);
        if (data==1) {
         $('#kt_modal_4').modal('hide');
         BusquedaNuevo();

@@ -19,6 +19,7 @@ require_once("models/recibir.model.php");
     $Recibir= new Recibir();
 
 
+
     switch ($opcion) {
       case 'llenar':
         

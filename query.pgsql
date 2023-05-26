@@ -203,10 +203,12 @@ create table tb_Expediente_Preclinicas (
 
 ALTER TABLE public.tb_expediente_preclinicas ADD persona_id int
 ----------------------
-SELECT * from public.tb_signosvitales ts 
-		inner join public.tb_persona tp 
-		on CAST(ts.tb_persona AS INTEGER)  = tp.pidpersona
-		and ts.pid=13
+SELECT pid,et.usuario_emisor,sv.estado,et.fecha_traslado,sv.motivo,sv.observacion,tp.pnombre,tp.papellido,tp.pidenticacion from public.tb_Expediente_traslado et
+    INNER JOIN public.tb_signosvitales sv
+    ON sv.pid=et.pid_signosviatles
+    INNER JOIN public.tb_persona tp
+    ON tp.pidpersona=CAST(sv.tb_persona AS INTEGER)
+    where et.responsable=3 and sv.estado=2
 select * from public.tb_signosvitales
 delete from public.tb_expediente
 delete from public.tb_expediente_preclinicas

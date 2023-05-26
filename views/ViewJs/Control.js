@@ -34,7 +34,7 @@ function DetallePreclinica(Preclinica) {
       $('#txtPeso').val(json[0]['peso']);
       $('#txtTalla').val(json[0]['talla']);
       $('#txtIMC').val(json[0]['imc']);
-      console.log(json[0]['presionarterial']);
+      
     }
   });
 

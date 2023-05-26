@@ -99,7 +99,7 @@ $.post("index.php?page=recibir&op=GuardarExpediente", {
   GlobalIdentidad:GlobalIdentidad
     })
     .done(function(data) {
- alert(data);
+
        
        BusquedaNuevo();
        $('#kt_modal_4').modal('hide');

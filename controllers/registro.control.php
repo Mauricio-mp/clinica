@@ -15,7 +15,6 @@ require_once("models/Registro.model.php");
   function run(){
     $datos=[];
     $opcion =$_GET['op'];
-    
     switch ($opcion) {
       case 'EnviaraTraslado':
         $json = json_decode($_COOKIE['user_logged'],true);
@@ -28,7 +27,6 @@ require_once("models/Registro.model.php");
         break;
       case 'doctores':
         $regsitro= new Registro();
-
         $arrayName = array('data' => $regsitro->doctores());
        echo json_encode($arrayName);
         break;
