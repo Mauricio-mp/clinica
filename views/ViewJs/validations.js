@@ -1,4 +1,47 @@
 var KTFormControls={init:function(){
+    $("#From_Antecedentes_Personales").validate({
+        lang: 'es',
+        live: 'enabled',
+        onkeydown:true,
+        rules:
+        {
+            txtApp:{
+                required:true,
+                minlength:2
+            }
+            
+        },
+        messages: {
+       
+            txtApp: {
+              required: "La identidad es requerida",
+              minlength:"Ingrese almenos 2 caracteres",
+            }
+            
+           
+          },
+          errorPlacement:function(e,r)
+        {
+            
+            
+          /*  $('#BtnGuardarCambio').attr('disabled', true); */
+            var i=r.closest(".input-group");
+            i.length?i.after(e.addClass("invalid-feedback")):r.after(e.addClass("invalid-feedback"))
+        },onkeyup: function(element){
+            this.element(element);
+    
+        },invalidHandler:function(e,r)
+        {
+           
+            $("#kt_form_denis_msg").removeClass("kt--hide").show(),KTUtil.scrollTop()
+        },submitHandler:function(e){
+           
+            GuardarFormAntecedentesPersonales();
+        },success: function(label){
+           
+            
+        }
+    }),
     $("#FormularioPleclinica").validate({
         lang: 'es',
         live: 'enabled',

@@ -10,7 +10,7 @@
 	</div>
 	<!--begin::Form-->
 <!-- tomado del Achivo rangos.js-->
-	<form class="kt-form kt-form--fit kt-form--label-right" method="POST" id="FormIncapacidad" >
+	
 		<div class="modal fade" id="kt_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
@@ -93,6 +93,7 @@
 				</div>
 			</div>
 		</div>
+
 	
 		<div class="kt-portlet__body Acordiones" style="display: none;">
 		<!--begin::Accordion-->
@@ -130,10 +131,35 @@
 					<div class="card-title collapsed" data-toggle="collapse" data-target="#collapseTwo4" aria-expanded="false" aria-controls="collapseTwo4">
 						<a href="javascript:void(0)"><i class="flaticon-pie-chart-1"></i><span> Antecedentes personales </span> </a>
 					</div>
+					
 				</div>
 				<div id="collapseTwo4" class="collapse" aria-labelledby="headingTwo1" data-parent="#accordionExample4">
 					<div class="card-body">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						<a style="float:right;" href="javascript:agregar();" class="btn btn-default btn-pill btn-sm btn-icon btn-icon-md" >
+							<i class="flaticon2-add-1"></i>
+						</a>
+						<br></br>
+						
+					
+						<table class="table table-striped- table-bordered table-hover table-checkable" id="Tabla_Antecedentes_Personales" >
+							<thead>
+							  <tr>
+											  <th>APP</th>
+											  <th>AF</th>
+											  <th>AHQT</th>
+											  <th>Alergias</th>
+											  <th>Vacunas</th>
+											  <th>AE</th>
+											  <th>Habitos Toxicos</th>
+											  <th>Habitos no Toxicos</th>
+											  <th>Habitos Saludables</th>
+											  <th>Antecedentes GO</th>
+								  </tr>
+								  
+				</thead>
+	
+	
+			</table>
 					</div>
 				</div>
 			</div>
@@ -183,7 +209,85 @@
 						</table>
 			<!--end: Datatable -->
 		</div>
-	</form>
+		<div class="kt-portlet__body Antecedentes_Personales" style="display: none;">
+		<form  id="From_Antecedentes_Personales" method="post">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="exampleInputEmail3">Antecedentes personales Patologicos(APP)</label>
+						<input type="text" class="form-control" id="txtApp" name="txtApp">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="exampleSelectGender">Antecedentes Familiares (AF)</label>
+						<input type="text" class="form-control" id="txtAF" name="txtAF">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="exampleSelectGender">AHGT</label>.
+						<input type="text" class="form-control" id="txtAHGT" name="txtAHGT">
+					
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="exampleInputEmail3">Alergias </label>
+						<input type="text" class="form-control" name="txtAlergias" id="txtAlergias" placeholder="">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="exampleSelectGender">Vacunas</label>
+						<input type="text" class="form-control" name="txtVacunas" id="txtVacunas" placeholder="">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="exampleSelectGender">Antecedentes Epidemiologicos</label>
+						<input type="text" class="form-control" name="txtAE" id="txtAE" placeholder="">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="exampleInputEmail3">Habitos Toxicos</label>
+						<input type="text" class="form-control" id="txtHabitosToxicos" name="txtHabitosToxicos" placeholder="">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="exampleInputEmail3">Habitos no Toxicos</label>
+						<input type="email" class="form-control" id="habitosnoToxicos" name="habitosnoToxicos" placeholder="">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="exampleInputEmail3">Habitos Saludables</label>
+						<input type="email" class="form-control" id="txtHabitosSaludables" name="txtHabitosSaludables" placeholder="">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="exampleInputEmail3">Antecedentes GO:</label>
+						<input type="email" class="form-control" id="AntGo" name="AntGo" placeholder="">
+					</div>
+				</div>
+				
+			</div>
+
+			<button type="submit" class="btn btn-primary mr-2">Submit</button>
+			<button class="btn btn-light">Cancel</button>
+		</form>
+			
+		</div>
+	
 
 	<!--end::Form-->
 </div>

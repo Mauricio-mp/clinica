@@ -31,8 +31,8 @@ require_once("models/Control.model.php");
           echo json_encode($arrayName);
           break;
         case 'DetallePreclinica':
-          //$idPreclinica=$_POST['idPreclinica'];
-          $idPreclinica=10;
+          $idPreclinica=$_POST['idPreclinica'];
+       
           $datos=$Control->Detallepreclinica($idPreclinica);
           echo json_encode($datos);
           break;

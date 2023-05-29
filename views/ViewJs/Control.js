@@ -4,6 +4,7 @@ var idPreclinica=0;
 var doctor=0;
 var SignosVitales=0;
 
+
 function myfunct(params,nombre) {
   /*const json = JSON.parse(params); */
  
@@ -185,4 +186,16 @@ $.post("index.php?page=recibir&op=GuardarExpediente", {
        $('#kt_modal_4').modal('hide');
     });
 
+
+   
     });
+
+    function agregar(){
+      $('#accordionExample4').hide();
+      $('.Antecedentes_Personales').show();
+    }
+
+
+    function GuardarFormAntecedentesPersonales(){
+      alert('hola');
+    }
