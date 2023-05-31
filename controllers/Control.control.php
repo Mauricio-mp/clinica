@@ -81,6 +81,17 @@ require_once("models/Control.model.php");
           $msg=$Control->ActualizarAntecedente($id,$txtApp,$txtAF,$txtAHGT,$txtAlergias,$txtVacunas,$txtAE,$txtHabitosToxicos,$habitosnoToxicos,$txtHabitosSaludables,$AntGo);
           print_r($msg);
          break;
+        case 'AnularAncedente':
+          $idAntecedente=$_POST['idAntecedente'];
+          $msg=$Control->AnularAntecedente($idAntecedente);
+          print_r($msg);
+        case 'llenarexamenesFisicos':
+          $id=$_POST['id'];
+      
+          $arrayName = array('data' => $Control->LLenarExamenFisico($id,$unico=true));
+          echo json_encode($arrayName);
+          break;
+          break;
   
     	default:
     	renderizar("Control",$datos);

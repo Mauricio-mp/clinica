@@ -220,18 +220,41 @@ create table tb_Expediente_Antecedentes (
 	  REFERENCES tb_Expediente(Id_Expediente)    
 );
 
+create table tb_Expediente_Examen_Fisico (
+    id_examen serial primary KEY, 
+    Id_Expediente INT NOT NULL,
+    AparienciaGeneral varchar(255) NOT NULL,
+    Cabeza varchar(255) NULL,
+    Cuello varchar(255) NULL,
+    Torax varchar(255) NULL,
+    Corazon varchar(255) NULL,
+    Pulmones varchar(255) NULL,
+    Mamas varchar(255) NULL,
+    Abdomen varchar(255) NULL,
+    Genitales varchar(255) NULL,
+    OsteoMuscular varchar(255) NULL,
+    Exremidades varchar(255) NULL,
+    Piel varchar(255) NULL,
+    Neurologicos varchar(255) NULL,
+	FechaCreacion timestamp,
+    UsuarioCreacion int NULL,
+    estado boolean,
+
+      CONSTRAINT pk_Expediente_id
+      FOREIGN KEY(Id_Expediente) 
+	  REFERENCES tb_Expediente(Id_Expediente)    
+);
+
 
 ALTER TABLE public.tb_expediente_preclinicas ADD persona_id int
 
 
 
 ----------------------
-SELECT * from public.tb_signosvitales ts 
-		inner join public.tb_persona tp 
-		on CAST(ts.tb_persona AS INTEGER)  = tp.pidpersona
-		and ts.pid=:id
 
-SELECT * from public.tb_expediente_antecedentes where id_expediente=15 and estado=true
+
+SELECT id_examen, id_expediente, aparienciageneral, cabeza, cuello, torax, corazon, pulmones, mamas, abdomen, genitales, osteomuscular, exremidades, piel,neurologicos,to_char(fechacreacion,'DD/MM/YYYY') 
+AS fechacreacion, usuariocreacion,estado FROM public.tb_Expediente_Examen_Fisico where id_expediente=15
 
 drop table public.tb_expediente_antecedentes
 SELECT pid,et.usuario_emisor,sv.estado,et.fecha_traslado,sv.motivo,sv.observacion,tp.pnombre,tp.papellido,tp.pidenticacion from public.tb_Expediente_traslado et

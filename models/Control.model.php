@@ -10,13 +10,53 @@
 		public function GuardarAntecedentesPersonales($id,$txtApp,$txtAF,$txtAHGT,$txtAlergias,$txtVacunas,$txtAE,$txtHabitosToxicos,$habitosnoToxicos,$txtHabitosSaludables,$AntGo);
 		public function MostrarAntecedentes($id,$unico);
 		public function ActualizarAntecedente($id,$txtApp,$txtAF,$txtAHGT,$txtAlergias,$txtVacunas,$txtAE,$txtHabitosToxicos,$habitosnoToxicos,$txtHabitosSaludables,$AntGo);
-
+		public function AnularAntecedente($idAntecedente);
+		public function LLenarExamenFisico($id,$unico);
 	}
 class Recibir extends Conexion implements clinica
 {
 	function __construct(){
         $this->msg='';
 	} 
+
+	public function LLenarExamenFisico($id,$unico)
+	{
+		try{
+			$conn= self::connect();
+
+				if ($unico==true) {
+					$sql=$conn->prepare("SELECT id_examen, id_expediente, aparienciageneral, cabeza, cuello, torax, corazon, pulmones, mamas, abdomen, genitales, osteomuscular, exremidades, piel,neurologicos,to_char(fechacreacion,'DD/MM/YYYY') AS fechacreacion, usuariocreacion,estado FROM public.tb_Expediente_Examen_Fisico where id_expediente=:id");
+				}
+					
+				
+				
+			
+			
+			$sql->execute(["id"=>$id]);
+			
+			$filas=$sql->fetchAll(PDO::FETCH_ASSOC);
+		return $filas;
+	
+			}catch (PDOException $exception) {
+				exit($exception->getMessage());
+			}
+	}
+	public function AnularAntecedente($idAntecedente)
+	{
+		try{
+			$conn= self::connect();
+			
+				$sql=$conn->prepare("UPDATE public.tb_expediente_antecedentes SET estado=false WHERE id_antecedente=:id");
+			
+			
+			$sql->execute(["id"=>$idAntecedente]);
+			
+			return ($sql)? true:false;
+	
+			}catch (PDOException $exception) {
+				exit($exception->getMessage());
+			}
+	}
 	public function ActualizarAntecedente($id,$txtApp,$txtAF,$txtAHGT,$txtAlergias,$txtVacunas,$txtAE,$txtHabitosToxicos,$habitosnoToxicos,$txtHabitosSaludables,$AntGo){
 		try{
 			$conn= self::connect();
@@ -40,7 +80,7 @@ class Recibir extends Conexion implements clinica
 		if($unico==true){
 			$sql=$conn->prepare("SELECT * from public.tb_expediente_antecedentes tea where tea.id_antecedente =:id");
 		}else{
-			$sql=$conn->prepare("SELECT * from public.tb_expediente_antecedentes where id_expediente=:id and estado=true");
+			$sql=$conn->prepare("SELECT id_antecedente,app,af,ahqt,alergias,vacunas,ae,habitos_toxicos,habitos_no_toxicos,habitos_saludables,antecedentes_go,fechacreacion,to_char(fechacreacion,'DD/MM/YYYY') AS fecha from public.tb_expediente_antecedentes where id_expediente=:id and estado=true order by fechacreacion desc");
 		}
 		
 		$sql->execute(["id"=>$id]);
@@ -59,7 +99,7 @@ class Recibir extends Conexion implements clinica
 				$conn= self::connect();
 			$sql=$conn->prepare("INSERT INTO public.tb_expediente_antecedentes(id_expediente,app,af,ahqt,alergias,vacunas,ae,habitos_toxicos,habitos_no_toxicos,habitos_saludables,antecedentes_go,fechacreacion,estado)
 			VALUES(:id,:txtApp,:txtAF,:txtAHGT,:txtAlergias,:txtVacunas,:txtAE,:txtHabitosToxicos,:habitosnoToxicos,:txtHabitosSaludables,:AntGo,NOW(),true)");
-			$sql->execute(["id"=>$id,"txtApp"=>$txtApp,"txtAF"=>$txtAF,"txtAHGT"=>$txtAHGT,"txtAlergias"=>$txtAlergias,"txtVacunas"=>$txtVacunas,"txtAE"=>$txtAE,"txtHabitosToxicos"=>$id,"habitosnoToxicos"=>$habitosnoToxicos,"txtHabitosSaludables"=>$txtHabitosSaludables,"AntGo"=>$AntGo]);
+			$sql->execute(["id"=>$id,"txtApp"=>$txtApp,"txtAF"=>$txtAF,"txtAHGT"=>$txtAHGT,"txtAlergias"=>$txtAlergias,"txtVacunas"=>$txtVacunas,"txtAE"=>$txtAE,"txtHabitosToxicos"=>$txtHabitosToxicos,"habitosnoToxicos"=>$habitosnoToxicos,"txtHabitosSaludables"=>$txtHabitosSaludables,"AntGo"=>$AntGo]);
 			
 			
 			return ($sql)? true:false;
