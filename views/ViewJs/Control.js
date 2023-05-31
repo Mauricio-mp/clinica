@@ -1,17 +1,19 @@
 
 BusquedaNuevo();
+
 var idPreclinica=0;
 var doctor=0;
 var SignosVitales=0;
-
+var GlobalExpediente=0;
 
 function myfunct(params,nombre) {
   /*const json = JSON.parse(params); */
- 
+  GlobalExpediente=params;
   $('.Acordiones').show();
   $('.busqueda').hide();
 
-  LlenarPreclinicas(params)
+  LlenarPreclinicas(params);
+  Tabla_Antecedentes_Personales(params);
 }
 function DetallePreclinica(Preclinica) {
 
@@ -196,6 +198,166 @@ $.post("index.php?page=recibir&op=GuardarExpediente", {
     }
 
 
-    function GuardarFormAntecedentesPersonales(){
-      alert('hola');
+    function GuardarFormAntecedentesPersonales(Editar,name){
+      switch (Editar) {
+        case false:
+          var formulario = $("#From_Antecedentes_Personales").serialize();
+      $.ajax({
+        type: "POST",
+        url: "index.php?page=Control&op=guardarANtecedente&"+formulario,
+        data: {idExpediente:GlobalExpediente},
+        success: function (response) {
+          if (response==true) {
+            showSuccessToast(response);
+            $('.Acordiones').show();
+            $('#accordionExample4').show();
+            $('.Antecedentes_Personales').hide();
+            Tabla_Antecedentes_Personales(GlobalExpediente);
+          }
+          
+         // showDangerToast(response);
+        }
+      });
+          break;
+      case true:
+        var formulario = $("#From_Antecedentes_Personales").serialize();
+      $.ajax({
+        type: "POST",
+        url: "index.php?page=Control&op=EditarANtecedente&"+formulario,
+        data: {id:name},
+        success: function (response) {
+
+      
+          if (response==true) {
+
+
+            
+            showSuccessToast(response);
+            $('.Acordiones').show();
+            $('#accordionExample4').show();
+            $('.Antecedentes_Personales').hide();
+            Tabla_Antecedentes_Personales(GlobalExpediente);
+
+            
+          }else{
+            showDangerToast(response);
+          }
+          
+        
+        }
+      });
+      break;
+        default:
+          break;
+      }
+      
     }
+
+    function ReturnDiv(){
+      
+      $('.Acordiones').show();
+      $('#accordionExample4').show();
+      $('.Antecedentes_Personales').hide();
+      $("#From_Antecedentes_Personales")[0].reset();
+      
+    }
+
+
+    
+
+    function Tabla_Antecedentes_Personales (id){
+      "use strict";
+
+      var KTDatatablesDataSourceAjaxClient={
+      init:function(){$("#Tabla_Antecedentes_Personales").DataTable(
+        {
+          destroy:true,
+          responsive:!0,
+          pagingType:"full_numbers",
+          "order": [[ 0, 'desc' ]],
+          ajax:{url:"index.php?page=Control&op=Antecedentes",
+          type:"POST",
+          data:{pagination:{perpage:50},id:id}},
+          columns:[
+          {data:"id_antecedente"},
+          {data:"app"},
+          {data:"af"},
+          {data:"ahqt"},
+          {data:"alergias"},
+          {data:"vacunas"},
+          {data:"ae"},
+          {data:"habitos_toxicos"},
+          {data:"habitos_no_toxicos"},
+          {data:"habitos_saludables"},
+          {data:"Action",
+          responsivePriority:-1},
+          
+          ],
+          
+          columnDefs:[
+            {
+              targets:0,
+              visible:false
+            },
+            {targets:-1,
+              title:"Actions",
+              orderable:!1,
+              render:function(data, type, row, meta)
+              {
+                
+                return'\n                        <span class="dropdown">\n                            <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true">\n                              <i class="la la-ellipsis-h"></i>\n                            </a>\n                            <div class="dropdown-menu dropdown-menu-right">\n                                <a class="dropdown-item" href="javascript:Editar(\' '+row['id_antecedente']+' \')"><i class="la la-edit"></i> Editar</a>\n                                <a class="dropdown-item" href="javascript:anular(\' '+row['id_antecedente']+' \')"><i class="la la-leaf"></i> Anular</a>\n </div>\n                        </span>\n'
+             }
+          },
+          { targets: -2, 
+            render: function (t, a, e, n) 
+            { 
+                var s = { 
+                     1: { title: "Sin Asignar", state: "primary" },
+                     2: { title: "Sin Aceptar", state: "success" }, 
+                     3: { title: "Recibido", state: "secondary" } }; 
+                    // return void 0 === s[t] ? t : '<span class="kt-badge kt-badge--' + s[t].state + ' kt-badge--dot"></span>&nbsp;<span class="kt-font-bold kt-font-' + s[t].state + '">' + s[t].title + "</span>" 
+                    return void 0 === s[t] ? t : '<span  class="badge badge-' + s[t].state + ' mb-1">' + s[t].title + ' </span >' 
+                    }
+                   }
+          
+          ]
+        })}};jQuery(document).ready(function(){KTDatatablesDataSourceAjaxClient.init()});
+      }
+
+
+function Editar(id) {
+    
+
+    $.ajax({
+      type: "POST",
+      url: "index.php?page=Control&op=MostrarDatosActualizar",
+      data: {id:id},
+      success: function (response) {
+        $('#msgBotonAntecedente').text('Modificar')
+        $('.Acordiones').hide();
+      $('#accordionExample4').hide();
+      $('.Antecedentes_Personales').show();
+      $("#From_Antecedentes_Personales")[0].reset();
+      $('#From_Antecedentes_Personales').attr('name', id);
+      var json= JSON.parse(response);
+      $('#txtApp').val(json['data'][0]['app'])
+      $('#txtAF').val(json['data'][0]['af'])
+      $('#txtAHGT').val(json['data'][0]['ahqt'])
+      $('#txtAlergias').val(json['data'][0]['alergias'])
+      $('#txtVacunas').val(json['data'][0]['vacunas'])
+      $('#txtAE').val(json['data'][0]['ae'])
+      $('#txtHabitosToxicos').val(json['data'][0]['habitos_toxicos'])
+      $('#habitosnoToxicos').val(json['data'][0]['habitos_no_toxicos'])
+      $('#txtHabitosSaludables').val(json['data'][0]['habitos_saludables'])
+      $('#AntGo').val(json['data'][0]['antecedentes_go'])
+
+
+      }
+    });
+  }      
+
+  function anular(id){
+    alert(id);
+    $('#demoModal').modal('show');
+  }
+

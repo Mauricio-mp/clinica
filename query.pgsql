@@ -199,10 +199,41 @@ create table tb_Expediente_Preclinicas (
     
     
 );
+create table tb_Expediente_Antecedentes (
+    id_Antecedente serial primary KEY, 
+    Id_Expediente INT NOT NULL,
+    APP VARCHAR(255) null,
+    AF VARCHAR(255) null,
+    AHQT VARCHAR(255) null,
+    Alergias VARCHAR(255) null,
+    Vacunas VARCHAR(255) null,
+    AE VARCHAR(255) null,
+    Habitos_Toxicos VARCHAR(255) null,
+    Habitos_no_Toxicos VARCHAR(255) null,
+    Habitos_saludables VARCHAR(255) null,
+    Antecedentes_Go VARCHAR(255) null,
+	FechaCreacion timestamp,
+    estado boolean,
+
+      CONSTRAINT pk_Expediente_id
+      FOREIGN KEY(Id_Expediente) 
+	  REFERENCES tb_Expediente(Id_Expediente)    
+);
 
 
 ALTER TABLE public.tb_expediente_preclinicas ADD persona_id int
+
+
+
 ----------------------
+SELECT * from public.tb_signosvitales ts 
+		inner join public.tb_persona tp 
+		on CAST(ts.tb_persona AS INTEGER)  = tp.pidpersona
+		and ts.pid=:id
+
+SELECT * from public.tb_expediente_antecedentes where id_expediente=15 and estado=true
+
+drop table public.tb_expediente_antecedentes
 SELECT pid,et.usuario_emisor,sv.estado,et.fecha_traslado,sv.motivo,sv.observacion,tp.pnombre,tp.papellido,tp.pidenticacion from public.tb_Expediente_traslado et
     INNER JOIN public.tb_signosvitales sv
     ON sv.pid=et.pid_signosviatles

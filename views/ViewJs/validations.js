@@ -3,19 +3,30 @@ var KTFormControls={init:function(){
         lang: 'es',
         live: 'enabled',
         onkeydown:true,
+        
         rules:
         {
             txtApp:{
                 required:true,
-                minlength:2
+            },
+            txtAF:{
+                required:true,
+            },
+            txtAHGT:{
+                required:true,
             }
             
         },
         messages: {
        
             txtApp: {
-              required: "La identidad es requerida",
-              minlength:"Ingrese almenos 2 caracteres",
+              required: "Por favor llenar este campo",
+            },
+            txtAF: {
+                required: "Por favor llenar este campo",
+              },
+              txtAHGT:{
+                required:"Por favor llenar este campo",
             }
             
            
@@ -35,8 +46,16 @@ var KTFormControls={init:function(){
            
             $("#kt_form_denis_msg").removeClass("kt--hide").show(),KTUtil.scrollTop()
         },submitHandler:function(e){
-           
-            GuardarFormAntecedentesPersonales();
+          
+           var name = e.getAttribute("name");
+           var editar=false;
+           if (name>0) {
+            editar=true;
+           }else{
+               editar=false;
+           }
+         
+            GuardarFormAntecedentesPersonales(editar,name);
         },success: function(label){
            
             

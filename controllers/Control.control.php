@@ -35,7 +35,52 @@ require_once("models/Control.model.php");
        
           $datos=$Control->Detallepreclinica($idPreclinica);
           echo json_encode($datos);
+        break;
+        case 'guardarANtecedente':
+          $id=$_POST['idExpediente'];
+          $txtApp=$_GET['txtApp'];
+          $txtAF=$_GET['txtAF'];
+          $txtAHGT=$_GET['txtAHGT'];
+          $txtAlergias=$_GET['txtAlergias'];
+          $txtVacunas=$_GET['txtVacunas'];
+          $txtAE=$_GET['txtAE'];
+          $txtHabitosToxicos=$_GET['txtHabitosToxicos'];
+          $habitosnoToxicos=$_GET['habitosnoToxicos'];
+          $txtHabitosSaludables=$_GET['txtHabitosSaludables'];
+          $AntGo=$_GET['AntGo'];
+
+          $msg=$Control->GuardarAntecedentesPersonales($id,$txtApp,$txtAF,$txtAHGT,$txtAlergias,$txtVacunas,$txtAE,$txtHabitosToxicos,$habitosnoToxicos,$txtHabitosSaludables,$AntGo);
+          print_r($msg);
           break;
+
+          case 'Antecedentes':
+            $exp=$_POST['id'];
+            $arrayName = array('data' => $Control->MostrarAntecedentes($exp,$unico=false));
+            echo json_encode($arrayName);
+            break;
+
+            case 'MostrarDatosActualizar':
+              $id= $_POST['id'];
+              $arrayName = array('data' => $Control->MostrarAntecedentes($id,$unico=true));
+            echo json_encode($arrayName);
+              break;
+        case 'EditarANtecedente':
+          $id= $_POST['id'];
+          $txtApp=$_GET['txtApp'];
+          $txtAF=$_GET['txtAF'];
+          $txtAHGT=$_GET['txtAHGT'];
+          $txtAlergias=$_GET['txtAlergias'];
+          $txtVacunas=$_GET['txtVacunas'];
+          $txtAE=$_GET['txtAE'];
+          $txtHabitosToxicos=$_GET['txtHabitosToxicos'];
+          $habitosnoToxicos=$_GET['habitosnoToxicos'];
+          $txtHabitosSaludables=$_GET['txtHabitosSaludables'];
+          $AntGo=$_GET['AntGo'];
+
+
+          $msg=$Control->ActualizarAntecedente($id,$txtApp,$txtAF,$txtAHGT,$txtAlergias,$txtVacunas,$txtAE,$txtHabitosToxicos,$habitosnoToxicos,$txtHabitosSaludables,$AntGo);
+          print_r($msg);
+         break;
   
     	default:
     	renderizar("Control",$datos);
