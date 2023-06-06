@@ -12,12 +12,108 @@
 		public function ActualizarAntecedente($id,$txtApp,$txtAF,$txtAHGT,$txtAlergias,$txtVacunas,$txtAE,$txtHabitosToxicos,$habitosnoToxicos,$txtHabitosSaludables,$AntGo);
 		public function AnularAntecedente($idAntecedente);
 		public function LLenarExamenFisico($id,$unico);
+		public function GuardarExamenFisico($fisicos);
+		public function ActualizarFormExamenesFisicos($fisicos);
+		public function EliminarExamenFisico($id);
+		public function LLenarExamenLaboratorial($id);
+		public function GuardarExamenLaboratorio($array);
+		public function AnularLab($id);
 	}
 class Recibir extends Conexion implements clinica
 {
 	function __construct(){
         $this->msg='';
 	} 
+	public function AnularLab($id)
+	{
+		$conn= self::connect();
+		$sql=$conn->prepare("UPDATE public.tb_Expediente_Examen_laboratorial set estado=false WHERE id_laboratorial=:id ");
+		$sql->execute(["id"=>$id]);
+		return ($sql)? true:false;
+
+	}
+	public function GuardarExamenLaboratorio($array)
+	{
+		$conn= self::connect();
+		$sql=$conn->prepare("INSERT INTO public.tb_Expediente_Examen_laboratorial(id_expediente,hemograma,quimica_general,ego,egh,covid,otros,fechacreacion,usuariocreacion,estado) 
+		VALUES(:expediente,:hemograma,:quimica_general,:ego,:egh,:covid,:otros,NOW(),:usuariocreacion,true)");
+		$sql->execute(
+			[
+				"expediente"=>$array['expediente'],
+				"hemograma"=>$array['txtHemograma'],
+				"quimica_general"=>$array['txtQuimica'],
+				"ego"=>$array['txtOrina'],
+				"egh"=>$array['txtHeses'],
+				"covid"=>$array['txtCovid'],
+				"otros"=>$array['txtOtros'],
+				"usuariocreacion"=>$array['usuario']
+			]
+		);
+		return ($sql)? true:false;
+
+
+	}
+	public function LLenarExamenLaboratorial($id)
+	{
+			$conn= self::connect();
+	
+			$sql=$conn->prepare("SELECT * FROM public.tb_Expediente_Examen_laboratorial where id_expediente=:id and estado=true");
+		
+		
+			$sql->execute(["id"=>$id]);
+		
+			$filas=$sql->fetchAll(PDO::FETCH_ASSOC);
+		return $filas;
+	}
+	public function EliminarExamenFisico($id)
+	{
+		$conn= self::connect();
+		$sql=$conn->prepare("UPDATE public.tb_Expediente_Examen_Fisico set estado=false WHERE id_examen=:id ");
+		$sql->execute(["id"=>$id]);
+		return ($sql)? true:false;
+
+	}
+	public function ActualizarFormExamenesFisicos($fisicos)
+	{
+	
+		$conn= self::connect();
+		$sql=$conn->prepare("UPDATE public.tb_Expediente_Examen_Fisico set aparienciageneral=:aparienciageneral,cabeza=:cabeza,cuello=:cuello,torax=:torax,corazon=:corazon,pulmones=:pulmones,mamas=:mamas,abdomen=:abdomen,genitales=:genitales,osteomuscular=:osteomuscular,exremidades=:exremidades,piel=:piel,neurologicos=:neurologicos WHERE id_examen=:id ");
+
+		$sql->execute([
+			"aparienciageneral"=>$fisicos['txtPariencia'],
+			"cabeza"=>$fisicos['txtCabeza'],
+			"cuello"=>$fisicos['txtCuello'],
+			"torax"=>$fisicos['txtTorax'],
+			"corazon"=>$fisicos['txtCorazon'],
+			"pulmones"=>$fisicos['txtPulmones'],
+			"mamas"=>$fisicos['txtmamas'],
+			"abdomen"=>$fisicos['txtabdomen'],
+			"genitales"=>$fisicos['txtGenilates'],
+			"osteomuscular"=>$fisicos['txtOsteomuscular'],
+			"exremidades"=>$fisicos['txtExtremidades'],
+			"piel"=>$fisicos['txtPielFaneas'],
+			"neurologicos"=>$fisicos['txtNeurologico'],
+			"id"=>$fisicos['examenfisico']
+			]);
+		
+
+		return ($sql)? true:false;
+	}
+
+	public function GuardarExamenFisico($fisicos)
+	{
+		try {
+			$conn= self::connect();
+
+			$sql=$conn->prepare("INSERT INTO public.tb_Expediente_Examen_Fisico(id_expediente,aparienciageneral,cabeza,cuello,torax,corazon,pulmones,mamas,abdomen,genitales,osteomuscular,exremidades,piel,neurologicos,fechacreacion,estado)
+			VALUES(:expediente,:apariencia,:cabeza,:cuello,:torax,:corazon,:pulmones,:mamas,:abdomen,:genitales,:osteomuscular,:extremidades,:piel,:neurologicos,NOW(),:estado) ");
+
+			$sql->execute(["expediente"=>$fisicos['expediente'],"apariencia"=>$fisicos['txtPariencia'],"cabeza"=>$fisicos['txtCabeza'],"cuello"=>$fisicos['txtCuello'],"torax"=>$fisicos['txtTorax'],"corazon"=>$fisicos['txtCorazon'],"pulmones"=>$fisicos['txtPulmones'],"mamas"=>$fisicos['txtmamas'],"abdomen"=>$fisicos['txtabdomen'],"genitales"=>$fisicos['txtGenilates'],"osteomuscular"=>$fisicos['txtOsteomuscular'],"extremidades"=>$fisicos['txtExtremidades'],"piel"=>$fisicos['txtPielFaneas'],"neurologicos"=>$fisicos['txtNeurologico'],"estado"=>true]);
+			return ($sql)? true:false;
+		}catch (PDOException $exception) {
+			exit($exception->getMessage());
+		}
+	}
 
 	public function LLenarExamenFisico($id,$unico)
 	{
@@ -25,7 +121,9 @@ class Recibir extends Conexion implements clinica
 			$conn= self::connect();
 
 				if ($unico==true) {
-					$sql=$conn->prepare("SELECT id_examen, id_expediente, aparienciageneral, cabeza, cuello, torax, corazon, pulmones, mamas, abdomen, genitales, osteomuscular, exremidades, piel,neurologicos,to_char(fechacreacion,'DD/MM/YYYY') AS fechacreacion, usuariocreacion,estado FROM public.tb_Expediente_Examen_Fisico where id_expediente=:id");
+					$sql=$conn->prepare("SELECT id_examen, id_expediente, aparienciageneral, cabeza, cuello, torax, corazon, pulmones, mamas, abdomen, genitales, osteomuscular, exremidades, piel,neurologicos,to_char(fechacreacion,'DD/MM/YYYY') AS fechacreacion, usuariocreacion,estado FROM public.tb_Expediente_Examen_Fisico where id_expediente=:id and estado=true ORDER BY id_examen desc");
+				}else{
+					$sql=$conn->prepare("SELECT id_examen, id_expediente, aparienciageneral, cabeza, cuello, torax, corazon, pulmones, mamas, abdomen, genitales, osteomuscular, exremidades, piel,neurologicos,to_char(fechacreacion,'DD/MM/YYYY') AS fechacreacion, usuariocreacion,estado FROM public.tb_Expediente_Examen_Fisico where id_examen=:id");
 				}
 					
 				

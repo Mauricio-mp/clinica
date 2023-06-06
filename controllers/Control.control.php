@@ -91,8 +91,90 @@ require_once("models/Control.model.php");
           $arrayName = array('data' => $Control->LLenarExamenFisico($id,$unico=true));
           echo json_encode($arrayName);
           break;
-          break;
-  
+          case 'guardarFisicos':
+            $fisicos = array(
+            "txtPariencia"=> $_GET['txtPariencia'],
+            "txtCabeza"=> $_GET['txtCabeza'],
+            "txtCuello"=> $_GET['txtCuello'],
+            "txtTorax"=> $_GET['txtTorax'],
+            "txtCorazon"=> $_GET['txtCorazon'],
+            "txtPulmones"=> $_GET['txtPulmones'],
+            "txtmamas"=> $_GET['txtmamas'],
+            "txtmamas"=> $_GET['txtmamas'],
+            "txtabdomen"=> $_GET['txtabdomen'],
+            "txtGenilates"=> $_GET['txtGenilates'],
+            "txtOsteomuscular"=> $_GET['txtOsteomuscular'],
+            "txtExtremidades"=> $_GET['txtExtremidades'],
+            "txtPielFaneas"=> $_GET['txtPielFaneas'],
+            "txtNeurologico" =>$_GET['txtNeurologico'],
+            "expediente"=>$_POST['expediente']
+             );
+
+             $msg=$Control->GuardarExamenFisico($fisicos);
+             print_r($msg);
+            break;
+          case 'mostrarExamenfisico':
+            $id=$_POST['id'];
+            $arrayName = $Control->LLenarExamenFisico($id,$unico=false);
+            print_r(json_encode($arrayName));
+            break;
+          case 'UpdateExamenFisico':
+            $fisicos = array(
+              "txtPariencia"=> $_GET['txtPariencia'],
+              "txtCabeza"=> $_GET['txtCabeza'],
+              "txtCuello"=> $_GET['txtCuello'],
+              "txtTorax"=> $_GET['txtTorax'],
+              "txtCorazon"=> $_GET['txtCorazon'],
+              "txtPulmones"=> $_GET['txtPulmones'],
+              "txtmamas"=> $_GET['txtmamas'],
+              "txtabdomen"=> $_GET['txtabdomen'],
+              "txtGenilates"=> $_GET['txtGenilates'],
+              "txtOsteomuscular"=> $_GET['txtOsteomuscular'],
+              "txtExtremidades"=> $_GET['txtExtremidades'],
+              "txtPielFaneas"=> $_GET['txtPielFaneas'],
+              "txtNeurologico" =>$_GET['txtNeurologico'],
+              "examenfisico"=>$_POST['id']
+               );
+               
+               $msg=$Control->ActualizarFormExamenesFisicos($fisicos);
+               print_r($msg);
+            break;
+            case 'aliminarexamenFisico':
+              $idexamen=$_POST['idexamen'];
+              print_r($Control->EliminarExamenFisico($idexamen));
+              break;
+          case 'llenarexamenesLaboratoriales':
+            $id=$_POST['id'];
+            $arrayName = array('data' => $Control->LLenarExamenLaboratorial($id));
+          echo json_encode($arrayName);
+
+            break;
+          case 'GuardarLaboratorios':
+            
+            $json = array(
+              "txtHemograma"=>$_GET['txtHemograma'],
+              "txtQuimica"=>$_GET['txtQuimica'],
+              "txtOrina"=>$_GET['txtOrina'],
+              "txtHeses"=>$_GET['txtHeses'],
+              "txtCovid"=>$_GET['txtCovid'],
+              "txtOtros"=>$_GET['txtOtros'],
+              "expediente"=>$_POST['GlobalExpediente'],
+              "usuario"=>$json[0]['id_usuario']
+            );
+
+            $msg=$Control->GuardarExamenLaboratorio($json);
+
+
+          print_r($msg);
+
+            
+
+            break;
+            case 'anularlab':
+              $id=$_POST['id'];
+              $msg=$Control->AnularLab($id);
+              print_r($msg);
+              break;
     	default:
     	renderizar("Control",$datos);
     		break;

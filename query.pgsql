@@ -244,14 +244,35 @@ create table tb_Expediente_Examen_Fisico (
       FOREIGN KEY(Id_Expediente) 
 	  REFERENCES tb_Expediente(Id_Expediente)    
 );
+create table tb_Expediente_Examen_laboratorial (
+    id_laboratorial serial primary KEY, 
+    Id_Expediente INT NOT NULL,
+    Hemograma varchar(255) NOT NULL,
+    Quimica_General varchar(255) NULL,
+    EGO varchar(255) NULL,
+    EGH varchar(255) NULL,
+    covid varchar(255) NULL,
+    otros varchar(255) NULL,
+	FechaCreacion timestamp,
+    UsuarioCreacion int NULL,
+    estado boolean,
 
+      CONSTRAINT pk_Expediente_id
+      FOREIGN KEY(Id_Expediente) 
+	  REFERENCES tb_Expediente(Id_Expediente)    
+);
 
 ALTER TABLE public.tb_expediente_preclinicas ADD persona_id int
 
 
 
 ----------------------
+select * from public.tb_Expediente_Examen_Fisico
+delete from public.tb_Expediente_Examen_Fisico
 
+select * from public.tb_Expediente_Examen_laboratorial
+
+INSERT INTO public.tb_Expediente_Examen_laboratorial(id_expediente,hemograma,ego,fechacreacion) values(15,'sasas','sasasas',now())
 
 SELECT id_examen, id_expediente, aparienciageneral, cabeza, cuello, torax, corazon, pulmones, mamas, abdomen, genitales, osteomuscular, exremidades, piel,neurologicos,to_char(fechacreacion,'DD/MM/YYYY') 
 AS fechacreacion, usuariocreacion,estado FROM public.tb_Expediente_Examen_Fisico where id_expediente=15

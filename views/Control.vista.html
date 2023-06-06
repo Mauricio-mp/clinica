@@ -215,9 +215,33 @@
 						<a href="javascript:void(0)"><i class="flaticon-pie-chart-1"></i><span> Examen Laboratoriales</span> </a>
 					</div>
 				</div>
+				
 				<div id="collapseThree4" class="collapse" aria-labelledby="headingThree1" data-parent="#accordionExample4">
+					
 					<div class="card-body">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						<a style="float:right;" href="javascript:agregarExamenLab();" class="btn btn-default btn-pill btn-sm btn-icon btn-icon-md" >
+							<i class="flaticon2-add-1"></i>
+						</a>
+						<br></br>
+						<table class="table table-striped- table-bordered table-hover table-checkable" id="Tabla_Examenes_laboratoriales" >
+							<thead>
+							  <tr>
+							
+											  <th>#</th>
+											  <th>Hemograma</th>
+											  <th>Quimica general</th>
+											  <th>EGO</th>
+											  <th>AGH</th>
+											  <th>Prueba Covid</th>
+											  <th>Otros</th>
+											  <th>fecha Ingreso</th>
+											  <th>Accion</th>
+								  </tr>
+								  
+				</thead>
+	
+	
+			</table>
 					</div>
 				</div>
 			</div>
@@ -228,6 +252,7 @@
 		
 			<!--begin: Datatable -->
 			
+		
 			<table class="table table-striped- table-bordered table-hover table-checkable" id="Tabla_Recibir" >
 										<thead>
 										  <tr>
@@ -328,8 +353,188 @@
 		</div>
 	
 
+		<!-- form de examenes fisicos-->
+		<div class="kt-portlet__body Examenes_Fisicos" style="display: none;">
+			<form action="" id="form_Examenes_Fisicos" method="post">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleInputEmail3">Apariencia general*</label>
+							
+							<textarea class="form-control" id="txtPariencia" name="txtPariencia" cols="30" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleSelectGender">Cabeza</label>
+							
+							<textarea class="form-control" id="txtCabeza" name="txtCabeza" cols="30" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleSelectGender">Cuello</label>
+							<textarea class="form-control" id="txtCuello" name="txtCuello" cols="30" rows="3"></textarea>
+						
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleInputEmail3">Corazon </label>
+							<textarea class="form-control" name="txtCorazon" id="txtCorazon" cols="30" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleSelectGender">Pulmones</label>
+							<textarea class="form-control" name="txtPulmones" id="txtPulmones" cols="30" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleSelectGender">Mamas</label>
+							<textarea class="form-control" name="txtmamas" id="txtmamas" cols="30" rows="3"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleInputEmail3">Abdomen</label>
+							<textarea class="form-control" id="txtabdomen" name="txtabdomen" cols="30" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleInputEmail3">Genitales</label>
+							<textarea class="form-control" id="txtGenilates" name="txtGenilates" cols="30" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleInputEmail3">Osteomuscular</label>
+							<textarea class="form-control" id="txtOsteomuscular" name="txtOsteomuscular" cols="30" rows="3"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleInputEmail3">Extremidades</label>
+							<textarea class="form-control" id="txtExtremidades" name="txtExtremidades" cols="30" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleInputEmail3">Piel Y Faneas</label>
+							<textarea class="form-control" id="txtPielFaneas" name="txtPielFaneas" cols="30" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleInputEmail3">Neurologico</label>
+							<textarea class="form-control" id="txtNeurologico" name="txtNeurologico" cols="30" rows="3"></textarea>
+						</div>
+					</div>
+					
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleInputEmail3">T&oacute;rax</label>
+							<textarea class="form-control" id="txtTorax" name="txtTorax" cols="30" rows="3"></textarea>
+						</div>
+					</div>
+				
+					
+				</div>
+				<div>
+	
+				</div>
+				<div>
+	
+				</div>
+				<button type="submit" id="msgBotonExamenFisico" class="btn btn-primary mr-2">Aceptar</button>
+				<button type="button" onclick="ReturnDivFisicos()"  class="btn btn-light botoncancelarAction">Cancelar</button>
+			</form>
+				
+			</div>
+			<div class="kt-portlet__body Examenes_Laboratoriales" style="display: none;">
+				<form action="" id="form_Examenes_Laboratoriales" method="post">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<h1>Examenes Laboratoriales</h1>
+								
+								
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail3">Hemograma</label>
+								
+								<textarea class="form-control" id="txtHemograma" name="txtHemograma" cols="30" rows="3"></textarea>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="exampleSelectGender">Quimica General</label>
+								
+								<textarea class="form-control" id="txtQuimica" name="txtQuimica" cols="30" rows="3"></textarea>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="exampleSelectGender">Examen General de Orina (EGO)</label>
+								<textarea class="form-control" id="txtOrina" name="txtOrina" cols="30" rows="3"></textarea>
+							
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail3">Examen general de Heses (EGH) </label>
+								<textarea class="form-control" name="txtHeses" id="txtHeses" cols="30" rows="3"></textarea>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="exampleSelectGender">Prueba Covid -19</label>
+								<textarea class="form-control" name="txtCovid" id="txtCovid" cols="30" rows="3"></textarea>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="exampleSelectGender">Otros</label>
+								<textarea class="form-control" name="txtOtros" id="txtOtros" cols="30" rows="3"></textarea>
+							</div>
+						</div>
+					</div>
+					
+					
+					<div>
+		
+					</div>
+					<div>
+		
+					</div>
+					<button type="button" id="BtnAceptarLaboratoriales" class="btn btn-primary mr-2">Aceptar</button>
+					<button type="button" onclick="ReturnDivFisicos()"  class="btn btn-light botoncancelarAction">Cancelar</button>
+				</form>
+					
+				</div>
+		<!-- fin form de examenes fisicos-->
+
 	<!--end::Form-->
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="views/ViewJs/Control.js"></script>
+
+
+

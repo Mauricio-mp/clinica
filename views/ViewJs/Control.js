@@ -6,6 +6,10 @@ var doctor=0;
 var SignosVitales=0;
 var GlobalExpediente=0;
 var globalEntecedente=0;
+var GlobalEditarExamenFisico=false;
+var globalIdExamenFisico=0;
+
+
 
 function myfunct(params,nombre) {
   /*const json = JSON.parse(params); */
@@ -16,6 +20,7 @@ function myfunct(params,nombre) {
   LlenarPreclinicas(params);
   Tabla_Antecedentes_Personales(params);
   CargarExamenesFisicos(params);
+  CargarExamenesLaboratoriales(params);
 }
 function DetallePreclinica(Preclinica) {
 
@@ -45,7 +50,67 @@ function DetallePreclinica(Preclinica) {
 
 
 }
+function CargarExamenesLaboratoriales(id){
+  "use strict";
+  console.log(id);
+  var KTDatatablesDataSourceAjaxClient={
+  init:function(){$("#Tabla_Examenes_laboratoriales").DataTable(
+    {
+      destroy:true,
+      searching:true,
+      responsive:!0,
+      pagingType:"full_numbers",
+      "order": [[ 0, 'desc' ]],
+      ajax:{url:"index.php?page=Control&op=llenarexamenesLaboratoriales",
+      type:"POST",
+      data:{pagination:{perpage:50},id:id}},
+      columns:[
+        {data:"id_laboratorial"},
+        {data:"hemograma"},
+        {data:"quimica_general"},
+        {data:"ego"},
+        {data:"egh"},
+        {data:"covid"},
+        {data:"otros"},
+        {data:"fechacreacion"},
+        {data:"Accion",
+        responsivePriority:-1},
+  
+      
+      ],
+      
+      columnDefs:[
+        
+        {
+          targets: 0,
+          visible: false,
+          searchable: false,
+      },
 
+        {targets:-1,
+          title:"Actions",
+          orderable:!1,
+          render:function(data, type, row, meta)
+          {
+            
+            return'\n                        <span class="dropdown">\n                            <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true">\n                              <i class="la la-ellipsis-h"></i>\n                            </a>\n                            <div class="dropdown-menu dropdown-menu-right">\n                                <a class="dropdown-item" href="javascript:EditarExamenLab(\' '+row['id_laboratorial']+' \')"><i class="la la-edit"></i> Editar</a>\n                                <a class="dropdown-item" href="javascript:anularExamenLab(\' '+row['id_laboratorial']+' \')"><i class="la la-remove"></i> Anular</a>\n </div>\n                        </span>\n '
+          }
+      },
+      { targets: -2, 
+        render: function (t, a, e, n) 
+        { 
+            var s = { 
+                 1: { title: "Sin Asignar", state: "primary" },
+                 2: { title: "Sin Aceptar", state: "success" }, 
+                 3: { title: "Recibido", state: "secondary" } }; 
+                // return void 0 === s[t] ? t : '<span class="kt-badge kt-badge--' + s[t].state + ' kt-badge--dot"></span>&nbsp;<span class="kt-font-bold kt-font-' + s[t].state + '">' + s[t].title + "</span>" 
+                return void 0 === s[t] ? t : '<span  class="badge badge-' + s[t].state + ' mb-1">' + s[t].title + ' </span >' 
+                }
+               }
+      
+      ]
+    })}};jQuery(document).ready(function(){KTDatatablesDataSourceAjaxClient.init()});
+}
 function CargarExamenesFisicos(id){
  
   "use strict";
@@ -84,8 +149,8 @@ function CargarExamenesFisicos(id){
           render:function(data, type, row, meta)
           {
             
-            return'\n                        <span class="dropdown">\n                         \n           \n                        </span>\n                        <a href="javascript:DetallePreclinica(\' '+row['pid_signos']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class=""></i>\n             Detalle          </a>'
-         }
+            return'\n                        <span class="dropdown">\n                            <a href="javascript:void(0)" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true">\n                              <i class="la la-ellipsis-h"></i>\n                            </a>\n                            <div class="dropdown-menu dropdown-menu-right">\n                                <a class="dropdown-item" href="javascript:EditarExamenFisico(\' '+row['id_examen']+' \')"><i class="la la-edit"></i> Editar</a>\n                                <a class="dropdown-item" href="javascript:anularExamenFisico(\' '+row['id_examen']+' \')"><i class="la la-leaf"></i> Anular</a>\n <a class="dropdown-item" href="javascript:DetalleExamenFisico(\' '+row['id_examen']+' \')"><i class="la la-eye"></i> Detalle</a>\n</div>\n                        </span>\n '
+          }
       },
       { targets: -2, 
         render: function (t, a, e, n) 
@@ -325,6 +390,18 @@ $.post("index.php?page=recibir&op=GuardarExpediente", {
       
     }
 
+    function ReturnDivFisicos(){
+      $('.Acordiones').show();
+      $('#accordionExample4').show();
+      $('.Examenes_Fisicos').hide();
+      $('.Examenes_Laboratoriales').hide();
+      $("#form_Examenes_Fisicos")[0].reset();
+      $("#form_Examenes_Laboratoriales")[0].reset();
+      $('#msgBotonExamenFisico').show();
+      $('.botoncancelarAction').text('Cancelar');
+      $('#msgBotonExamenFisico').text('Aceptar');
+    }
+
     function DetalleAntecedente(id) {
      
       $.ajax({
@@ -417,8 +494,49 @@ $.post("index.php?page=recibir&op=GuardarExpediente", {
           ]
         })}};jQuery(document).ready(function(){KTDatatablesDataSourceAjaxClient.init()});
       }
+ function EditarExamenLab(id){
+  $('.Acordiones').hide();
+  $('#accordionExample4').hide();
+  $("#form_Examenes_Laboratoriales")[0].reset();
+  $(".Examenes_Laboratoriales").show();
+  
+ }     
+
+function EditarExamenFisico(id){
+  GlobalEditarExamenFisico=true;
+  globalIdExamenFisico=id;
+  $.ajax({
+    type: "POST",
+    url: "index.php?page=Control&op=mostrarExamenfisico",
+    data: {id:id},
+    success: function (response) {
+      var json = JSON.parse(response);
+      console.log(json[0]['torax']);
+
+      $('.Acordiones').hide();
+      $('#accordionExample4').hide();
+      $('.Examenes_Fisicos').show();
+      $("#form_Examenes_Fisicos")[0].reset();
+
+      $('#msgBotonExamenFisico').text('Mofificar');
+      $('#txtPariencia').val(json[0]['aparienciageneral']);
+      $('#txtCabeza').val(json[0]['cabeza']);
+      $('#txtCuello').val(json[0]['cuello']);
+      $('#txtCorazon').val(json[0]['corazon']);
+      $('#txtPulmones').val(json[0]['pulmones']);
+      $('#txtmamas').val(json[0]['mamas']);
+      $('#txtabdomen').val(json[0]['abdomen']);
+      $('#txtGenilates').val(json[0]['genitales']);
+      $('#txtOsteomuscular').val(json[0]['osteomuscular']);
+      $('#txtExtremidades').val(json[0]['piel']);
+      $('#txtPielFaneas').val(json[0]['piel']);
+      $('#txtNeurologico').val(json[0]['neurologicos']);
+      $('#txtTorax').val(json[0]['torax']);
 
 
+    }
+  });
+}
 function Editar(id) {
     
 
@@ -477,4 +595,194 @@ function Editar(id) {
     });
     
     })
+
+
+function agregarExamenFisico(){
+  $('.Acordiones').hide();
+  $('#accordionExample4').hide();
+  $('.Examenes_Fisicos').show();
+  GlobalEditarExamenFisico=false;
+}
+
+function GuardarExamenFisico(){
+
+switch (GlobalEditarExamenFisico) {
+  case true:
+  
+ var form = $('#form_Examenes_Fisicos').serialize();
+  $.ajax({
+    type: "POST",
+    url: "index.php?page=Control&op=UpdateExamenFisico&"+form,
+    data: {id:globalIdExamenFisico},
+    success: function (response) {
+      if (response==true) {
+
+       
+        $('.Acordiones').show();
+        $('#accordionExample4').show();
+        $('.Examenes_Fisicos').hide();
+        showSuccessToast('Ingresado con exito');
+        CargarExamenesFisicos(GlobalExpediente);
+        
+      }else{
+        
+        showDangerToast(response);
+       
+      }
+    }
+  });
+
+  
+    break;
+  case false:
+    
+ var form = $('#form_Examenes_Fisicos').serialize();
+  $.ajax({
+    type: "POST",
+    url: "index.php?page=Control&op=guardarFisicos&"+form,
+    data: {expediente:GlobalExpediente},
+    success: function (response) {
+      if (response==true) {
+       
+        $('.Acordiones').show();
+        $('#accordionExample4').show();
+        $('.Examenes_Fisicos').hide();
+        showSuccessToast('Ingresado con exito');
+        CargarExamenesFisicos(GlobalExpediente);
+      }else{
+        
+        showDangerToast(response);
+       
+      }
+    }
+  });
+
+  
+    break;
+  default:
+    break;
+}
+
+
+}
+function anularExamenLab(id){
+ 
+  bootbox.confirm({
+      
+    closeButton: false,
+    locale:'es',
+    message:'<p>¿Eliminar Examen de laboratorio?</p>',
+    title:'<h3>Anular Examen</h3>',
+    callback:function(result){
+      if (result) {
+        $.ajax({
+          type: "POST",
+          url: "index.php?page=Control&op=anularlab",
+          data:{id:id},
+          success: function (response) {
+            if (response==true) {
+              showSuccessToast('anulado con exito');
+              CargarExamenesLaboratoriales(GlobalExpediente);
+            }else{
+              showDangerToast(response);
+            }
+          }
+        });
+      }
+    }
+  })
+}
+
+function anularExamenFisico(idexamen){
+ 
+  bootbox.confirm({
+      
+      closeButton: false,
+      locale:'es',
+      message:'<p>¿Eliminar Examen Fisico?</p>',
+      title:'<h3>Anular Examen Fisico</h3>',
+      callback:function(result){
+        if (result) {
+          $.ajax({
+            type: "POST",
+            url: "index.php?page=Control&op=aliminarexamenFisico",
+            data: {idexamen:idexamen},
+            success: function (response) {
+
+              if (response==true) {
+                CargarExamenesFisicos(GlobalExpediente);
+                showSuccessToast('Anulado Con exito con exito');
+
+              }else{
+                showDangerToast(response);
+              }
+            }
+          });
+        }
+      }
+    })
+    
+}
+function DetalleExamenFisico(id){
+
+  $.ajax({
+    type: "POST",
+    url: "index.php?page=Control&op=mostrarExamenfisico",
+    data: {id:id},
+    success: function (response) {
+      $('#msgBotonExamenFisico').hide();
+      $('.Acordiones').hide();
+      $('#accordionExample4').hide();
+      $('.Examenes_Fisicos').show();
+      $('.botoncancelarAction').text('Regresar');
+      var json = JSON.parse(response);
+      console.log(json[0]['torax']);
+      $("#form_Examenes_Fisicos")[0].reset();
+      $('#txtPariencia').val(json[0]['aparienciageneral']);
+      $('#txtCabeza').val(json[0]['cabeza']);
+      $('#txtCuello').val(json[0]['cuello']);
+      $('#txtCorazon').val(json[0]['corazon']);
+      $('#txtPulmones').val(json[0]['pulmones']);
+      $('#txtmamas').val(json[0]['mamas']);
+      $('#txtabdomen').val(json[0]['abdomen']);
+      $('#txtGenilates').val(json[0]['genitales']);
+      $('#txtOsteomuscular').val(json[0]['osteomuscular']);
+      $('#txtExtremidades').val(json[0]['piel']);
+      $('#txtPielFaneas').val(json[0]['piel']);
+      $('#txtNeurologico').val(json[0]['neurologicos']);
+      $('#txtTorax').val(json[0]['torax']);
+
+
+    }
+  });
+}
+
+function agregarExamenLab(){
+  $('.Acordiones').hide();
+  $('#accordionExample4').hide();
+  $('.Examenes_Laboratoriales').show();
+}
+
+$('#BtnAceptarLaboratoriales').click(function() {
+  var form = $('#form_Examenes_Laboratoriales').serialize();
+  $.ajax({
+    type: "POST",
+    url: "index.php?page=Control&op=GuardarLaboratorios&"+form,
+    data: {GlobalExpediente:GlobalExpediente},
+    success: function (response) {
+      if (response==true) {
+        showSuccessToast('Ingresado con exito');
+        ReturnDivFisicos();
+        CargarExamenesLaboratoriales(GlobalExpediente);
+        
+      }else{
+        showDangerToast(response);
+      }
+    }
+  });
+});
+
+
+
+
 
