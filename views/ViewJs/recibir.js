@@ -90,19 +90,22 @@ function BusquedaNuevo (){
 
     $('#BtnRecibirCita').click(function (e) { 
       e.preventDefault();
-
+      var form = $('#FormIncapacidad').serialize();
+    
    
  
 
-$.post("index.php?page=recibir&op=GuardarExpediente", {
+$.post("index.php?page=recibir&op=GuardarExpediente&"+form, {
   SignosVitales:SignosVitales,
   GlobalIdentidad:GlobalIdentidad
     })
     .done(function(data) {
 
+       console.log(data);
        
        BusquedaNuevo();
        $('#kt_modal_4').modal('hide');
+       
     });
 
     });

@@ -18,12 +18,50 @@
 		public function LLenarExamenLaboratorial($id);
 		public function GuardarExamenLaboratorio($array);
 		public function AnularLab($id);
+		public function MostrarDetalleLaboratorio($id);
+		public function UpdateLaboratorio($array);
 	}
 class Recibir extends Conexion implements clinica
 {
 	function __construct(){
         $this->msg='';
 	} 
+	public function UpdateLaboratorio($array)
+	{
+		$conn= self::connect();
+		
+		$sql=$conn->prepare("UPDATE public.tb_expediente_examen_laboratorial set hemograma=:hemograma,
+		quimica_general=:quiimca,ego=:rgo,egh=:egh,covid=:covid,otros=:otros where id_laboratorial=:id");
+		
+		
+			$sql->execute(
+			[
+				"id"=>$array[0],
+				"hemograma"=>$array[1],
+				"quiimca"=>$array[2],
+				"rgo"=>$array[3],
+				"egh"=>$array[4],
+				"covid"=>$array[5],
+				"otros"=>$array[6]
+
+			]);
+
+			return ($sql)? true:false;
+	}
+	public function MostrarDetalleLaboratorio($id)
+	{
+		$conn= self::connect();
+	
+	
+			$sql=$conn->prepare("SELECT * from public.tb_Expediente_Examen_laboratorial where id_laboratorial=:id");
+		
+		
+			$sql->execute(["id"=>$id]);
+		
+			$filas=$sql->fetchAll(PDO::FETCH_ASSOC);
+		return $filas;
+		
+	}
 	public function AnularLab($id)
 	{
 		$conn= self::connect();
@@ -250,7 +288,10 @@ class Recibir extends Conexion implements clinica
 	{
 		try {
 			$conn= self::connect();
-		$sql=$conn->prepare("SELECT * from public.tb_expediente where id_responsable=:id");
+		$sql=$conn->prepare("SELECT e.id_expediente,e.nombre,e.id_responsable,e.fechacreacion,e.usuariocreacion,e.estado,e.sp,e.hea,e.fog,u.nombrecompleto  from public.tb_expediente e
+		inner join  public.usuarios u 
+		on e.id_responsable =u.id_usuario 
+		where e.id_responsable  =:id");
 		$sql->execute(["id"=>$id]);
 		
 	$filas=$sql->fetchAll(PDO::FETCH_ASSOC);

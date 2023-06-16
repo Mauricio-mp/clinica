@@ -32,8 +32,12 @@ require_once("models/recibir.model.php");
       $id_usuario=$json[0]['id_usuario'];
       $SignosVitales=$_POST['SignosVitales'];
       $GlobalIdentidad=$_POST['GlobalIdentidad'];
+      $txtSintomaPrincipal=$_GET['txtSintomaPrincipal'];
+      $txtEnfermadadActual=$_GET['txtEnfermadadActual'];
+      $txtFuncionesOrganicas=$_GET['txtFuncionesOrganicas'];
       
-     print_r($Recibir->guardarExpediente($GlobalIdentidad,$id_usuario,$SignosVitales));
+     print_r($Recibir->guardarExpediente($GlobalIdentidad,$id_usuario,$SignosVitales,$txtSintomaPrincipal,$txtEnfermadadActual,$txtFuncionesOrganicas));
+
       break;
     	default:
     	renderizar("recibir",$datos);

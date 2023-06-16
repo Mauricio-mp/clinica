@@ -5,7 +5,7 @@
 	interface clinica
 	{
 		public function mostrarInfo($id);
-		public function guardarExpediente($GlobalIdentidad,$id_usuario,$SignosVitales);
+		public function guardarExpediente($GlobalIdentidad,$id_usuario,$SignosVitales,$txtSintomaPrincipal,$txtEnfermadadActual,$txtFuncionesOrganicas);
 	
 	}
 class Recibir extends Conexion implements clinica
@@ -14,7 +14,7 @@ class Recibir extends Conexion implements clinica
         $this->msg='';
 	} 
 
-	public function guardarExpediente($GlobalIdentidad,$id_usuario,$SignosVitales)
+	public function guardarExpediente($GlobalIdentidad,$id_usuario,$SignosVitales,$txtSintomaPrincipal,$txtEnfermadadActual,$txtFuncionesOrganicas)
 	{
 		
 
@@ -24,8 +24,8 @@ class Recibir extends Conexion implements clinica
 		$nombre='EXP-'.date('Y').'-'.$milisegundos;
 		$conn= self::connect();
 		
-		$sql=$conn->prepare("INSERT INTO public.tb_expediente(Nombre,Id_Responsable,FechaCreacion,UsuarioCreacion,Estado) VALUES(:nombre,:responsable,NOW(),:creado,:estado)");
-		$sql->execute(["nombre"=>$nombre,"responsable"=>$id_usuario,"creado"=>$id_usuario,"estado"=>1]);
+		$sql=$conn->prepare("INSERT INTO public.tb_expediente(Nombre,Id_Responsable,FechaCreacion,UsuarioCreacion,Estado,sp,hea,fog) VALUES(:nombre,:responsable,NOW(),:creado,:estado,:sp,:hea,:fog)");
+		$sql->execute(["nombre"=>$nombre,"responsable"=>$id_usuario,"creado"=>$id_usuario,"estado"=>1,"sp"=>$txtSintomaPrincipal,"hea"=>$txtEnfermadadActual,"fog"=>$txtFuncionesOrganicas]);
 
 		
 		$actualizar=$conn->prepare("UPDATE public.tb_signosVitales set estado=3 where pid=:SignosVitales");

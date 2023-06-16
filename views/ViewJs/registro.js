@@ -95,7 +95,7 @@ $.post("index.php?page=Registro&op=EnviaraTraslado", {
   id:idCombo   
     })
     .done(function(data) {
-      alert(idCombo);
+
        if (data==1) {
         $('#kt_modal_4').modal('hide');
         BusquedaNuevo();

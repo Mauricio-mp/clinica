@@ -175,6 +175,25 @@ require_once("models/Control.model.php");
               $msg=$Control->AnularLab($id);
               print_r($msg);
               break;
+          case 'getdetalleLaboratorio':
+            $id=$_POST['id'];
+            $msg=$Control->MostrarDetalleLaboratorio($id);
+            echo json_encode($msg);
+            break;
+        case 'EditarLaboratorios':
+          $GlobalLaboratorio=$_POST['GlobalLaboratorio'];
+          $txtHemograma=$_GET['txtHemograma'];
+          $txtQuimica=$_GET['txtQuimica'];
+          $txtOrina=$_GET['txtOrina'];
+          $txtHeses=$_GET['txtHeses'];
+          $txtCovid=$_GET['txtCovid'];
+          $txtOtros=$_GET['txtOtros'];
+
+          $array=array($GlobalLaboratorio,$txtHemograma,$txtQuimica,$txtOrina,$txtHeses,$txtCovid,$txtOtros);
+          $msg=$Control->UpdateLaboratorio($array);
+
+          print_r($msg);
+          break;
     	default:
     	renderizar("Control",$datos);
     		break;

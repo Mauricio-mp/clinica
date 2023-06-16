@@ -172,6 +172,9 @@ create table tb_Expediente (
 	FechaCreacion timestamp,
     UsuarioCreacion int,
     Estado INT NOT NULL,
+    sp varchar(255) NULL,
+    hea varchar(255) NULL,
+    fog varchar(255) NULL,
       CONSTRAINT pk_relacion_Responsable
       FOREIGN KEY(Id_Responsable) 
 	  REFERENCES usuarios(id_usuario)
@@ -264,13 +267,21 @@ create table tb_Expediente_Examen_laboratorial (
 
 ALTER TABLE public.tb_expediente_preclinicas ADD persona_id int
 
+ALTER TABLE public.tb_Expediente ADD sp varchar(255) NULL
+ALTER TABLE public.tb_Expediente ADD hea varchar(255) NULL
+ALTER TABLE public.tb_Expediente ADD fog varchar(255) NULL
+   
+    
+    
 
 
 ----------------------
 select * from public.tb_Expediente_Examen_Fisico
 delete from public.tb_Expediente_Examen_Fisico
 
-select * from public.tb_Expediente_Examen_laboratorial
+select * from public.tb_Expediente_Examen_laboratorial where id_laboratorial=9
+
+update public.tb_expediente_examen_laboratorial set hemograma='hemograma',quimica_general='quiimca',ego='rgo',egh='egh',covid='covid',otros='otros' where id_laboratorial=10
 
 INSERT INTO public.tb_Expediente_Examen_laboratorial(id_expediente,hemograma,ego,fechacreacion) values(15,'sasas','sasasas',now())
 
@@ -285,7 +296,7 @@ SELECT pid,et.usuario_emisor,sv.estado,et.fecha_traslado,sv.motivo,sv.observacio
     ON tp.pidpersona=CAST(sv.tb_persona AS INTEGER)
     where et.responsable=3 and sv.estado=2
 select * from public.tb_signosvitales
-delete from public.tb_expediente
+delete from public.tb_expediente where id_expediente=17
 delete from public.tb_expediente_preclinicas
 
 SELECT * FROM tb_Expediente_Preclinicas 

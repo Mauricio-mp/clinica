@@ -8,11 +8,17 @@ var GlobalExpediente=0;
 var globalEntecedente=0;
 var GlobalEditarExamenFisico=false;
 var globalIdExamenFisico=0;
+var GlobalEditarLaboratorio=false;
+var GlobalLaboratorio=false;
 
-
-
-function myfunct(params,nombre) {
+function myfunct(params,nombre,fechacreacion,sp,hea,fog,nombrecompleto) {
   /*const json = JSON.parse(params); */
+  $('#textNombreExpediente').text(nombre);
+  $('#txtfecha').text(nombre);
+
+  $('.motrarinfo1').append('<b>Fecha de Creacion</b> '+fechacreacion+'<br><b>Responsable:</b> '+nombrecompleto+'<br><b>Sintoma Principal:</b> '+sp);
+  $('.motrarinfo2').append('<b>Historial de Enfermedad Actual:</b> '+hea+'<br>');
+  $('.motrarinfo3').append('<b>Funciones organicas generales:</b> '+fog+'<br>');
   GlobalExpediente=params;
   $('.Acordiones').show();
   $('.busqueda').hide();
@@ -21,6 +27,7 @@ function myfunct(params,nombre) {
   Tabla_Antecedentes_Personales(params);
   CargarExamenesFisicos(params);
   CargarExamenesLaboratoriales(params);
+  
 }
 function DetallePreclinica(Preclinica) {
 
@@ -254,7 +261,8 @@ function BusquedaNuevo (){
             render:function(data, type, row, meta)
             {
               
-              return'\n                        <span class="dropdown">\n                         \n           \n                        </span>\n                        <a href="javascript:myfunct(\' '+row['id_expediente']+' \',\' '+row['nombre']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class=""></i>\n             Gestionar          </a>'
+              return'\n                        <span class="dropdown">\n                         \n           \n                        </span>\n                        <a href="javascript:myfunct(\' '+row['id_expediente']+' \',\' '+row['nombre']+' \',\' '+row['fechacreacion']+' \',\' '+row['sp']+' \',\' '+row['hea']+' \',\' '+row['fog']+' \',\' '+row['nombrecompleto']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class=""></i>\n             Gestionar          </a>'
+           
            }
         },
         { targets: -2, 
@@ -400,6 +408,7 @@ $.post("index.php?page=recibir&op=GuardarExpediente", {
       $('#msgBotonExamenFisico').show();
       $('.botoncancelarAction').text('Cancelar');
       $('#msgBotonExamenFisico').text('Aceptar');
+      $('#BtnAceptarLaboratoriales').text('Aceptar');
     }
 
     function DetalleAntecedente(id) {
@@ -486,7 +495,7 @@ $.post("index.php?page=recibir&op=GuardarExpediente", {
                      1: { title: "Sin Asignar", state: "primary" },
                      2: { title: "Sin Aceptar", state: "success" }, 
                      3: { title: "Recibido", state: "secondary" } }; 
-                    // return void 0 === s[t] ? t : '<span class="kt-badge kt-badge--' + s[t].state + ' kt-badge--dot"></span>&nbsp;<span class="kt-font-bold kt-font-' + s[t].state + '">' + s[t].title + "</span>" 
+                    // return void 0 === s[t] ? t : '<span class="kt-badge kt-badge--' + s[t].state + ' kt-badge--dot"></span>&nbsp;<span     ="kt-font-bold kt-font-' + s[t].state + '">' + s[t].title + "</span>" 
                     return void 0 === s[t] ? t : '<span  class="badge badge-' + s[t].state + ' mb-1">' + s[t].title + ' </span >' 
                     }
                    }
@@ -495,10 +504,30 @@ $.post("index.php?page=recibir&op=GuardarExpediente", {
         })}};jQuery(document).ready(function(){KTDatatablesDataSourceAjaxClient.init()});
       }
  function EditarExamenLab(id){
-  $('.Acordiones').hide();
-  $('#accordionExample4').hide();
-  $("#form_Examenes_Laboratoriales")[0].reset();
-  $(".Examenes_Laboratoriales").show();
+  GlobalLaboratorio=id;
+$.ajax({
+  type: "POST",
+  url: "index.php?page=Control&op=getdetalleLaboratorio",
+  data: {id:id},
+  success: function (response) {
+    GlobalEditarLaboratorio=true;
+    $('.Acordiones').hide();
+    $('#accordionExample4').hide();
+    $("#form_Examenes_Laboratoriales")[0].reset();
+    $(".Examenes_Laboratoriales").show();
+    $("#BtnAceptarLaboratoriales").text('Mofificar');
+    json = JSON.parse(response);
+
+    console.log(json[0]);
+    $('#txtQuimica').val(json[0]['quimica_general']);
+    $('#txtOrina').val(json[0]['ego']);
+    $('#txtHeses').val(json[0]['egh']);
+    $('#txtCovid').val(json[0]['covid']);
+    $('#txtOtros').val(json[0]['otros']);
+    $('#txtHemograma').val(json[0]['hemograma']);
+  }
+});
+
   
  }     
 
@@ -758,6 +787,8 @@ function DetalleExamenFisico(id){
 }
 
 function agregarExamenLab(){
+  GlobalEditarLaboratorio=false;
+  $("#BtnAceptarLaboratoriales").text('Aceptar');
   $('.Acordiones').hide();
   $('#accordionExample4').hide();
   $('.Examenes_Laboratoriales').show();
@@ -765,21 +796,42 @@ function agregarExamenLab(){
 
 $('#BtnAceptarLaboratoriales').click(function() {
   var form = $('#form_Examenes_Laboratoriales').serialize();
-  $.ajax({
-    type: "POST",
-    url: "index.php?page=Control&op=GuardarLaboratorios&"+form,
-    data: {GlobalExpediente:GlobalExpediente},
-    success: function (response) {
-      if (response==true) {
-        showSuccessToast('Ingresado con exito');
-        ReturnDivFisicos();
-        CargarExamenesLaboratoriales(GlobalExpediente);
+  if (GlobalEditarLaboratorio==true) {
+    $.ajax({
+      type: "POST",
+      url: "index.php?page=Control&op=EditarLaboratorios&"+form,
+      data: {GlobalLaboratorio:GlobalLaboratorio},
+      success: function (response) {
+        if (response==true) {
+          
+          showSuccessToast('Actualizados con exito');
+          ReturnDivFisicos();
+          CargarExamenesLaboratoriales(GlobalExpediente);
+          
         
-      }else{
-        showDangerToast(response);
+        }else{
+          showDangerToast(response);
+        }
       }
-    }
-  });
+    });
+  }else{
+    $.ajax({
+      type: "POST",
+      url: "index.php?page=Control&op=GuardarLaboratorios&"+form,
+      data: {GlobalExpediente:GlobalExpediente},
+      success: function (response) {
+        if (response==true) {
+          showSuccessToast('Ingresado con exito');
+          ReturnDivFisicos();
+          CargarExamenesLaboratoriales(GlobalExpediente);
+          
+        }else{
+          showDangerToast(response);
+        }
+      }
+    });
+  }
+ 
 });
 
 
