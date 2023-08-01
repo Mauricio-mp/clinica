@@ -6,16 +6,24 @@
 	{
 		public function mostrarInfiEmpleados();
 		public function Busqueda($codigoEmpleado,$selectBusqueda,$identificacion,$param);
-		public function guardarPreclinica($identificacion,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia);
-		public function guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion);
+		public function guardarPreclinica($identificacion,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia,$txtTelefono);
+		public function guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion,$fechaInicio,$TipodeAtencion);
 		public function GetListaEstadoCivil();
 		public function GetListaSangre();
+		public function mostrarxTipodeAtencion();
 	}
 class clinica extends Conexion implements cita
 {
 	function __construct(){
         $this->msg='';
 	} 
+	public function mostrarxTipodeAtencion()
+	{
+		$conn= self::connect();
+		$sql=$conn->prepare("SELECT * from public.tb_Catalogos tb where tb.ctipo='Tipo-Atencion' and tb.estado=true");
+		$sql->execute();
+		return $sql->fetchAll(PDO::FETCH_ASSOC);
+	}
 
 	public function GetListaEstadoCivil()
 	{
@@ -35,10 +43,11 @@ class clinica extends Conexion implements cita
 
 		return $filas;
 	}
-	public function guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion){
+	public function guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion,$fechaInicio,$TipodeAtencion){
 		$conn= self::connect();
-		$insert=$conn->prepare("INSERT INTO public.tb_signosVitales(tb_persona,presionarterial,frecuenciacardiaca,pulso,frecuenciarespiratoria,terperaturacorporal,saturacionoxigeno,glucosa,peso,talla,imc,motivo,estado,observacion,fechacreacion)
-		 VALUES(:persona,:PA,:FC,:pulso,:FR,:temperatura,:Sp02,:glu,:peso,:talla,:imc,:motivo,:estado,:observacion,now())");
+		$fin=time();
+		$insert=$conn->prepare("INSERT INTO public.tb_signosVitales(tb_persona,presionarterial,frecuenciacardiaca,pulso,frecuenciarespiratoria,terperaturacorporal,saturacionoxigeno,glucosa,peso,talla,imc,motivo,estado,observacion,fechacreacion,fecha_inicio,fecha_fin,TipodeAtencion)
+		 VALUES(:persona,:PA,:FC,:pulso,:FR,:temperatura,:Sp02,:glu,:peso,:talla,:imc,:motivo,:estado,:observacion,now(),:fecha_inicio,:fin,:TipodeAtencion)");
 
 		$insert->execute(["persona"=>$registroGuardado,
 		"PA"=>$PA,
@@ -53,18 +62,21 @@ class clinica extends Conexion implements cita
 		"imc"=>$imc,
 		"motivo"=>$motivo,
 		"estado"=>1,
-		"observacion"=>$txtObservacion]);
+		"observacion"=>$txtObservacion,
+		"fecha_inicio"=>$fechaInicio,
+		"fin"=>$fin,
+		"TipodeAtencion"=>$TipodeAtencion]);
 
 		return ($insert)? true: false;
 
 	}
-	public function guardarPreclinica($identificacion,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia)
+	public function guardarPreclinica($identificacion,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia,$txtTelefono)
 	{
 		try {
 			// |||||||||||||pfechacreacion|pusuariocreacion|pultimamdoficacion|usuariomodificacion|
 			$conn= self::connect();
 			$sql=$conn->prepare("INSERT INTO public.tb_persona (pidenticacion,pcodigo,pnombre,papellido,pfechanacimiento,pedad,psexo
-			,pestadocivil,pocupacion,pdependencia,preligion,prazan,ptiposanguineo,presidenciaactual,pfechacreacion) VALUES(:identidad,:codigo,:nombre,:apellido,:fechaNacimiento,:edad,:sexo,:estadoCivil,:ocupacion,:dependencia,:religion,:prazan,:ptiposanguineo,:presidenciaactual,now())");
+			,pestadocivil,pocupacion,pdependencia,preligion,prazan,ptiposanguineo,presidenciaactual,pfechacreacion,telefono) VALUES(:identidad,:codigo,:nombre,:apellido,:fechaNacimiento,:edad,:sexo,:estadoCivil,:ocupacion,:dependencia,:religion,:prazan,:ptiposanguineo,:presidenciaactual,now(),:telefono)");
 			$sql->execute(["identidad"=>$identificacion,
 			"codigo"=>$CodigoEmpleado,
 			"nombre"=>$Nombre,
@@ -78,6 +90,7 @@ class clinica extends Conexion implements cita
 			"religion"=>$txtReligion,
 			"prazan"=>$txtRaza,
 			"ptiposanguineo"=>$txtTipoSanguineo,
+			"telefono"=>$txtTelefono,
 			"presidenciaactual"=>$txtResidencia]);
 			if ($sql) {
 				$consultadb=$conn->prepare("SELECT MAX(tp.pidpersona) as num FROM public.tb_persona tp");
@@ -95,7 +108,6 @@ class clinica extends Conexion implements cita
 			exit($exception->getMessage());
 		}
 	}
-
 	public function Busqueda($codigoEmpleado,$selectBusqueda,$identificacion,$param){
 		switch ($selectBusqueda) {
 			case 'Codigo':
@@ -249,10 +261,10 @@ class clinica extends Conexion implements cita
 
       while($fila=mssql_fetch_array($sql)){
 		  
-		$fila[1]=utf8_encode($fila[1]);
-		$fila['cfname']=utf8_encode($fila['cfname']);
-		$fila[2]=utf8_encode($fila[2]);
-		$fila['clname']=utf8_encode($fila['clname']);
+		$fila[1]=utf8_encode(trim($fila[1]));
+		$fila['cfname']=utf8_encode(trim($fila['cfname']));
+		$fila[2]=utf8_encode(trim($fila[2]));
+		$fila['clname']=utf8_encode(trim($fila['clname']));
         $arr[]=$fila;
       }
       return $arr;

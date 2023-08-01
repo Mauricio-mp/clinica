@@ -17,11 +17,15 @@ require_once("models/Control.model.php");
     $opcion =$_GET['op'];
     $json = json_decode($_COOKIE['user_logged'],true);
     $Control= new Recibir();
+    $datos['fecha']=date('Y-m-d');
 
     switch ($opcion) {
+      case 'FinExpediente':
+        $id=$_POST['id'];
+        $msg=$Control->FinExpediente($id);
+        print_r($msg);
+      break;
       case 'llenar':
-        
-        
        $arrayName = array('data' => $Control->mostrarInfo($json[0]['id_usuario']));
       echo json_encode($arrayName);
         break;
@@ -194,6 +198,36 @@ require_once("models/Control.model.php");
 
           print_r($msg);
           break;
+          case 'GuardarDiagnostico':
+            $descripcion=$_GET['txtDescripcionDiagnostico'];
+            $id=$_POST['id'];
+            $msg=$Control->GuardarDiagnostico($descripcion,$id);
+            print_r($msg);
+            break;
+          case 'motrarincapacidad':
+            $GlobalExpediente=$_POST['GlobalExpediente'];
+            $msg=$Control->MotrarDiagnosticoActual($GlobalExpediente);
+            echo json_encode($msg[0]['diagnostico']);
+            break;
+        case 'GuardarTratamiento':
+          $tratamiento= $_POST['txtTratamiento'];
+          $id=$_GET['id'];
+          $msg=$Control->UpdateTratamiento($tratamiento,$id);
+          print_r($msg);
+        break;
+        case 'motrarTratamiento':
+          $GlobalExpediente=$_POST['GlobalExpediente'];
+          $msg=$Control->MotrarTratamiento($GlobalExpediente);
+          echo json_encode($msg[0][tratamiento]);
+          break;    
+        case 'GuardarIncapacidad':
+          $FechaInicio=$_POST['FechaInicio'];
+          $FechaFin=$_POST['FechaFinIncapacidad'];
+          $txtincapacidad=$_POST['txtincapacidad'];
+          $id=$_GET['id'];
+          $msg=$Control->GuardarIncapacidad($FechaFin,$FechaInicio,$txtincapacidad,$id);
+          print_r($msg);
+          break;  
     	default:
     	renderizar("Control",$datos);
     		break;

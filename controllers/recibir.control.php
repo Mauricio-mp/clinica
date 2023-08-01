@@ -19,7 +19,6 @@ require_once("models/recibir.model.php");
     $Recibir= new Recibir();
 
 
-
     switch ($opcion) {
       case 'llenar':
         
@@ -28,7 +27,7 @@ require_once("models/recibir.model.php");
       echo json_encode($arrayName);
         break;
      case 'GuardarExpediente':
-      
+      $persona=$_POST['persona'];
       $id_usuario=$json[0]['id_usuario'];
       $SignosVitales=$_POST['SignosVitales'];
       $GlobalIdentidad=$_POST['GlobalIdentidad'];

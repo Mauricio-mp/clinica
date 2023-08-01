@@ -101,9 +101,12 @@
                         <button type="button" id="navbar-fullscreen" class="nav-link"><i class="ik ik-maximize"></i></button>
                     </div>
                     <div class="top-menu d-flex align-items-center">
-                       <p id="nombre">{{nombre}}</p>
+                       <p id="nombre">{{nombree}}</p>
                        
-                       
+                       <p id="nombre">
+                           
+                        
+                    </p>
                         
                         <div class="dropdown">
                             <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar" src="img/portfolio-4.jpg" alt=""></a>
@@ -152,6 +155,7 @@
                                
                             </div>
                             {{endif generar}}
+                            {{if expediente}}
                             <div class="nav-lavel">Expedientes Clinico</div>
                             <div class="nav-item has-sub">
                                 <a href="javascript:void(0)"><i class="ik ik-archive"></i><span>Expediente</span> </a>
@@ -167,30 +171,34 @@
                                 </div>
                                 
                             </div>
-                           
-                            
+                           {{endif expediente}}
+                            <!--
                             <div class="nav-lavel">Navigation</div>
                             <div class="nav-item">
                                 <a href="index.php?page=reporte&id={{user}}"><i class="ik ik-bar-chart-2"></i><span>generar Reporte</span></a>
                             </div>
-                            {{if reporte}}
+                            
                            <div class="nav-item">
                                 <a href="index.php?page=reporte&id={{user}}"><i class="ik ik-bar-chart-2"></i><span>generar Reporte</span></a>
                             </div>
-                             {{endif reporte}}
-                            {{if mantenimiento}}
-                             <div class="nav-lavel">Mantenimiento</div>
+                             
+                            
+                        -->
+                        {{if reportes}}
+                             <div class="nav-lavel">Informe</div>
                              <div class="nav-item has-sub">
-                                <a href="javascript:void(0)"><i class="ik ik-archive"></i><span>Techo</span> </a>
-                                {{if techo}}
+                                <a href="javascript:void(0)"><i class="ik ik-archive"></i><span>Reporte</span> </a>
+                                
                                 <div class="submenu-content">
-                                    <a href="index.php?page=techo1&id={{user}}" class="menu-item">Nuevo Techo</a>
+                                    <a href="index.php?page=reporteGeneral&id={{user}}" class="menu-item">Reporte 1</a>
                                 </div>
-                                {{endif techo}}
+                                <div class="submenu-content">
+                                    <a href="index.php?page=reporteClinica&id={{user}}" class="menu-item">Reporte 2 </a>
+                                </div>
                                 
                                
                             </div>
-                            {{endif mantenimiento}}
+                            {{endif reportes}}
                              
                         </nav>
                     </div>

@@ -1,6 +1,5 @@
 
 BusquedaNuevo();
-
 var idPreclinica=0;
 var doctor=0;
 var SignosVitales=0;
@@ -13,10 +12,10 @@ var GlobalLaboratorio=false;
 
 function myfunct(params,nombre,fechacreacion,sp,hea,fog,nombrecompleto) {
   /*const json = JSON.parse(params); */
-  $('#textNombreExpediente').text(nombre);
-  $('#txtfecha').text(nombre);
+  $('#textNombreExpediente').append('<h3 class="d-block w-100" >'+nombre+'<small class="float-right"><a class="nav-link active" href="javascript:FinalizarExpediente(\''+params+' \')">Finalizar Expediente</a></h3>');
+ 
 
-  $('.motrarinfo1').append('<b>Fecha de Creacion</b> '+fechacreacion+'<br><b>Responsable:</b> '+nombrecompleto+'<br><b>Sintoma Principal:</b> '+sp);
+  $('.motrarinfo1').append('<b>Fecha d\e Creacion</b> '+fechacreacion+'<br><b>Responsable:</b> '+nombrecompleto+'<br><b>Sintoma Principal:</b> '+sp);
   $('.motrarinfo2').append('<b>Historial de Enfermedad Actual:</b> '+hea+'<br>');
   $('.motrarinfo3').append('<b>Funciones organicas generales:</b> '+fog+'<br>');
   GlobalExpediente=params;
@@ -207,7 +206,6 @@ function LlenarPreclinicas(params){
           visible: false,
           searchable: false,
       },
-
         {targets:-1,
           title:"Actions",
           orderable:!1,
@@ -247,8 +245,10 @@ function BusquedaNuevo (){
         columns:[
         {data:"id_expediente"},
         {data:"nombre"},
+        {data:"pnombre"},
+        {data:"papellido"},
         {data:"fechacreacion"},
-        
+        {data:"finalizado"},
         {data:"Actions",
         responsivePriority:-1},
         
@@ -268,14 +268,23 @@ function BusquedaNuevo (){
         { targets: -2, 
           render: function (t, a, e, n) 
           { 
+           
+           if (e['finalizado']==null) {
+             return '<span  class="badge badge-success mb-1">Sin Finalizar</span >';
+           }else{
+            return '<span  class="badge badge-danger mb-1">Finalizado</span >';
+           }
+            
+            /*
               var s = { 
-                   1: { title: "Sin Asignar", state: "primary" },
-                   2: { title: "Sin Aceptar", state: "success" }, 
+                   null: { title: "Sin Finalizar", state: "success" },
+                   true: { title: "Sin Aceptar", state: "success" }, 
                    3: { title: "Recibido", state: "secondary" } }; 
                   // return void 0 === s[t] ? t : '<span class="kt-badge kt-badge--' + s[t].state + ' kt-badge--dot"></span>&nbsp;<span class="kt-font-bold kt-font-' + s[t].state + '">' + s[t].title + "</span>" 
                   return void 0 === s[t] ? t : '<span  class="badge badge-' + s[t].state + ' mb-1">' + s[t].title + ' </span >' 
-                  }
-                 }
+                 */ 
+          }
+        }
         
         ]
       })}};jQuery(document).ready(function(){KTDatatablesDataSourceAjaxClient.init()});
@@ -409,6 +418,9 @@ $.post("index.php?page=recibir&op=GuardarExpediente", {
       $('.botoncancelarAction').text('Cancelar');
       $('#msgBotonExamenFisico').text('Aceptar');
       $('#BtnAceptarLaboratoriales').text('Aceptar');
+      $('.Diagnostico').hide();
+      $('.Tratamiento').hide();
+      $('.Incapacidad').hide();
     }
 
     function DetalleAntecedente(id) {
@@ -833,7 +845,132 @@ $('#BtnAceptarLaboratoriales').click(function() {
   }
  
 });
+function FinalizarExpediente(param) {
 
+
+  bootbox.confirm({
+      
+    closeButton: false,
+    locale:'es',
+    message:'<p>¿Fnalizar este expediente?</p>',
+    title:'<h3>Expediente</h3>',
+    callback:function(result){
+      if (result) {
+        $.ajax({
+          type: "POST",
+          url: "index.php?page=Control&op=FinExpediente",
+          data: {id:param},
+          success: function (response) {
+
+            if (response==true) {
+              showSuccessToast(response);
+              $('.Acordiones').hide();
+              $('.busqueda').show();
+              window.location.reload();
+            }else{
+              showDangerToast(response);
+            }
+          }
+        });
+      }
+    }
+  })
+  }
+function Diagnostico(){
+  $('.Acordiones').hide();
+  $('.Diagnostico').show('slow');
+  /*history.pushState(null, "", "index.php?page=cita");*/
+  $.ajax({
+    type: "POST",
+    url: "index.php?page=Control&op=motrarincapacidad",
+    data: {GlobalExpediente:GlobalExpediente},
+    success: function (response) {
+     var json=JSON.parse(response);
+      $('#txtDescripcionDiagnostico').val(json);
+    }
+  });
+}
+function GuardarDiagnosticos() {
+  var formDiagnostico= $('#form_Diagnostico').serialize();
+  $.ajax({
+    type: "POST",
+    url: "index.php?page=Control&op=GuardarDiagnostico&"+formDiagnostico,
+    data: {id:GlobalExpediente},
+    success: function (response) {
+      if (response==true) {
+        showSuccessToast('Diagnostico agregado con exito');
+        $('.Acordiones').show('slow');
+        $('.Diagnostico').hide();
+        $('#form_Diagnostico')[0].reset();
+      }else{
+        showDangerToast('Error'.response);
+      }
+    }
+  });
+}
+function Tratamiento(){
+
+  $.ajax({
+    type: "POST",
+    url: "index.php?page=Control&op=motrarTratamiento",
+    data: {GlobalExpediente:GlobalExpediente},
+    success: function (response) {
+      $('.Acordiones').hide();
+      $('.Tratamiento').show('slow');
+     var json=JSON.parse(response);
+      $('#txtTratamiento').val(json);
+    
+    }
+  });
+  
+}
+
+function Incapacidad(){
+  $('.Acordiones').hide();
+  $('.Incapacidad').show('slow');
+
+}
+
+function GuardarTratamiento(){
+  var form = $('#form_Tratamiento').serialize();
+
+  $.ajax({
+    type: "POST",
+    url: "index.php?page=Control&op=GuardarTratamiento&id="+GlobalExpediente,
+    data: form,
+    success: function (data) {
+      if(data==true){
+      showSuccessToast('Tratamiento agregado con exito');
+        $('.Acordiones').show('slow');
+        $('.Tratamiento').hide();
+        $('#form_Tratamiento')[0].reset();
+      }else{
+        showDangerToast('Error'.response);
+      }
+    }
+  });
+}
+
+function GuardarIncapacidad()
+{
+  var form = $('#form_Incapacidad').serialize();
+
+  $.ajax({
+    type: "POST",
+    url: "index.php?page=Control&op=GuardarIncapacidad&id="+GlobalExpediente,
+    data: form,
+    success: function (data) {
+      if(data==true){
+        showSuccessToast('Incapacidad agregado con exito');
+          $('.Acordiones').show('slow');
+          $('.Incapacidad').hide();
+          $('#form_Incapacidad')[0].reset();
+        }else{
+          showDangerToast('Error'.response);
+        }
+    }
+  });
+}
 
 
 

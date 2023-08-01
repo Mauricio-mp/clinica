@@ -1,4 +1,3 @@
-
 CREATE DATABASE clinica
 
 CREATE TABLE public.permisos (
@@ -274,7 +273,6 @@ ALTER TABLE public.tb_Expediente ADD Incapacidad varchar(500) NULL;
 ALTER TABLE public.tb_signosVitales ADD Fecha_Inicio varchar(50) NULL;
 ALTER TABLE public.tb_signosVitales ADD Fecha_Fin varchar(50) NULL;
 ALTER TABLE public.tb_signosVitales ADD TipodeAtencion int NULL;
-ALTER TABLE public.tb_signosVitales ADD Anulado boolean;
 
 ALTER TABLE public.tb_persona ADD telefono VARCHAR(25);
 ALTER TABLE public.tb_Expediente ADD Incapacidad_Inicio timestamp NULL;
@@ -287,91 +285,3 @@ values('Administracion de Medicamentos','Tipo-Atencion',true,now(),'sistema'),
 ('bandejas','Tipo-Atencion',true,now(),'sistema'),
 ('Lavado de Oidos','Tipo-Atencion',true,now(),'sistema'),
 ('Consulta medica','Tipo-Atencion',true,now(),'sistema')
-----------------------
-
-select * from public.tb_catalogos
-
-
-delete from public.tb_catalogos where ctipo='Tipo-Atencion'
-select * from public.tb_signosVitales order by pid
-SELECT * from public.usuarios
-select * from public.tb_Expediente_Examen_Fisico
-delete from public.tb_Expediente_Examen_Fisico
-
-select * from public.tb_Expediente_Examen_laboratorial where id_laboratorial=9
-
-update public.tb_expediente_examen_laboratorial set hemograma='hemograma',quimica_general='quiimca',ego='rgo',egh='egh',covid='covid',otros='otros' where id_laboratorial=10
-
-INSERT INTO public.tb_Expediente_Examen_laboratorial(id_expediente,hemograma,ego,fechacreacion) values(15,'sasas','sasasas',now())
-
-SELECT id_examen, id_expediente, aparienciageneral, cabeza, cuello, torax, corazon, pulmones, mamas, abdomen, genitales, osteomuscular, exremidades, piel,neurologicos,to_char(fechacreacion,'DD/MM/YYYY') 
-AS fechacreacion, usuariocreacion,estado FROM public.tb_Expediente_Examen_Fisico where id_expediente=15
-
-drop table public.tb_expediente_antecedentes
-SELECT pid,et.usuario_emisor,sv.estado,et.fecha_traslado,sv.motivo,sv.observacion,tp.pnombre,tp.papellido,tp.pidenticacion from public.tb_Expediente_traslado et
-    INNER JOIN public.tb_signosvitales sv
-    ON sv.pid=et.pid_signosviatles
-    INNER JOIN public.tb_persona tp
-    ON tp.pidpersona=CAST(sv.tb_persona AS INTEGER)
-    where et.responsable=3 and sv.estado=2
-select * from public.tb_signosvitales
-delete from public.tb_expediente where id_expediente=17
-delete from public.tb_expediente_preclinicas
-
-SELECT * FROM tb_Expediente_Preclinicas 
-SELECT MAX(id_expediente) FROM public.tb_Expediente where estado=1
-
-SELECT id_expediente FROM public.tb_Expediente limit 1
-
-SELECT * from public.tb_expediente_preclinicas ep
-INNER JOIN public.tb_expediente e
-ON ep.id_expediente = e.id_expediente
-and ep.id_expediente=8
-
-
-select * from public.tb_expediente
-select * from tb_signosvitales
-INSERT INTO public.tb_expediente(Nombre,Id_Responsable,FechaCreacion,UsuarioCreacion) VALUES('EXP-2023-1155',1,NOW(),1)
-
-SELECT * from public.usuarios where medico=true and estado=true
-DELETE  from public.tb_Expediente_traslado
-update public.tb_signosvitales set estado=1
-
-ALTER TABLE public.tb_Expediente_traslado ADD CONSTRAINT expediente_traslado_fkey FOREIGN KEY (pId_Expediente) REFERENCES public.tb_signosVitales(pId);
-
------------------
-select * from public.tb_Catalogos tb where tb.ctipo='Estado-Civil' and tb.estado=true
-
-
-
-select * from public.tb_signosvitales
-select * from public.tb_Expediente_traslado
-select * from public.tb_persona order by pidpersona
-SELECT * FROM public.tb_Catalogos tb where tb.estado=true
-select * from public.usuarios where id_usuario=1;
-
-update public.tb_signosVitales set estado=1 where pid=9
-delete from public.tb_Expediente_traslado
-
-
-
-select sv.pId, tp.pidenticacion,tp.pcodigo,tp.pnombre,tp.papellido,sv.motivo,sv.observacion,sv.fechacreacion from public.tb_persona tp
-INNER JOIN public.tb_signosvitales sv
-ON tp.pidpersona=CAST (sv.tb_persona AS INTEGER)
-order by tp.pfechacreacion DESC
-select * from public.tb_signosVitales 
-SELECT * from public.usuarios where medico=true and estado=true usuario ='admin' and contrasenia='V1crWVRzbnQxMHgyM3kvdnlIa0NXZz09' and estado=true
-
-SELECT * FROM pg_catalog.pg_tables where schemaname='public'
-
-select * from public.roles_permisos rp where rp.id_rol=1
-
-select * from public.permisos 
-
-select * from public.roles_permisos
-
-
-select * from public.catalogos
-select * from public.delitos
-
-update public.usuarios set contrasenia='V1crWVRzbnQxMHgyM3kvdnlIa0NXZz09' where id_usuario=1

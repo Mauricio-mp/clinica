@@ -24,6 +24,8 @@ $id= $cuenta[0]['nombrecompleto'];
   // $info=getempleado($id);
 
 
+  //print_r($_COOKIE['nombree']);
+
  renderizar("home",array("page_title"=>"inicio","Nombre"=>$id,"cuenta"=>"dmlopez@gmail.com"));
   }
 

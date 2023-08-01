@@ -11,7 +11,7 @@
         $datos = array_merge($global_context, $datos);
         //union de variables de sessión
         $datos = array_merge($_SESSION, $datos);
-
+        $datos = array_merge($_COOKIE, $datos);
 
         $viewsPath = "views/";
         $fileTemplate = $vista.".vista.html";

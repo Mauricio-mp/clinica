@@ -4,6 +4,7 @@
 	date_default_timezone_set('America/Tegucigalpa');
 	interface clinica
 	{
+		public function FinExpediente($id);
 		public function mostrarInfo($id);
 		public function BuscarPreclinicas($id);
 		public function Detallepreclinica($preclinica);
@@ -20,12 +21,106 @@
 		public function AnularLab($id);
 		public function MostrarDetalleLaboratorio($id);
 		public function UpdateLaboratorio($array);
+		public function GuardarDiagnostico($descripcion,$id);
+		public function MotrarDiagnosticoActual($GlobalExpediente);
+		public function UpdateTratamiento($tratamiento,$id);
+		public function MotrarTratamiento($expediente);
+		public function GuardarIncapacidad($FechaFin,$FechaInicio,$txtincapacidad,$id);
 	}
 class Recibir extends Conexion implements clinica
 {
 	function __construct(){
-        $this->msg='';
+		$this->msg='';
 	} 
+	public function DiasHabiles($fecha_inicial,$fecha_final)
+	{
+		$fecha1 = strtotime($fecha_inicial); 
+		$fecha2 = strtotime($fecha_final); 
+		$i=0;
+		for($fecha1;$fecha1<=$fecha2;$fecha1=strtotime('+1 day ' . date('Y-m-d',$fecha1))){ 
+		   
+			
+			if(date('D',$fecha1)=='Sat' || date('D',$fecha1)=='Sun' ){
+				
+			}else{
+				$i++;
+			}
+		  
+		} 
+	return $i;
+	}
+	public function GuardarIncapacidad($FechaFin,$FechaInicio,$txtincapacidad,$id)
+	{
+		$conn= self::connect();
+		$sql=$conn->prepare("UPDATE public.tb_expediente set incapacidad=:incapacidad,incapacidad_inicio=:inicio,incapacidad_fin=:fin,cant_dias_incapacidad=:dias where id_expediente=:id");
+		$sql->execute(
+			[
+				"incapacidad"=>$txtincapacidad,
+				"inicio"=>$FechaInicio,
+				"fin"=>$FechaFin,
+				"dias"=>$this->DiasHabiles($FechaInicio,$FechaFin),
+				"id"=>$id
+			]);
+			return ($sql)? true:false;
+
+		//return $this->DiasHabiles($FechaInicio,$FechaFin);
+		
+	}
+	public function MotrarTratamiento($expediente)
+	{
+		$conn= self::connect();
+		$sql=$conn->prepare("SELECT tratamiento from tb_expediente te where te.id_expediente =:id");
+		$sql->execute(
+			[
+				"id"=>$expediente
+			]);
+			$filas=$sql->fetchAll(PDO::FETCH_ASSOC);
+			return $filas;
+	}
+	public function UpdateTratamiento($tratamiento,$id)
+	{
+		$conn= self::connect();
+		$sql=$conn->prepare("UPDATE public.tb_expediente set tratamiento=:Tratamiento where id_expediente=:id");
+		$sql->execute(
+			[
+				"Tratamiento"=>$tratamiento,
+				"id"=>$id
+			]);
+			return ($sql)? true:false;
+	}
+	public function MotrarDiagnosticoActual($GlobalExpediente)
+	{
+		$conn= self::connect();
+		$sql=$conn->prepare("SELECT diagnostico from tb_expediente te where te.id_expediente =:id");
+		$sql->execute(
+			[
+				"id"=>$GlobalExpediente
+			]);
+			$filas=$sql->fetchAll(PDO::FETCH_ASSOC);
+			return $filas;
+	}
+	public function GuardarDiagnostico($descripcion,$id)
+	{
+		$conn= self::connect();
+		$sql=$conn->prepare("UPDATE public.tb_expediente set diagnostico=:descripcion where id_expediente=:id");
+		$sql->execute(
+			[
+				"descripcion"=>$descripcion,
+				"id"=>$id
+			]);
+			return ($sql)? true:false;
+	}
+	public function FinExpediente($id)
+	{
+		$conn= self::connect();
+		$sql=$conn->prepare("UPDATE public.tb_Expediente set finalizado=:tiempo where id_expediente=:id");
+		$sql->execute(
+			[
+				"tiempo"=>time(),
+				"id"=>$id
+			]);
+			return ($sql)? true:false;
+	}
 	public function UpdateLaboratorio($array)
 	{
 		$conn= self::connect();
@@ -261,9 +356,10 @@ class Recibir extends Conexion implements clinica
 			exit($exception->getMessage());
 		}
 	}
-
 	public function BuscarPreclinicas($id)
 	{
+
+
 		try {
 			$conn= self::connect();
 		$sql=$conn->prepare("SELECT ep.id_expediente,ep.pid_signos,tp.pidenticacion,tp.pnombre,tp.papellido,tp.pedad,ts.motivo,ts.observacion,TO_CHAR(ts.fechacreacion, 'DD/MM/YYYY') AS fechacreacion   from public.tb_expediente_preclinicas ep
@@ -288,9 +384,15 @@ class Recibir extends Conexion implements clinica
 	{
 		try {
 			$conn= self::connect();
-		$sql=$conn->prepare("SELECT e.id_expediente,e.nombre,e.id_responsable,e.fechacreacion,e.usuariocreacion,e.estado,e.sp,e.hea,e.fog,u.nombrecompleto  from public.tb_expediente e
+		$sql=$conn->prepare("SELECT e.id_expediente,e.nombre,e.id_responsable,e.fechacreacion,e.usuariocreacion,e.estado,e.sp,e.hea,e.fog,u.nombrecompleto,tp.pnombre,tp.papellido,e.finalizado  from public.tb_expediente e
 		inner join  public.usuarios u 
 		on e.id_responsable =u.id_usuario 
+		inner join public.tb_expediente_preclinicas tep 
+		on tep.id_expediente = e.id_expediente 
+		inner join public.tb_signosvitales ts 
+		on ts.pid =tep.pid_signos 
+		inner join public.tb_persona tp 
+		on tp.pidpersona =CAST (ts.tb_persona AS INTEGER)
 		where e.id_responsable  =:id");
 		$sql->execute(["id"=>$id]);
 		

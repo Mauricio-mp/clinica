@@ -9,10 +9,6 @@ ob_start();
      define('SECRET_IV','101712');
 
 
-     
-     
-
-
 function GetVarificacion($usuario,$contrasenia){
 
    
@@ -103,7 +99,7 @@ public function GetVarificacion($usuario,$contrasenia){
       if ($sql->rowCount() > 0) {
         setcookie("user_logged",json_encode($filas),time()+28800); //el tiempo esta en segundo convertir 8 horas * 3600 segundos=10800
       
-      
+        setcookie("nombree",$filas[0]['nombrecompleto'],time()+28800);
         $rol=$filas[0]['idrol'];
 
         $consultaRol = $conn->prepare("SELECT * FROM public.roles_permisos WHERE id_rol =:rol");
@@ -115,15 +111,16 @@ $consultaRol->execute(['rol' => $rol]);
    
     $fila=$consultaRol->fetchAll();
     for ($i=0; $i <count($fila) ; $i++) { 
-    	if($fila[$i]['id_permiso']==1){
+    	if($fila[$i]['id_permiso']==2){
     		$_SESSION['generar']=true;
         $_SESSION['citas']=true;
     	}
-    	if($fila[$i]['id_permiso']==2){
-    		$_SESSION['generar']=true;
+    	if($fila[$i]['id_permiso']==1){
+        $_SESSION['generar']=true;
+        $_SESSION['expediente']=true;
     	}
         if($fila[$i]['id_permiso']==3){
-            $_SESSION['anular']=true;
+            $_SESSION['reportes']=true;
         }
     }
         return true;

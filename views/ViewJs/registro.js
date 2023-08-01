@@ -40,11 +40,11 @@ function BusquedaNuevo (){
         columnDefs:[
           {targets:-1,
             title:"Actions",
-            orderable:!1,
+            orderable:!1, 
             render:function(data, type, row, meta)
             {
               
-              return'\n                        <span class="dropdown">\n                         \n           \n                        </span>\n                        <a href="javascript:myfunct(\' '+row['pid']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class="la la-paper-plane-o"></i>\n             Enviar          </a>'
+              return ' <div class="table-actions">              <a href="javascript:myfunct(\' '+row['pid']+' \')"><i class="ik ik-navigation">Enviar</i></a>                  <a href="javascript:BorarPreclinica(\' '+row['pid']+' \')"><i class="ik ik-trash-2">Anular</i></a>          </div> '
            }
         },
         { targets: -2, 

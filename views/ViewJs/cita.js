@@ -16,24 +16,21 @@ $('#talla').on("input", function () {
   $('#imc').val(imc.toFixed(2));
  
 });
-
-
   $.post("index.php?page=cita&op=empleado", {
   }, function(response) {
   
     var json=JSON.parse(response);
+    
     for (let i = 0; i < json.length; i++) {
       const element = json[i]['cempno'];
-      const nombre = json[i]['cfname']+''+json[i]['clname'];
+      const nombre = json[i]['cfname']+' '+json[i]['clname'];
       $('#cbxCita').append($('<option>').val(element).text(nombre));
     }
   
   });
 });
-
 function GuardarFormPreclinica(){
   const form =$('#FormularioPleclinica').serialize();
-
 
   $.post("index.php?page=cita&op=InPrec&"+form, {
   }, function(response) {
@@ -44,6 +41,7 @@ function GuardarFormPreclinica(){
     $('#FormIncapacidad').show('slow');
     $('.form_DatosGenerales').trigger('reset');
     $('#FormIncapacidad').trigger('reset');
+    $('#FormularioPleclinica').trigger('reset');
    }else{
     showDangerToast(response);
    }
@@ -72,6 +70,7 @@ console.log(form);
 }
 
 function myfunct(codigo){
+  $('#CbxTipoAtencion').val();
   $('.form_DatosGenerales').show('slow');
   $('#FormIncapacidad').hide('slow');
 
@@ -93,6 +92,22 @@ function myfunct(codigo){
     $('#Dependencia').val(json['data'][0]['cdeptname'].trim());
     $('#txtSexo').val(json['data'][0]['csex'].trim());
     $('#txtEdad').val(json['data'][0]['edad'].trim());
+
+
+    $.ajax({
+      type: "POST",
+      url: "index.php?page=cita&op=mostrarTipoAtencion",
+      data: "data",
+      success: function (response) {
+        var json=  JSON.parse(response);
+          for (let index = 0; index < json.length; index++) {
+            $('#CbxTipoAtencion').append($('<option>').val(json[index]['cid']).text(json[index]['cnombre']));
+            
+          }
+          
+        
+      }
+    });
     
 });
 
@@ -150,15 +165,15 @@ init:function(){$("#tabla_ajax1").DataTable(
         orderable:!1,
         render:function(data, type, row, meta)
         {
-          return'\n                        <span class="dropdown">\n                            <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true">\n                              <i class="la la-ellipsis-h"></i>\n                            </a>\n                            <div class="dropdown-menu dropdown-menu-right">\n                                <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\n                                <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\n                                <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\n                            </div>\n                        </span>\n                        <a href="javascript:myfunct(\' '+row['cempno']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class="la la-edit"></i>\n                        </a>'
+          return'\n                        <span class="dropdown">\n                                                                            </span>\n                        <a href="javascript:myfunct(\' '+row['cempno']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class="la la-edit"></i>\n                        </a>'
        }
     },
     {targets:-5,render:function(a,t,e,n)
       {
         var s={
           1:{title:"Activo",class:"kt-badge--success"},
-          2:{title:"Inactivo",class:" kt-badge--Info"},
-          3:{title:"Cancelado",class:" kt-badge--primary"},
+          2:{title:"Inactivo",class:" kt-badge--warning"},
+          3:{title:"Cancelado",class:" kt-badge--danger"},
           4:{title:"Success",class:" kt-badge--success"},
           5:{title:"Info",class:" kt-badge--info"},
           6:{title:"Danger",class:" kt-badge--danger"},

@@ -13,7 +13,7 @@ class Registro extends Conexion implements cita
 	function __construct(){
         $this->msg='';
 	} 
-
+	
 	public function GuardarTraslado($id,$idPreclinica,$usuarioTraslado)
 	{
 		try {

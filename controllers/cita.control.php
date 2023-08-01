@@ -5,9 +5,9 @@
  * Last Modification 2014-10-14 20:04
  */
 
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL); 
+//  ini_set('display_errors', 1);
+//  ini_set('display_startup_errors', 1);
+//  error_reporting(E_ALL); 
 session_start();
 ob_start();
   require_once("libs/template_engine.php");
@@ -26,6 +26,11 @@ addToContext("form_title","Busqueda");
     $cuenta['TipoSanguineo']=$clinicaNew->GetListaSangre();
   
     switch ($opcion) {
+      case 'mostrarTipoAtencion':
+        $op=new Clinica();
+        $msg=$op->mostrarxTipodeAtencion();
+        echo json_encode($msg);
+        break;
       case 'fecha':
         $idinput=$_POST['idinput'];
 
@@ -35,6 +40,9 @@ addToContext("form_title","Busqueda");
         echo $diff->y."";
         break;
       case 'llenar':
+        $inicio=time();
+        setcookie("inicio",$inicio,time()+10800);
+        //$_COOKIE["inicio"] = false;
         $codigoEmpleado=trim($_POST['codigo']);
         $identificacion=null;
         $param=null;
@@ -63,6 +71,7 @@ addToContext("form_title","Busqueda");
  
         break;
      case 'Guardar':
+      
       $FechaInicio=$_POST['FechaInicio'];
       $FechaFin=$_POST['FechaFin'];
       $txtNombre=$_POST['txtNombre'];
@@ -88,8 +97,6 @@ addToContext("form_title","Busqueda");
   
    
     
-    
-    
       break;
       case 'InPrec':
         //datos generales
@@ -107,7 +114,8 @@ addToContext("form_title","Busqueda");
         $txtRaza=$_GET['txtRaza'];
         $txtTipoSanguineo=$_GET['txtTipoSanguineo'];
         $txtResidencia=$_GET['txtResidencia'];
-
+        $txtTelefono=$_GET['txtTelefono'];
+        $TipodeAtencion=$_GET['CbxTipoAtencion'];
          //Signos vitales
          $PA=$_GET['PA'];
          $FC=$_GET['FC'];
@@ -123,9 +131,9 @@ addToContext("form_title","Busqueda");
          $txtObservacion=$_GET['txtObservacion'];
 
         $clinica= new Clinica();
-        $registroGuardado=$clinica->guardarPreclinica($txtIdentidad,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia);
+        $registroGuardado=$clinica->guardarPreclinica($txtIdentidad,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia,$txtTelefono);
 
-        print_r($clinica->guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion));
+        print_r($clinica->guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion,$_COOKIE["inicio"],$TipodeAtencion));
 
 
         break;
@@ -148,7 +156,7 @@ addToContext("form_title","Busqueda");
       echo "<p>Introdujo {$_SERVER['PHP_AUTH_PW']} como su contraseña.</p>";
     }
     */
-
+   // print_r($_COOKIE["inicio"]);
     		renderizar("cita",$cuenta);
     		break;
     }

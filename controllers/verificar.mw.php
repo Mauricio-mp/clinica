@@ -7,8 +7,8 @@
         }else{
           $_COOKIE["user_logged"] = false;
           $_COOKIE["user_logged"] = "";
-         
-         
+            session_destroy();
+            session_unset();
           return false;
         }
     }
@@ -16,7 +16,8 @@
         if($logueado){
            //
         }else{
-         
+            session_destroy();
+            session_unset();
             unset($_COOKIE['user_logged']); 
             setcookie('user_logged', null, 1); 
            

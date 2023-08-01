@@ -1,4 +1,161 @@
 var KTFormControls={init:function(){
+
+    $("#form_Incapacidad").validate({
+        lang: 'es',
+        live: 'enabled',
+        onkeydown:true,
+        
+        rules:
+        {
+            FechaInicio:{
+                required:true
+              
+            },
+            FechaFinIncapacidad:{
+                required:true
+            
+            }
+        },
+        messages: {
+       
+            FechaInicio: {
+              required: "Llenar fecha de inicio",
+            },
+            FechaFinIncapacidad: {
+                required: "Llenar fecha de fin",
+              }
+          },
+          
+          errorPlacement:function(e,r)
+        {
+            
+            
+          /*  $('#BtnGuardarCambio').attr('disabled', true); */
+            var i=r.closest(".input-group");
+            i.length?i.after(e.addClass("invalid-feedback")):r.after(e.addClass("invalid-feedback"))
+        },onkeyup: function(element){
+            this.element(element);
+    
+        },invalidHandler:function(e,r)
+        {
+           
+            $("#kt_form_denis_msg").removeClass("kt--hide").show(),KTUtil.scrollTop()
+        },submitHandler:function(e){
+          /*
+           var name = e.getAttribute("name");
+           var editar=false;
+           if (name>0) {
+            editar=true;
+           }else{
+               editar=false;
+           }
+         */
+            GuardarIncapacidad();
+        },success: function(label){
+           
+            
+        }
+    }),
+    $("#form_Tratamiento").validate({
+        lang: 'es',
+        live: 'enabled',
+        onkeydown:true,
+        
+        rules:
+        {
+            txtTratamiento:{
+                required:true,
+            }
+            
+        },
+        messages: {
+       
+            txtTratamiento: {
+              required: "Llenar Tratamiento",
+            }
+            
+           
+          },
+          errorPlacement:function(e,r)
+        {
+            
+            
+          /*  $('#BtnGuardarCambio').attr('disabled', true); */
+            var i=r.closest(".input-group");
+            i.length?i.after(e.addClass("invalid-feedback")):r.after(e.addClass("invalid-feedback"))
+        },onkeyup: function(element){
+            this.element(element);
+    
+        },invalidHandler:function(e,r)
+        {
+           
+            $("#kt_form_denis_msg").removeClass("kt--hide").show(),KTUtil.scrollTop()
+        },submitHandler:function(e){
+          /*
+           var name = e.getAttribute("name");
+           var editar=false;
+           if (name>0) {
+            editar=true;
+           }else{
+               editar=false;
+           }
+         */
+            GuardarTratamiento();
+        },success: function(label){
+           
+            
+        }
+    }),
+    $("#form_Diagnostico").validate({
+        lang: 'es',
+        live: 'enabled',
+        onkeydown:true,
+        
+        rules:
+        {
+            txtDescripcionDiagnostico:{
+                required:true,
+            }
+            
+        },
+        messages: {
+       
+            txtDescripcionDiagnostico: {
+              required: "Llenar Descripcion",
+            }
+            
+           
+          },
+          errorPlacement:function(e,r)
+        {
+            
+            
+          /*  $('#BtnGuardarCambio').attr('disabled', true); */
+            var i=r.closest(".input-group");
+            i.length?i.after(e.addClass("invalid-feedback")):r.after(e.addClass("invalid-feedback"))
+        },onkeyup: function(element){
+            this.element(element);
+    
+        },invalidHandler:function(e,r)
+        {
+           
+            $("#kt_form_denis_msg").removeClass("kt--hide").show(),KTUtil.scrollTop()
+        },submitHandler:function(e){
+          /*
+           var name = e.getAttribute("name");
+           var editar=false;
+           if (name>0) {
+            editar=true;
+           }else{
+               editar=false;
+           }
+         */
+            GuardarDiagnosticos();
+        },success: function(label){
+           
+            
+        }
+    }),
     $("#form_Examenes_Fisicos").validate({
         lang: 'es',
         live: 'enabled',
@@ -120,6 +277,22 @@ var KTFormControls={init:function(){
             txtIdentidad:{
                 required:true,
                 minlength:2
+            },
+            CbxTipoAtencion:{
+                required:true,
+            },
+            motivo:{
+                required:true,
+                minlength:5
+            },
+            CodigoEmpleado:{
+                required:true,
+            },
+            Nombre:{
+                required:true,
+            },
+            Apellido:{
+                required:true,
             }
             
         },
@@ -128,6 +301,22 @@ var KTFormControls={init:function(){
             txtIdentidad: {
               required: "La identidad es requerida",
               minlength:"Ingrese almenos 2 caracteres",
+            },
+            CbxTipoAtencion:{
+                required: "Porfavor Seleccione Tipo de Atencion",
+            },
+            motivo:{
+                required: "Ingrese Motivo de Visita",
+                minlength:"minimo 5 caracteres",
+            },
+            CodigoEmpleado:{
+                required:"Codigo de Empleado Requerido",
+            },
+            Nombre:{
+                required:"Nombre es requerido",
+            },
+            Apellido:{
+                required:"Apellido es Requerido",
             }
             
            

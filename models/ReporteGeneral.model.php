@@ -14,9 +14,7 @@ class Recibir extends Conexion implements clinica
         $this->msg='';
 	} 
 	public function guardarExpediente($GlobalIdentidad,$id_usuario,$SignosVitales,$txtSintomaPrincipal,$txtEnfermadadActual,$txtFuncionesOrganicas)
-	{
-		
-
+	{		
 		try {
 			$milisegundos = round(microtime(true) / 1000);
 

@@ -27,7 +27,7 @@
 				<div class="form-group row">
 					<div class="col-lg-4">
 						<label>Codigo:</label>
-						<input type="text" class="form-control" id="CodigoEmpleado" name="CGeneralesodigoEmpleado" placeholder="Codigo de Empleado">
+						<input type="text" class="form-control" id="CodigoEmpleado" name="CodigoEmpleado" placeholder="Codigo de Empleado">
 						
 					</div>
 					<div class="col-lg-4">
@@ -65,13 +65,18 @@
 					
 				</div>
 				<div class="form-group row">
-					<div class="col-lg-4">
-						<label class="">Estado Civil</label>EstadoCivil
+					<div class="col-lg-2">
+						<label class="">Estado Civil</label>
 						<select class="form-control" id="EstadoCivil"  name="EstadoCivil" >
 							{{foreach listaEStadoCivil}}
 							<option value="{{cid}}">{{cnombre}}</option>
 							{{endfor listaEStadoCivil}}
 						</select>
+						
+					</div>
+					<div class="col-lg-2">
+						<label class="">Telefono</label>
+						<input type="text" class="form-control" id="txtTelefono"  name="txtTelefono"  placeholder="IngreseTelefono">
 						
 					</div>
 					<div class="col-lg-4">
@@ -120,12 +125,24 @@
 					</div>
 
 					<div class="col-lg-4">
+						<label class="">Tipo de atenci&oacute;n</label>
+						
+						<select class="form-control" id="CbxTipoAtencion" name="CbxTipoAtencion">
+							<option selected disabled>Ingrese Opcion</option>
+							
+							
+						</select>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					
+
+					<div class="col-lg-4">
 						<label class="">Observacion</label>
 						<textarea class="form-control" id="txtObservacion"  name="txtObservacion"  placeholder=""></textarea>
 					</div>
 				</div>
-				
-				
 			</div>
 			<div class="tab-pane" id="kt_tabs_1_2" role="tabpanel">
 				
