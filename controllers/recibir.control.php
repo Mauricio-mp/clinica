@@ -22,7 +22,6 @@ require_once("models/recibir.model.php");
     switch ($opcion) {
       case 'llenar':
         
-        
        $arrayName = array('data' => $Recibir->mostrarInfo($json[0]['id_usuario']));
       echo json_encode($arrayName);
         break;
@@ -30,12 +29,18 @@ require_once("models/recibir.model.php");
       $persona=$_POST['persona'];
       $id_usuario=$json[0]['id_usuario'];
       $SignosVitales=$_POST['SignosVitales'];
-      $GlobalIdentidad=$_POST['GlobalIdentidad'];
+      $GlobalIdentidad=trim($_POST['GlobalIdentidad']);
       $txtSintomaPrincipal=$_GET['txtSintomaPrincipal'];
       $txtEnfermadadActual=$_GET['txtEnfermadadActual'];
       $txtFuncionesOrganicas=$_GET['txtFuncionesOrganicas'];
-      
-     print_r($Recibir->guardarExpediente($GlobalIdentidad,$id_usuario,$SignosVitales,$txtSintomaPrincipal,$txtEnfermadadActual,$txtFuncionesOrganicas));
+      $msg=$Recibir->verificarExpediente($GlobalIdentidad);
+      if($msg==false){
+        print_r($Recibir->guardarExpediente($GlobalIdentidad,$id_usuario,$SignosVitales,$txtSintomaPrincipal,$txtEnfermadadActual,$txtFuncionesOrganicas));
+        
+      }else{
+        print_r($Recibir->ExpedienteCreado($GlobalIdentidad,$id_usuario,$SignosVitales,$txtSintomaPrincipal,$txtEnfermadadActual,$txtFuncionesOrganicas));
+       
+      }
 
       break;
     	default:

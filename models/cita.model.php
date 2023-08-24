@@ -1,4 +1,7 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL); 
 		ini_set("memory_limit",-1);
     require_once("libs/dao.php");
 	date_default_timezone_set('America/Tegucigalpa');
@@ -11,16 +14,25 @@
 		public function GetListaEstadoCivil();
 		public function GetListaSangre();
 		public function mostrarxTipodeAtencion();
+		public function MostrarEmpleadoExistente($identidad);
 	}
 class clinica extends Conexion implements cita
 {
 	function __construct(){
         $this->msg='';
 	} 
+	public function MostrarEmpleadoExistente($identidad)
+	{
+		$conn= self::connect();
+		$sql=$conn->prepare("SELECT * from tb_persona tp where tp.pidenticacion =:identidad and tp.habilitado=:habilitado");
+		$sql->execute(["identidad"=>trim($identidad),"habilitado"=>true]);
+		return ($sql->fetchAll()) ? true:false;
+		
+	}
 	public function mostrarxTipodeAtencion()
 	{
 		$conn= self::connect();
-		$sql=$conn->prepare("SELECT * from public.tb_Catalogos tb where tb.ctipo='Tipo-Atencion' and tb.estado=true");
+		$sql=$conn->prepare("SELECT * from public.tb_Catalogos tb where tb.ctipo='Tipo-Atencion' and tb.estado=true order by tb.cnombre");
 		$sql->execute();
 		return $sql->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -46,8 +58,8 @@ class clinica extends Conexion implements cita
 	public function guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion,$fechaInicio,$TipodeAtencion){
 		$conn= self::connect();
 		$fin=time();
-		$insert=$conn->prepare("INSERT INTO public.tb_signosVitales(tb_persona,presionarterial,frecuenciacardiaca,pulso,frecuenciarespiratoria,terperaturacorporal,saturacionoxigeno,glucosa,peso,talla,imc,motivo,estado,observacion,fechacreacion,fecha_inicio,fecha_fin,TipodeAtencion)
-		 VALUES(:persona,:PA,:FC,:pulso,:FR,:temperatura,:Sp02,:glu,:peso,:talla,:imc,:motivo,:estado,:observacion,now(),:fecha_inicio,:fin,:TipodeAtencion)");
+		$insert=$conn->prepare("INSERT INTO public.tb_signosVitales(tb_persona,presionarterial,frecuenciacardiaca,pulso,frecuenciarespiratoria,terperaturacorporal,saturacionoxigeno,glucosa,peso,talla,imc,motivo,estado,observacion,fechacreacion,fecha_inicio,fecha_fin,TipodeAtencion,anulado,esnuevo)
+		 VALUES(:persona,:PA,:FC,:pulso,:FR,:temperatura,:Sp02,:glu,:peso,:talla,:imc,:motivo,:estado,:observacion,now(),:fecha_inicio,:fin,:TipodeAtencion,:anulado,:esnuevo)");
 
 		$insert->execute(["persona"=>$registroGuardado,
 		"PA"=>$PA,
@@ -65,7 +77,9 @@ class clinica extends Conexion implements cita
 		"observacion"=>$txtObservacion,
 		"fecha_inicio"=>$fechaInicio,
 		"fin"=>$fin,
-		"TipodeAtencion"=>$TipodeAtencion]);
+		"TipodeAtencion"=>$TipodeAtencion,
+		"anulado"=>true,
+		"esnuevo"=>true]);
 
 		return ($insert)? true: false;
 
@@ -76,7 +90,7 @@ class clinica extends Conexion implements cita
 			// |||||||||||||pfechacreacion|pusuariocreacion|pultimamdoficacion|usuariomodificacion|
 			$conn= self::connect();
 			$sql=$conn->prepare("INSERT INTO public.tb_persona (pidenticacion,pcodigo,pnombre,papellido,pfechanacimiento,pedad,psexo
-			,pestadocivil,pocupacion,pdependencia,preligion,prazan,ptiposanguineo,presidenciaactual,pfechacreacion,telefono) VALUES(:identidad,:codigo,:nombre,:apellido,:fechaNacimiento,:edad,:sexo,:estadoCivil,:ocupacion,:dependencia,:religion,:prazan,:ptiposanguineo,:presidenciaactual,now(),:telefono)");
+			,pestadocivil,pocupacion,pdependencia,preligion,prazan,ptiposanguineo,presidenciaactual,pfechacreacion,telefono,habilitado) VALUES(:identidad,:codigo,:nombre,:apellido,:fechaNacimiento,:edad,:sexo,:estadoCivil,:ocupacion,:dependencia,:religion,:prazan,:ptiposanguineo,:presidenciaactual,now(),:telefono,:habilitado)");
 			$sql->execute(["identidad"=>$identificacion,
 			"codigo"=>$CodigoEmpleado,
 			"nombre"=>$Nombre,
@@ -91,7 +105,8 @@ class clinica extends Conexion implements cita
 			"prazan"=>$txtRaza,
 			"ptiposanguineo"=>$txtTipoSanguineo,
 			"telefono"=>$txtTelefono,
-			"presidenciaactual"=>$txtResidencia]);
+			"presidenciaactual"=>$txtResidencia,
+			"habilitado"=>true]);
 			if ($sql) {
 				$consultadb=$conn->prepare("SELECT MAX(tp.pidpersona) as num FROM public.tb_persona tp");
 				$consultadb->execute();

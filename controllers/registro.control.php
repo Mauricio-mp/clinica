@@ -4,9 +4,11 @@
  * Created By DMLL
  * Last Modification 2014-10-14 20:04
  */
-/*ini_set('display_errors', 1);
+/*
+ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL); */
+error_reporting(E_ALL); 
+*/
 session_start();
 ob_start();
 addToContext("page_title","Registro de Preclinicas");
@@ -16,6 +18,25 @@ require_once("models/Registro.model.php");
     $datos=[];
     $opcion =$_GET['op'];
     switch ($opcion) {
+      case 'finalizarcita':
+    
+        $estado=$_POST['estado'];
+        $id=$_POST['id'];
+        $regsitro= new Registro();
+        $msg=$regsitro->FinalizarUnExpediente(trim($estado),trim($id));
+        echo json_encode($msg);
+
+        break;
+      case 'mostrarDetalle':
+        $regsitro= new Registro();
+        $msg=$regsitro->DetalleSignos($_POST['id']);
+        echo json_encode($msg);
+        break;
+      case 'AnularSignos':
+        $regsitro= new Registro();
+        $msg=$regsitro->AnularSignos($_POST['id']);
+        print_r($msg);
+        break;
       case 'EnviaraTraslado':
         $json = json_decode($_COOKIE['user_logged'],true);
         

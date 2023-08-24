@@ -69,47 +69,73 @@ Busqueda(form);
 console.log(form);
 }
 
-function myfunct(codigo){
-  $('#CbxTipoAtencion').val();
-  $('.form_DatosGenerales').show('slow');
-  $('#FormIncapacidad').hide('slow');
-
-  $.post("index.php?page=cita&op=llenar", {
-    codigo:codigo             
-})
-.done(function(data) {
-
-
-   const json= JSON.parse(data);
-
-
-    $('#CodigoEmpleado').val(json['data'][0]['cempno'].trim());
-    $('#Nombre').val(json['data'][0]['cfname'].trim());
-    $('#Apellido').val(json['data'][0]['clname'].trim());
-    $('#txtIdentidad').val(json['data'][0]['cfedid'].trim());
-    $('#FechaNacimiento').val(json['data'][0]['fecha'].trim());
-    $('#txtOcupacion').val(json['data'][0]['cDesc'].trim());
-    $('#Dependencia').val(json['data'][0]['cdeptname'].trim());
-    $('#txtSexo').val(json['data'][0]['csex'].trim());
-    $('#txtEdad').val(json['data'][0]['edad'].trim());
-
-
+function EmpleadoNoexiste(codigo){
+  
+    $('#CbxTipoAtencion').val();
+    $('.form_DatosGenerales').show('slow');
+    $('#FormIncapacidad').hide('slow');
+  
+    $.post("index.php?page=cita&op=llenar", {
+      codigo:codigo             
+  })
+  .done(function(data) {
+  
+  
+     const json= JSON.parse(data);
+  
+      $('#CodigoEmpleado').val(json['data'][0]['cempno'].trim());
+      $('#Nombre').val(json['data'][0]['cfname'].trim());
+      $('#Apellido').val(json['data'][0]['clname'].trim());
+      $('#txtIdentidad').val(json['data'][0]['cfedid'].trim());
+      $('#FechaNacimiento').val(json['data'][0]['fecha'].trim());
+      $('#txtOcupacion').val(json['data'][0]['cDesc'].trim());
+      $('#Dependencia').val(json['data'][0]['cdeptname'].trim());
+      $('#txtSexo').val(json['data'][0]['csex'].trim());
+      $('#txtEdad').val(json['data'][0]['edad'].trim());
+  
+  
+      $.ajax({
+        type: "POST",
+        url: "index.php?page=cita&op=mostrarTipoAtencion",
+        data: "data",
+        success: function (response) {
+          var json=  JSON.parse(response);
+            for (let index = 0; index < json.length; index++) {
+              $('#CbxTipoAtencion').append($('<option>').val(json[index]['cid']).text(json[index]['cnombre']));
+              
+            }
+            
+          
+        }
+      });
+      
+  });
+}
+function EmpleadoSiExiste(identidad) {
+  
+var result;
     $.ajax({
       type: "POST",
-      url: "index.php?page=cita&op=mostrarTipoAtencion",
-      data: "data",
-      success: function (response) {
-        var json=  JSON.parse(response);
-          for (let index = 0; index < json.length; index++) {
-            $('#CbxTipoAtencion').append($('<option>').val(json[index]['cid']).text(json[index]['cnombre']));
-            
-          }
-          
-        
+      url: "index.php?page=cita&op=consultarEmpleadoExiste",
+      data: {identidad:identidad},
+      async: false,
+      success: function (data) {
+        result =data;
       }
     });
+
+    return result;
     
-});
+  
+}
+
+function myfunct(codigo,identidad){
+  if(EmpleadoSiExiste(identidad)==true){
+    window.location.href='index.php?page=EmpleadoExistente&id='+identidad+'&cod='+codigo;
+  }else{
+    EmpleadoNoexiste(codigo);
+  }
+  
 
 }
 
@@ -165,7 +191,7 @@ init:function(){$("#tabla_ajax1").DataTable(
         orderable:!1,
         render:function(data, type, row, meta)
         {
-          return'\n                        <span class="dropdown">\n                                                                            </span>\n                        <a href="javascript:myfunct(\' '+row['cempno']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class="la la-edit"></i>\n                        </a>'
+          return'\n                        <span class="dropdown">\n                                                                            </span>\n                        <a href="javascript:myfunct(\' '+row['cempno']+' \',\' '+row['cfedid']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class="la la-edit"></i>\n                        </a>'
        }
     },
     {targets:-5,render:function(a,t,e,n)

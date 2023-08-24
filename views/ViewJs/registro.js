@@ -9,15 +9,68 @@ function myfunct(params) {
   llenarCombo();
   $('#kt_modal_4').modal('show');
 }
+function DetallePreclinica(id){
+  $.ajax({
+    type: "POST",
+    url: "index.php?page=Registro&op=mostrarDetalle",
+    data: {id:id},
+    success: function (response) {
+      $('#Detale').modal('show');
+      var json= JSON.parse(response);
+      $('#PA').val(json[0]['presionarterial']);
+      $('#FC').val(json[0]['frecuenciacardiaca']);
+      $('#pulso').val(json[0]['pulso']);
+      $('#FR').val(json[0]['frecuenciarespiratoria']);
+      $('#temparatura').val(json[0]['terperaturacorporal']);
+      $('#Sp02').val(json[0]['saturacionoxigeno']);
+      $('#Glu').val(json[0]['glucosa']);
+      $('#peso').val(json[0]['peso']);
+      $('#talla').val(json[0]['talla']);
+      $('#imc').val(json[0]['imc']);
+      console.log(json[0]);
+    }
+  });
+ 
+}
+function BorarPreclinica(id){
+  
+  bootbox.confirm({
+      
+    closeButton: false,
+    locale:'es',
+    message:'<p>¿Anular Ficha?</p>',
+    title:'<h3>Esta seguro de eliminar esta ficha</h3>',
+    callback:function(result){
+      if (result) {
+        $.ajax({
+          type: "POST",
+          url: "index.php?page=Registro&op=AnularSignos",
+          data: {id:id},
+          success: function (response) {
+            if (response==true) {
+              showSuccessToast('Ficha Anulada con Exito');
+              BusquedaNuevo();
+            }else{
+              showDangerToast(response);
+            }
+          }
+        });
+        
+      }
+    }
+  })
+
+}
 function BusquedaNuevo (){
     "use strict";
+   
     var KTDatatablesDataSourceAjaxClient={
     init:function(){$("#tabla_registro").DataTable(
       {
         destroy:true,
         responsive:!0,
         pagingType:"full_numbers",
-        "order": [[ 6, 'desc' ]],
+        "order": [[ 7, 'desc' ]],
        
         ajax:{url:"index.php?page=Registro&op=llenar",
        
@@ -29,6 +82,7 @@ function BusquedaNuevo (){
         {data:"pnombre"},
         {data:"papellido"},
         {data:"motivo"},
+        {data:"atencion"},
         {data:"observacion"},
         {data:"fechacreacion"},
         {data:"estado"},
@@ -43,8 +97,17 @@ function BusquedaNuevo (){
             orderable:!1, 
             render:function(data, type, row, meta)
             {
-              
-              return ' <div class="table-actions">              <a href="javascript:myfunct(\' '+row['pid']+' \')"><i class="ik ik-navigation">Enviar</i></a>                  <a href="javascript:BorarPreclinica(\' '+row['pid']+' \')"><i class="ik ik-trash-2">Anular</i></a>          </div> '
+              var anular='';
+              var enviar='';
+              var finalizar='';
+              if (row['estado']==1) {
+                anular ='<a href="javascript:BorarPreclinica(\' '+row['pid']+' \')"><i class="ik ik-trash-2">Anular</i></a> ';
+                enviar ='<a href="javascript:myfunct(\' '+row['pid']+' \')"><i class="ik ik-navigation">Enviar</i></a>';
+              }
+              if (row['estado']==3) {
+               finalizar ='<a href="javascript:FinalizarPrelcinica(\' '+row['estado']+' \',\' '+row['pid']+' \')"><i class="ik ik-power">Finalizar</i></a> ';
+              }
+              return ' <div class="table-actions">         '+enviar+'   '+anular+' <a href="javascript:DetallePreclinica(\' '+row['pid']+' \')"><i class="ik ik-eye">Detalle</i></a> '+finalizar+'         </div> '
            }
         },
         { targets: -2, 
@@ -53,7 +116,8 @@ function BusquedaNuevo (){
               var s = { 
                    1: { title: "Sin Asignar", state: "primary" },
                    2: { title: "Enviado", state: "success" }, 
-                   3: { title: "Error", state: "secondary" } }; 
+                   3: { title: "Recibido", state: "secondary" }, 
+                   4: { title: "finalizado", state: "badge-pill badge-danger mb-1" } }; 
                   // return void 0 === s[t] ? t : '<span class="kt-badge kt-badge--' + s[t].state + ' kt-badge--dot"></span>&nbsp;<span class="kt-font-bold kt-font-' + s[t].state + '">' + s[t].title + "</span>" 
                   return void 0 === s[t] ? t : '<span  class="badge badge-' + s[t].state + ' mb-1">' + s[t].title + ' </span >' 
                   }
@@ -62,7 +126,6 @@ function BusquedaNuevo (){
         ]
       })}};jQuery(document).ready(function(){KTDatatablesDataSourceAjaxClient.init()});
     }
-
     function llenarCombo(){
       $('#cbxDocotres').empty();
       $.post("index.php?page=Registro&op=doctores", {
@@ -77,12 +140,23 @@ function BusquedaNuevo (){
         $('#cbxDocotres').append($('<option>').val(json['data'][index]['id_usuario']).text(json['data'][index]['nombrecompleto']));
         
       }
-
-
-
-       
+  
     
     });
+    }
+    function FinalizarPrelcinica(estado,id){
+      $.ajax({
+        type: "POST",
+        url: "index.php?page=Registro&op=finalizarcita",
+        data: {estado:estado,id:id},
+        success: function (response) {
+          if(response==true){
+            BusquedaNuevo();
+          }else{
+            BusquedaNuevo();
+          }
+        }
+      });
     }
 
     $('#BtoEnnviarPreclinica').click(function (e) { 

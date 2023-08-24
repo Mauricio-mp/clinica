@@ -35,7 +35,8 @@ $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(30);
 $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(30);
 $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(30);
 $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(30);
-
+$objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(30);
+$objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(30);
 
 $objPHPExcel->getActiveSheet()->getStyle("A1")->getFont()->setBold(true);
 $objPHPExcel->getActiveSheet()->getStyle("B1")->getFont()->setBold(true);
@@ -46,17 +47,22 @@ $objPHPExcel->getActiveSheet()->getStyle("F1")->getFont()->setBold(true);
 $objPHPExcel->getActiveSheet()->getStyle("G1")->getFont()->setBold(true);
 $objPHPExcel->getActiveSheet()->getStyle("H1")->getFont()->setBold(true);
 $objPHPExcel->getActiveSheet()->getStyle("I1")->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle("J1")->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle("K1")->getFont()->setBold(true);
 
 $objPHPExcel->setActiveSheetIndex(0)
-->setCellValue('A1', 'Mes')
-->setCellValue('B1', 'Administracion de Medicamentos')
-->setCellValue('C1', 'Nebulizaciones')
-->setCellValue('D1', 'Bendajes')
-->setCellValue('E1', 'Lavado de Oidos')
-->setCellValue('F1', 'Toma de PA')
-->setCellValue('G1', 'Toma de CLU')
-->setCellValue('H1', 'Consultas Medicas')
-->setCellValue('I1', 'Total Atenciones');
+->setCellValue('A1', 'Fecha')
+->setCellValue('B1', 'Nombre')
+->setCellValue('C1', 'Identidad')
+->setCellValue('D1', 'Empleado')
+->setCellValue('E1', 'Hora')
+->setCellValue('F1', 'NUmero de Empleado')
+->setCellValue('G1', 'Area/Departamento')
+->setCellValue('H1', 'Motivo de Visita')
+->setCellValue('I1', 'Incapacidad')
+->setCellValue('J1', 'Tratamiento')
+->setCellValue('K1', 'Observaciones');
+
 
 
 
@@ -78,37 +84,55 @@ for ($i=0; $i <count($var) ; $i++) {
 }
     
 */
-$objPHPExcel->getActiveSheet()->SetCellValue(A2.$cont, 'Junio');
-$objPHPExcel->getActiveSheet()->SetCellValue(B2.$cont, 125);
-$objPHPExcel->getActiveSheet()->SetCellValue(C2.$cont, 75);
-$objPHPExcel->getActiveSheet()->SetCellValue(D2.$cont, 16);
-$objPHPExcel->getActiveSheet()->SetCellValue(E2.$cont, 2);
-$objPHPExcel->getActiveSheet()->SetCellValue(F2.$cont, 8);
-$objPHPExcel->getActiveSheet()->SetCellValue(G2.$cont, 2);
-$objPHPExcel->getActiveSheet()->SetCellValue(H2.$cont, 15);
-$objPHPExcel->getActiveSheet()->SetCellValue(I2.$cont, 133);
+$objPHPExcel->getActiveSheet()->SetCellValue(A2.$cont, '05/07/2023');
+$objPHPExcel->getActiveSheet()->SetCellValue(B2.$cont, 'Maria Antonia Espinal Espinal');
+$objPHPExcel->getActiveSheet()->SetCellValue(C2.$cont, '1501-1967-00342');
+$objPHPExcel->getActiveSheet()->SetCellValue(D2.$cont, '890');
+$objPHPExcel->getActiveSheet()->SetCellValue(E2.$cont, '11:40 - 11:50 am');
+$objPHPExcel->getActiveSheet()->SetCellValue(F2.$cont, '9499-2302');
+$objPHPExcel->getActiveSheet()->SetCellValue(G2.$cont, 'MAIE');
+$objPHPExcel->getActiveSheet()->SetCellValue(H2.$cont, 'Fiebre');
+$objPHPExcel->getActiveSheet()->SetCellValue(I2.$cont, 'del 20/07/2023 al 22/07/2023');
+$objPHPExcel->getActiveSheet()->SetCellValue(J2.$cont, 'Acetaminfen');
+$objPHPExcel->getActiveSheet()->SetCellValue(K2.$cont, 'Consulta');
 
 
+$objPHPExcel->getActiveSheet()->SetCellValue(A3.$cont, '05/07/2023');
+$objPHPExcel->getActiveSheet()->SetCellValue(B3.$cont, 'Jessica Aracely Fonseca Castro');
+$objPHPExcel->getActiveSheet()->SetCellValue(C3.$cont, '1501-1967-00342');
+$objPHPExcel->getActiveSheet()->SetCellValue(D3.$cont, '2220');
+$objPHPExcel->getActiveSheet()->SetCellValue(E3.$cont, '11:40 - 11:50 am');
+$objPHPExcel->getActiveSheet()->SetCellValue(F3.$cont, '9499-2302');
+$objPHPExcel->getActiveSheet()->SetCellValue(G3.$cont, 'Presupuesto');
+$objPHPExcel->getActiveSheet()->SetCellValue(H3.$cont, 'Fiebre');
+$objPHPExcel->getActiveSheet()->SetCellValue(I3.$cont, 'del 20/07/2023 al 22/07/2023');
+$objPHPExcel->getActiveSheet()->SetCellValue(J3.$cont, 'Acetaminfen');
+$objPHPExcel->getActiveSheet()->SetCellValue(K3.$cont, 'Consulta');
 
-$objPHPExcel->getActiveSheet()->SetCellValue(A3.$cont, 'Julio');
-$objPHPExcel->getActiveSheet()->SetCellValue(B3.$cont, 125);
-$objPHPExcel->getActiveSheet()->SetCellValue(C3.$cont, 75);
-$objPHPExcel->getActiveSheet()->SetCellValue(D3.$cont, 23);
-$objPHPExcel->getActiveSheet()->SetCellValue(E3.$cont, 8);
-$objPHPExcel->getActiveSheet()->SetCellValue(F3.$cont, 2);
-$objPHPExcel->getActiveSheet()->SetCellValue(G3.$cont, 98);
-$objPHPExcel->getActiveSheet()->SetCellValue(H3.$cont, 8);
-$objPHPExcel->getActiveSheet()->SetCellValue(I3.$cont, 222);
+$objPHPExcel->getActiveSheet()->SetCellValue(A4.$cont, '05/07/2023');
+$objPHPExcel->getActiveSheet()->SetCellValue(B4.$cont, 'Carmen Melissa Torres Salgado');
+$objPHPExcel->getActiveSheet()->SetCellValue(C4.$cont, '1501-1967-00342');
+$objPHPExcel->getActiveSheet()->SetCellValue(D4.$cont, '5897');
+$objPHPExcel->getActiveSheet()->SetCellValue(E4.$cont, '11:40 - 11:50 am');
+$objPHPExcel->getActiveSheet()->SetCellValue(F4.$cont, '9499-2302');
+$objPHPExcel->getActiveSheet()->SetCellValue(G4.$cont, 'Enjuiciamiento');
+$objPHPExcel->getActiveSheet()->SetCellValue(H4.$cont, 'Fiebre');
+$objPHPExcel->getActiveSheet()->SetCellValue(I4.$cont, 'del 20/07/2023 al 22/07/2023');
+$objPHPExcel->getActiveSheet()->SetCellValue(J4.$cont, 'Acetaminfen');
+$objPHPExcel->getActiveSheet()->SetCellValue(K4.$cont, 'Consulta');
 
-$objPHPExcel->getActiveSheet()->SetCellValue(A4.$cont, 'Agosto');
-$objPHPExcel->getActiveSheet()->SetCellValue(B4.$cont, 125);
-$objPHPExcel->getActiveSheet()->SetCellValue(C4.$cont, 75);
-$objPHPExcel->getActiveSheet()->SetCellValue(D4.$cont, 8);
-$objPHPExcel->getActiveSheet()->SetCellValue(E4.$cont, 8);
-$objPHPExcel->getActiveSheet()->SetCellValue(F4.$cont, 2);
-$objPHPExcel->getActiveSheet()->SetCellValue(G4.$cont, 4);
-$objPHPExcel->getActiveSheet()->SetCellValue(H4.$cont, 2);
-$objPHPExcel->getActiveSheet()->SetCellValue(I4.$cont, 99);
+
+$objPHPExcel->getActiveSheet()->SetCellValue(A5.$cont, '05/07/2023');
+$objPHPExcel->getActiveSheet()->SetCellValue(B5.$cont, 'Fany Jacqueline Mairena Orellana');
+$objPHPExcel->getActiveSheet()->SetCellValue(C5.$cont, '1501-1967-00342');
+$objPHPExcel->getActiveSheet()->SetCellValue(D5.$cont, '3639');
+$objPHPExcel->getActiveSheet()->SetCellValue(E5.$cont, '11:40 - 11:50 am');
+$objPHPExcel->getActiveSheet()->SetCellValue(F5.$cont, '9499-2302');
+$objPHPExcel->getActiveSheet()->SetCellValue(G5.$cont, 'Tribunal diciplinario');
+$objPHPExcel->getActiveSheet()->SetCellValue(H5.$cont, 'Fiebre');
+$objPHPExcel->getActiveSheet()->SetCellValue(I5.$cont, 'del 20/07/2023 al 22/07/2023');
+$objPHPExcel->getActiveSheet()->SetCellValue(J5.$cont, 'Acetaminfen');
+$objPHPExcel->getActiveSheet()->SetCellValue(K5.$cont, 'Consulta');
   
 
 

@@ -119,9 +119,14 @@ $consultaRol->execute(['rol' => $rol]);
         $_SESSION['generar']=true;
         $_SESSION['expediente']=true;
     	}
-        if($fila[$i]['id_permiso']==3){
+      if($fila[$i]['id_permiso']==3){
             $_SESSION['reportes']=true;
+            $_SESSION['General']=true;
         }
+        if($fila[$i]['id_permiso']==4){
+          $_SESSION['reportes']=true;
+          $_SESSION['mes']=true;
+      }  
     }
         return true;
       }else{

@@ -4,6 +4,7 @@ var idPreclinica=0;
 var doctor=0;
 var SignosVitales=0;
 var GlobalIdentidad=0;
+
 function myfunct(params,pidenticacion,id) {
   /*const json = JSON.parse(params); */
   SignosVitales=params;
@@ -90,10 +91,10 @@ function BusquedaNuevo (){
 
     $('#BtnRecibirCita').click(function (e) { 
       e.preventDefault();
+
+      
       var form = $('#FormIncapacidad').serialize();
     
-   
- 
 
 $.post("index.php?page=recibir&op=GuardarExpediente&"+form, {
   SignosVitales:SignosVitales,
@@ -103,7 +104,7 @@ $.post("index.php?page=recibir&op=GuardarExpediente&"+form, {
     .done(function(data) {
 
        console.log(data);
-       
+      
        BusquedaNuevo();
        $('#kt_modal_4').modal('hide');
        

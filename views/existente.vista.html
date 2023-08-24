@@ -10,8 +10,8 @@
 	</div>
 	<!--begin::Form-->
 <!-- tomado del Achivo rangos.js-->
-<form method="POST" class="kt-form kt-form--fit kt-form--label-right" id="FormularioPleclinica" >
-	<div class="kt-portlet__body form_DatosGenerales" style="display:none;">
+<form method="POST" class="kt-form kt-form--fit kt-form--label-right" id="FormEmpleadoExiste" action="">
+	<div class="kt-portlet__body form_DatosGenerales">
 		<ul class="nav nav-tabs nav-fill" role="tablist">
 			<li class="nav-item">
 				<a class="nav-link active" data-toggle="tab" href="#kt_tabs_1_1">Datos Generales</a>
@@ -23,44 +23,54 @@
 		</ul>                    
 
 		<div class="tab-content">
+			{{foreach detalle}}
+			<p id="labelIdpersona" style="display: none;">{{pidpersona}}</p>
+			{{endfor detalle}}
 			<div class="tab-pane active" id="kt_tabs_1_1" role="tabpanel">
 				<div class="form-group row">
 					<div class="col-lg-4">
-						<label>Codigo:</label>
-						<input type="text" class="form-control" id="CodigoEmpleado" name="CodigoEmpleado" placeholder="Codigo de Empleado">
-						
+                        <label>Codigo:</label>
+                        {{foreach detalle}}
+						<input type="text" class="form-control" id="CodigoEmpleado" value="{{pcodigo}}" name="CodigoEmpleado" placeholder="Codigo de Empleado">
+						{{endfor detalle}}
 					</div>
 					<div class="col-lg-4">
-						<label class="">Nombre</label>
-						<input type="text" class="form-control" id="Nombre" name="Nombre" placeholder="Nombre">
-						
+                        <label class="">Nombre</label>
+                        {{foreach detalle}}
+						<input type="text" class="form-control" value="{{pnombre}}" id="Nombre" name="Nombre" placeholder="Nombre">
+						{{endfor detalle}}
 					</div>
 					<div class="col-lg-4">
-						<label class="">Apellido</label>
-						<input type="text" class="form-control" id="Apellido" name="Apellido" placeholder="Apellido">
-						
+                        <label class="">Apellido</label>
+                        {{foreach detalle}}
+						<input type="text" class="form-control" value="{{papellido}}" id="Apellido" name="Apellido" placeholder="Apellido">
+						{{endfor detalle}}
 					</div>
 				</div>	  
 				<div class="form-group row">
 					<div class="col-lg-4">
-						<label>Identidad</label>
-						<input type="text" class="form-control" id="txtIdentidad"  name="txtIdentidad" placeholder="Identidad">
-						
+                        <label>Identidad</label>
+                        {{foreach detalle}}
+						<input type="text" class="form-control" value="{{pidenticacion}}" id="txtIdentidad"  name="txtIdentidad" placeholder="Identidad" >
+						{{endfor detalle}}
 					</div>
 					<div class="col-lg-4">
-						<label class="">Fecha de Naciminento</label>
-						<input type="date" class="form-control" id="FechaNacimiento" name="FechaNacimiento" placeholder="Fecha de Naciminento">
-						
+                        <label class="">Fecha de Naciminento</label>
+                        {{foreach detalle}}
+						<input type="date" class="form-control" value="{{pfechanacimiento}}" id="FechaNacimiento" name="FechaNacimiento" placeholder="Fecha de Naciminento">
+						{{endfor detalle}}
 					</div>
 					<div class="col-lg-2">
-						<label class="">Edad</label>
-						<input type="text" class="form-control" id="txtEdad" name="txtEdad" placeholder="Edad">
-						
+                        <label class="">Edad</label>
+                        {{foreach detalle}}
+						<input type="text" class="form-control" value="{{pedad}}" id="txtEdad" name="txtEdad" placeholder="Edad">
+						{{endfor detalle}}
 					</div>
 					<div class="col-lg-2">
 						<label class="">Sexo</label>
-						<input type="text" class="form-control" id="txtSexo"  name="txtSexo"  placeholder="Sexo">
-						
+						{{foreach detalle}}
+						<input type="text" class="form-control" value="{{psexo}}" id="txtSexo"  name="txtSexo"  placeholder="Sexo">
+						{{endfor detalle}}
 					</div>
 					
 				</div>
@@ -68,6 +78,9 @@
 					<div class="col-lg-2">
 						<label class="">Estado Civil</label>
 						<select class="form-control" id="EstadoCivil"  name="EstadoCivil" >
+							{{foreach detalle}}
+							<option value="{{idestadoCivil}}" selected>{{estadoCivil}}</option>
+							{{endfor detalle}}
 							{{foreach listaEStadoCivil}}
 							<option value="{{cid}}">{{cnombre}}</option>
 							{{endfor listaEStadoCivil}}
@@ -76,35 +89,51 @@
 					</div>
 					<div class="col-lg-2">
 						<label class="">Telefono</label>
-						<input type="text" class="form-control" id="txtTelefono"  name="txtTelefono"  placeholder="IngreseTelefono">
-						
+						{{foreach detalle}}
+						<input type="text" class="form-control" value="{{telefono}}" id="txtTelefono"  name="txtTelefono"  placeholder="IngreseTelefono">
+						{{endfor detalle}}
 					</div>
 					<div class="col-lg-4">
 						<label class="">Ocupacion</label>
-						<input type="text" class="form-control" id="txtOcupacion" name="txtOcupacion" placeholder="Ocupacion/Oficio">
-						
+						{{foreach detalle}}
+						<input type="text" class="form-control" value="{{pocupacion}}" id="txtOcupacion" name="txtOcupacion" placeholder="Ocupacion/Oficio">
+						{{endfor detalle}}
 					</div>
 					<div class="col-lg-4">
 						<label class="">Dependencia</label>
-						<input type="text" class="form-control" id="Dependencia" name="Dependencia" placeholder="Dependencia">
-						
+						{{foreach detalle}}
+						<input type="text" class="form-control"v value="{{pdependencia}}" id="Dependencia" name="Dependencia" placeholder="Dependencia">
+						{{endfor detalle}}
 					</div>
 				</div>
 				<div class="form-group row">
 					<div class="col-lg-4">
 						<label class="">Religion</label>
-						<input class="form-control" id="txtReligion"  name="txtReligion"  placeholder="Religion">
+						{{foreach detalle}}
+						<input class="form-control" value="{{preligion}}" id="txtReligion"  name="txtReligion"  placeholder="Religion">
+						{{endfor detalle}}
 					</div>
 					<div class="col-lg-4">
 						<label class="">Raza</label>
-						<input type="text" class="form-control" id="txtRaza" name="txtRaza" placeholder="raza">
+						{{foreach detalle}}
+						<input type="text" class="form-control" value="{{prazan}}" id="txtRaza" name="txtRaza" placeholder="raza">
 						
+						{{endfor detalle}}
 					</div>
 					<div class="col-lg-4">
 						<label class="">Tipo Sanguineo</label>
 						
 						<select class="form-control" id="txtTipoSanguineo" name="txtTipoSanguineo">
-							<option value="" selected disabled>Ingrese Opcion</option>
+							{{foreach detalle}}
+						
+
+							{{if Tiposanguieno}}
+							<option selected disabled value="{{idTipoSanguineo}}">{{Tiposanguieno}}</option>
+							{{endif Tiposanguieno}}
+							
+							{{endfor detalle}}
+						
+							
 							{{foreach TipoSanguineo}}
 							<option value="{{cid}}">{{cnombre}}</option>
 							{{endfor TipoSanguineo}}
@@ -116,12 +145,16 @@
 				<div class="form-group row">
 					<div class="col-lg-4">
 						<label class="">Residencia Actual</label>
-						<textarea class="form-control" id="txtResidencia"  name="txtResidencia"  placeholder="Residencia Actual"></textarea>
+{{foreach detalle}}
+						<textarea class="form-control"  id="txtResidencia"  name="txtResidencia"  placeholder="Residencia Actual">{{presidenciaactual}}</textarea>
+{{endfor detalle}}
 					</div>
 					
 					<div class="col-lg-4">
 						<label class="">Motivo de Visita</label>
+
 						<textarea class="form-control" id="motivo"  name="motivo"  placeholder=""></textarea>
+
 					</div>
 
 					<div class="col-lg-4">
@@ -214,90 +247,16 @@
 		</div>  
 		<div class="kt-portlet__foot">
 			<div class="kt-form__actions">
-				<button type="submit" class="btn btn-success">Submit</button>
-				<button type="reset" onclick="location.href='index.php?page=cita'" class="btn btn-secondary">Cancel</button>
+				<button type="submit" class="btn btn-success">Agregar</button>
+				<button type="reset" onclick="location.href='index.php?page=cita'" class="btn btn-secondary">Cancelar</button>
 			</div>
 		</div>    
 	</div>
 	
 </form>
-	<form class="kt-form kt-form--fit kt-form--label-right" id="FormIncapacidad" >
-		
-		<div class="kt-portlet__body">
-			
-			<div class="form-group">
-				<label>Ingrese Busqueda</label>
-				<div class=" col-lg-10 col-md-9 col-sm-12">
-				<select class="custom-select form-control" onchange="cambio(event)" name="selectBusqueda" >
-					<option value="nombre" selected>Nombre</option>
-					<option value="Codigo" >Codigo de empleado</option>				  
-					  <option value="identidad">identidad</option>
-					
-				</select>
-				</div>
-			</div>
-			
-			<div class="form-group identidad" style="display:none">
-				<label>Numero de Identici&oacute;n</label>
-				<div></div>
-				<div class=" col-lg-4 col-md-9 col-sm-12">
-					<input class="form-control" id="idenficacionCita" name="identificacion" type="text"/>
-				<!--	<span class="form-text text-muted">Phone number mask: <code>99-9999999</code></span>  -->
-				</div>
-			</div>
-			<div class="form-group empleadoCodigo" style="display:none">
-				<label>Codigo de Empleado</label>
-				<div></div>
-				<div class=" col-lg-4 col-md-9 col-sm-12">
-					<input type="text" class="form-control" id="codigoEmpleado" name="codigoEmpleado" placeholder="Codigo de Empleado">
-				</div>
-			</div>
-			<div class="form-group NOmbre_EmpleDO">
-				<label>Nombre del empleado</label>
-				<div></div>
-				<div class=" col-lg-4 col-md-9 col-sm-12">
-					<select class="form-control kt-select2" id="cbxCita" name="param">
-					
-					</select>
-				</div>
-			</div>
-		</div>
-		
-		<div class="kt-portlet__foot kt-portlet__foot--fit-x">
-			<div class="kt-form__actions">
-				<div class="row">
-					<div class="col-lg-2"></div>
-					<div class="col-lg-10">
-						<button type="submit"  class="btn btn-primary" >Aceptar</button>
-						<button type="button" class="btn btn-secondary">Cancel</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="kt-portlet__body">
-			<!--begin: Datatable -->
-			<table class="table table-striped- table-bordered table-hover table-checkable" id="tabla_ajax1">
-										<thead>
-										  <tr>
-														  <th>Codigo</th>
-														  <th>Nombre</th>
-														  <th>Apellido</th>
-														  <th>Estado</th>
-														  <th>Identidad</th>
-														  <th>Departamento</th>
-														  <th>Fecha de Nacimiento</th>
-														  <th>Actions</th>
-											  </tr>
-							</thead>
-				
-				
-						</table>
-			<!--end: Datatable -->
-		</div>
-	</form>
+	
 
 	<!--end::Form-->
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="views/ViewJs/cita.js"></script>
+<script src="views/ViewJs/existente.js"></script>

@@ -4,16 +4,16 @@
  * Created By DMLL
  * Last Modification 2014-10-14 20:04
  */
-/*
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL); 
-*/
+
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL); 
+
 session_start();
 ob_start();
 addToContext("page_title","Registro de Preclinicas");
   require_once("libs/template_engine.php");
-require_once("models/ReporteGeneral.model.php");
+require_once("models/reporteCllinica.model.php");
   function run(){
     $datos=[];
     $opcion =$_GET['op'];
@@ -23,7 +23,7 @@ require_once("models/ReporteGeneral.model.php");
 switch ($opcion) {
   case 'prueba':
     $datos['mostrar']=true;
-    renderizar("General",$datos);
+    renderizar("RepoClinica",$datos);
     break;
   case 'mostrar':
     $mes=$_POST['mes'];
@@ -47,7 +47,7 @@ switch ($opcion) {
     break;
   
   default:
-  renderizar("General",$datos);
+  renderizar("RepoClinica",$datos);
     break;
 }
 

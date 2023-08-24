@@ -10,25 +10,33 @@
 session_start();
 ob_start();
   require_once("libs/template_engine.php");
-require_once("models/cita.model.php");
+require_once("models/existente.model.php");
 addToContext("page_title","Incapacidad");
 addToContext("form_title","Busqueda");
 
   function run(){
     $cuenta=[];
-  	$opcion =$_GET['op'];
+      $opcion =$_GET['op'];
+      $op=($opcion)? $opcion: 'DetalleEmpleado';
  // $opcion='empleado';
     $id=$_GET['id'];
     $clinicaNew=new Clinica();
     $cuenta['listaEStadoCivil']=$clinicaNew->GetListaEstadoCivil();
     $cuenta['TipoSanguineo']=$clinicaNew->GetListaSangre();
   
-    switch ($opcion) {
-      case 'consultarEmpleadoExiste':
-        $identidad=$_POST['identidad'];
-        $clinica= $clinicaNew->MostrarEmpleadoExistente($identidad);
-        print_r($clinica);
+    switch ($op) {
+      case 'guardarp':
+        $txtIdentidad=$_POST['txtIdentidad'];
+        echo $txtIdentidad;
         break;
+        case 'DetalleEmpleado':
+
+            $cuenta['detalle']=$clinicaNew->Busqueda(trim($id));
+            // print_r('<pre>');
+            // print_r($cuenta['detalle']);
+            // print_r('</pre>');
+            renderizar("existente",$cuenta);
+            break;
       case 'mostrarTipoAtencion':
         $op=new Clinica();
         $msg=$op->mostrarxTipodeAtencion();
@@ -53,6 +61,7 @@ addToContext("form_title","Busqueda");
         $total =$op->Busqueda($codigoEmpleado,$selectBusqueda='Codigo',$identificacion,$param);
         $arrayName = array('data' => $total);
         echo json_encode($arrayName); 
+ 
         break;
     case 'ActualizarSueldo':
       $FechaInicio=$_POST['FechaInicio'];
@@ -61,17 +70,7 @@ addToContext("form_title","Busqueda");
       $total =$op->ObtenerTotal($FechaInicio,$textdias);
       echo number_format($total,2);
       break;
-      case 'mostrar':
-        $op=new clinica();
-        $codigoEmpleado=$_GET['codigoEmpleado'];
-        $selectBusqueda=$_GET['selectBusqueda'];
-        $identificacion=$_GET['identificacion'];
-        $param=$_GET['param'];
-        $total =$op->Busqueda($codigoEmpleado,$selectBusqueda,$identificacion,$param);
-        $arrayName = array('data' => $total);
-        echo json_encode($arrayName); 
- 
-        break;
+      
      case 'Guardar':
       
       $FechaInicio=$_POST['FechaInicio'];
@@ -102,40 +101,44 @@ addToContext("form_title","Busqueda");
       break;
       case 'InPrec':
         //datos generales
-        $CodigoEmpleado=$_GET['CodigoEmpleado'];
-        $Nombre=$_GET['Nombre'];
-        $Apellido=$_GET['Apellido'];
-        $txtIdentidad=$_GET['txtIdentidad'];
-        $FechaNacimiento=$_GET['FechaNacimiento'];
-        $txtEdad=$_GET['txtEdad'];
-        $txtSexo=$_GET['txtSexo'];
-        $EstadoCivil=$_GET['EstadoCivil'];
-        $txtOcupacion=$_GET['txtOcupacion'];
-        $Dependencia=$_GET['Dependencia'];
-        $txtReligion=$_GET['txtReligion'];
-        $txtRaza=$_GET['txtRaza'];
-        $txtTipoSanguineo=$_GET['txtTipoSanguineo'];
-        $txtResidencia=$_GET['txtResidencia'];
-        $txtTelefono=$_GET['txtTelefono'];
-        $TipodeAtencion=$_GET['CbxTipoAtencion'];
+        $CodigoEmpleado=$_POST['CodigoEmpleado'];
+        $Nombre=$_POST['Nombre'];
+        $Apellido=$_POST['Apellido'];
+        $txtIdentidad=$_POST['txtIdentidad'];
+        $FechaNacimiento=$_POST['FechaNacimiento'];
+        $txtEdad=$_POST['txtEdad'];
+        $txtSexo=$_POST['txtSexo'];
+        $EstadoCivil=$_POST['EstadoCivil'];
+        $txtOcupacion=$_POST['txtOcupacion'];
+        $Dependencia=$_POST['Dependencia'];
+        $txtReligion=$_POST['txtReligion'];
+        $txtRaza=$_POST['txtRaza'];
+        $txtTipoSanguineo=$_POST['txtTipoSanguineo'];
+        $txtResidencia=$_POST['txtResidencia'];
+        $txtTelefono=$_POST['txtTelefono'];
+        $TipodeAtencion=$_POST['CbxTipoAtencion'];
          //Signos vitales
-         $PA=$_GET['PA'];
-         $FC=$_GET['FC'];
-         $pulso=$_GET['pulso'];
-         $FR=$_GET['FR'];
-         $temperatura=$_GET['temparatura'];
-         $Sp02=$_GET['Sp02'];
-         $Glu=$_GET['Glu'];
-         $peso=$_GET['peso'];
-         $talla=$_GET['talla'];
-         $imc=$_GET['imc'];
-         $motivo=$_GET['motivo'];
-         $txtObservacion=$_GET['txtObservacion'];
+         $PA=$_POST['PA'];
+         $FC=$_POST['FC'];
+         $pulso=$_POST['pulso'];
+         $FR=$_POST['FR'];
+         $temperatura=$_POST['temparatura'];
+         $Sp02=$_POST['Sp02'];
+         $Glu=$_POST['Glu'];
+         $peso=$_POST['peso'];
+         $talla=$_POST['talla'];
+         $imc=$_POST['imc'];
+         $motivo=$_POST['motivo'];
+         $txtObservacion=$_POST['txtObservacion'];
+
+       
 
         $clinica= new Clinica();
-        $registroGuardado=$clinica->guardarPreclinica($txtIdentidad,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia,$txtTelefono);
+        $registroGuardado=$clinica->UpdateEmpleado($txtIdentidad,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia,$txtTelefono);
+        //print_r($registroGuardado);
 
-        print_r($clinica->guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion,$_COOKIE["inicio"],$TipodeAtencion));
+        print_r($clinica->guardarSignosVitales($_GET['id'],$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion,$_COOKIE["inicio"],$TipodeAtencion));
+
 
 
         break;
@@ -159,14 +162,14 @@ addToContext("form_title","Busqueda");
     }
     */
    // print_r($_COOKIE["inicio"]);
-    		renderizar("cita",$cuenta);
+            renderizar("existente",$cuenta);
+          
     		break;
     }
 
 
     
   }
-
 
   run();
 ?>

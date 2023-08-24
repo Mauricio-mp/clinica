@@ -45,16 +45,24 @@ CREATE TABLE public.usuarios
 
 INSERT INTO public.roles
 (descripcion)
-VALUES('admin'),('Reporte'),('incapacidad'),('techo');
+VALUES('doctor'),('Secretaria'),('Reportes'),('admin');
+
+
 
 
 
 INSERT INTO public.permisos
 (descripcion)
-VALUES('Mantenimiento techo');
+VALUES('doctor');
 INSERT INTO public.permisos
 (descripcion)
-VALUES('Generar Incapacidad');
+VALUES('Secretaria');
+INSERT INTO public.permisos
+(descripcion)
+VALUES('Reporte_general');
+INSERT INTO public.permisos
+(descripcion)
+VALUES('Reporte_mes');
 
 
 
@@ -64,10 +72,36 @@ VALUES(1, 1);
 INSERT INTO public.roles_permisos
 (id_rol, id_permiso)
 VALUES(1, 2);
+INSERT INTO public.roles_permisos
+(id_rol, id_permiso)
+VALUES(2, 2);
+INSERT INTO public.roles_permisos
+(id_rol, id_permiso)
+VALUES(3, 3);
+INSERT INTO public.roles_permisos
+(id_rol, id_permiso)
+VALUES(3, 4);
+
+INSERT INTO public.roles_permisos
+(id_rol, id_permiso)
+VALUES(4, 1);
+INSERT INTO public.roles_permisos
+(id_rol, id_permiso)
+VALUES(4, 2);
+INSERT INTO public.roles_permisos
+(id_rol, id_permiso)
+VALUES(4, 3);
+INSERT INTO public.roles_permisos
+(id_rol, id_permiso)
+VALUES(4, 4);
+
 
 INSERT INTO public.usuarios
 (nombrecompleto, idrol, acccion, fechacreacion, usuariocreacion, fechamodificacion, estado, usuario, contrasenia, cambiocontrasenia,medico)
 VALUES('Sandra Isabel Coello Posas', 1, 'medico', '2023-07-31', 'admin', '2022-11-14', true, 'tmzapata', 'V1crWVRzbnQxMHgyM3kvdnlIa0NXZz09',false,true);
+INSERT INTO public.usuarios
+(nombrecompleto, idrol, acccion, fechacreacion, usuariocreacion, fechamodificacion, estado, usuario, contrasenia, cambiocontrasenia,medico)
+VALUES('Ddenis Mauricio Lopez', 4, 'medico', '2023-07-31', 'admin', '2022-11-14', true, 'dmlopez', 'V1crWVRzbnQxMHgyM3kvdnlIa0NXZz09',false,true);
 INSERT INTO public.usuarios
 (nombrecompleto, idrol, acccion, fechacreacion, usuariocreacion, fechamodificacion, estado, usuario, contrasenia, cambiocontrasenia,medico)
 VALUES('Tania Melissa Zapata Pineda', 1, 'Secretaria', '2023-07-31', 'admin', '2023-07-31', true, 'sicouello', 'V1crWVRzbnQxMHgyM3kvdnlIa0NXZz09',true,false);
@@ -204,6 +238,7 @@ create table tb_Expediente_Preclinicas (
 create table tb_Expediente_Antecedentes (
     id_Antecedente serial primary KEY, 
     Id_Expediente INT NOT NULL,
+    pId_Signos INT NOT NULL,
     APP VARCHAR(255) null,
     AF VARCHAR(255) null,
     AHQT VARCHAR(255) null,
@@ -217,14 +252,20 @@ create table tb_Expediente_Antecedentes (
 	FechaCreacion timestamp,
     estado boolean,
 
+
       CONSTRAINT pk_Expediente_id
       FOREIGN KEY(Id_Expediente) 
-	  REFERENCES tb_Expediente(Id_Expediente)    
+	  REFERENCES tb_Expediente(Id_Expediente),
+
+      CONSTRAINT pk_Signos_id
+      FOREIGN KEY(pId_Signos) 
+	  REFERENCES tb_signosVitales(pId)
 );
 
 create table tb_Expediente_Examen_Fisico (
     id_examen serial primary KEY, 
     Id_Expediente INT NOT NULL,
+    pId_Signos INT NOT NULL,
     AparienciaGeneral varchar(255) NOT NULL,
     Cabeza varchar(255) NULL,
     Cuello varchar(255) NULL,
@@ -244,11 +285,16 @@ create table tb_Expediente_Examen_Fisico (
 
       CONSTRAINT pk_Expediente_id
       FOREIGN KEY(Id_Expediente) 
-	  REFERENCES tb_Expediente(Id_Expediente)    
+	  REFERENCES tb_Expediente(Id_Expediente),
+
+      CONSTRAINT pk_Signos_id
+      FOREIGN KEY(pId_Signos) 
+	  REFERENCES tb_signosVitales(pId)   
 );
 create table tb_Expediente_Examen_laboratorial (
     id_laboratorial serial primary KEY, 
     Id_Expediente INT NOT NULL,
+    pId_Signos INT NOT NULL,
     Hemograma varchar(255) NOT NULL,
     Quimica_General varchar(255) NULL,
     EGO varchar(255) NULL,
@@ -261,8 +307,14 @@ create table tb_Expediente_Examen_laboratorial (
 
       CONSTRAINT pk_Expediente_id
       FOREIGN KEY(Id_Expediente) 
-	  REFERENCES tb_Expediente(Id_Expediente)    
+	  REFERENCES tb_Expediente(Id_Expediente),
+
+      CONSTRAINT pk_Signos_id
+      FOREIGN KEY(pId_Signos) 
+	  REFERENCES tb_signosVitales(pId)    
 );
+
+
 
 ALTER TABLE public.tb_expediente_preclinicas ADD persona_id int;
 
@@ -272,6 +324,7 @@ ALTER TABLE public.tb_Expediente ADD Tratamiento varchar(500) NULL;
 ALTER TABLE public.tb_Expediente ADD Incapacidad varchar(500) NULL;
 ALTER TABLE public.tb_signosVitales ADD Fecha_Inicio varchar(50) NULL;
 ALTER TABLE public.tb_signosVitales ADD Fecha_Fin varchar(50) NULL;
+ALTER TABLE public.tb_signosVitales ADD Finalizado varchar(50) NULL;
 ALTER TABLE public.tb_signosVitales ADD TipodeAtencion int NULL;
 
 ALTER TABLE public.tb_persona ADD telefono VARCHAR(25);
@@ -282,6 +335,147 @@ ALTER TABLE public.tb_Expediente ADD Cant_dias_Incapacidad int NULL;
 INSERT INTO public.tb_catalogos(cnombre,ctipo,estado,fechaingreso,usuarioingreso)
 values('Administracion de Medicamentos','Tipo-Atencion',true,now(),'sistema'),
 ('Nebulizacines','Tipo-Atencion',true,now(),'sistema'),
-('bandejas','Tipo-Atencion',true,now(),'sistema'),
+('Toma de PA','Tipo-Atencion',true,now(),'sistema'),
+('Control de Peso','Tipo-Atencion',true,now(),'sistema'),
+('Toma de GLC','Tipo-Atencion',true,now(),'sistema'),
+('Toma de Temperatura','Tipo-Atencion',true,now(),'sistema'),
+('Limpieza de Heridas','Tipo-Atencion',true,now(),'sistema'),
 ('Lavado de Oidos','Tipo-Atencion',true,now(),'sistema'),
-('Consulta medica','Tipo-Atencion',true,now(),'sistema')
+('Consulta medica','Tipo-Atencion',true,now(),'sistema');
+
+
+ALTER TABLE public.tb_persona ADD habilitado boolean;
+ALTER TABLE public.tb_signosVitales ADD anulado boolean;
+ALTER TABLE public.tb_signosVitales ADD esnuevo boolean;
+
+create table tb_Expediente_Datos_Generales (
+    id_general serial primary KEY, 
+    Id_Expediente INT NOT NULL,
+pId_Signos INT NOT NULL,
+    Sintoma_Principal varchar(255) NOT NULL,
+    Historial_Enfer varchar(255) NULL,
+    Fun_organ_gen varchar(255) NULL,
+	FechaCreacion timestamp,
+    UsuarioCreacion int NULL,
+    estado boolean,
+
+      CONSTRAINT pk_Expediente_id
+      FOREIGN KEY(Id_Expediente) 
+	  REFERENCES tb_Expediente(Id_Expediente),
+
+      CONSTRAINT pk_Signos_id
+      FOREIGN KEY(pId_Signos) 
+	  REFERENCES tb_signosVitales(pId)  
+);
+create table tb_Expediente_Empleado (
+    id_Expediente INT NOT NULL, 
+    Id_persona INT NOT NULL,
+	FechaCreacion timestamp,
+
+      CONSTRAINT pk_Expediente_Exp
+      FOREIGN KEY(id_Expediente) 
+	  REFERENCES tb_Expediente(Id_Expediente),    
+
+       CONSTRAINT pk_Persona_Per
+      FOREIGN KEY(Id_persona) 
+	  REFERENCES tb_persona(pidpersona)   
+);
+
+create table tb_Expediente_Diagnostico (
+    id_Diagnostico serial primary KEY, 
+    Id_Expediente INT NOT NULL,
+    pId_Signos INT NOT NULL,
+    Descripcion varchar(255) NOT NULL,
+	FechaCreacion timestamp,
+    UsuarioCreacion int NULL,
+    estado boolean,
+
+      CONSTRAINT pk_Expediente_Diag
+      FOREIGN KEY(Id_Expediente) 
+	  REFERENCES tb_Expediente(Id_Expediente),
+
+      CONSTRAINT pk_Signos_id
+      FOREIGN KEY(pId_Signos) 
+	  REFERENCES tb_signosVitales(pId)  
+);
+create table tb_Expediente_Tratamiento (
+    id_Tratamiento serial primary KEY, 
+    Id_Diagnostico INT NOT NULL,
+    Id_Expediente INT NOT NULL,
+    Descripcion varchar(255) NOT NULL,
+	FechaCreacion timestamp,
+    UsuarioCreacion int NULL,
+    estado boolean,
+
+      CONSTRAINT pk_Expediente_Trat
+      FOREIGN KEY(Id_Expediente) 
+	  REFERENCES tb_Expediente(Id_Expediente),
+
+       CONSTRAINT pk_Expediente_Diag
+      FOREIGN KEY(Id_Diagnostico) 
+	  REFERENCES tb_Expediente_Diagnostico(id_Diagnostico)   
+
+);
+
+create table tb_Expediente_Incapacidades (
+    id_Incapacidad serial primary KEY, 
+    Id_Expediente INT NOT NULL,
+    pId_Signos INT NOT NULL,
+    FechaInicio timestamp,
+    FechaFin timestamp,
+    Dias INT NOT NULL,
+    Descripcion varchar(255) NOT NULL,
+	FechaCreacion timestamp,
+    UsuarioCreacion int NULL,
+    estado boolean,
+
+      CONSTRAINT pk_Expediente_Trat
+      FOREIGN KEY(Id_Expediente) 
+	  REFERENCES tb_Expediente(Id_Expediente),
+
+       CONSTRAINT pk_Signos_id
+      FOREIGN KEY(pId_Signos) 
+	  REFERENCES tb_signosVitales(pId)  
+
+);
+
+
+---------------------------------------------------------------
+select * from tb_persona 
+select * from tb_signosVitales where pid >22
+SELECT * FROM tb_catalogos where ctipo='Tipo-Sangre'
+
+
+delete from tb_signosVitales
+delete from tb_Expediente_traslado
+----------------------------------------------------------------------
+
+
+create table tb_Expediente_Empleado (
+    id_Expediente INT NOT NULL, 
+    Id_persona INT NOT NULL,
+	FechaCreacion timestamp,
+
+      CONSTRAINT pk_Expediente_Exp
+      FOREIGN KEY(id_Expediente) 
+	  REFERENCES tb_Expediente(Id_Expediente),    
+
+       CONSTRAINT pk_Persona_Per
+      FOREIGN KEY(Id_persona) 
+	  REFERENCES tb_persona(pidpersona)   
+);
+
+drop database clinica1
+create database clinica
+SELECT  * FROM pg_stat_activity WHERE datname='clinica';
+SELECT pg_terminate_backend(21641);
+SELECT pg_terminate_backend(20620);
+---------------------------------------------------------------
+select max(pid_signos) from tb_Expediente_Preclinicas where id_Expediente=1
+
+select TO_CHAR (fechainicio:: DATE, 'dd/mm/YYYY') as fechaInicio,TO_CHAR (fechafin:: DATE, 'dd/mm/YYYY') as 
+fechaFin,dias,descripcion,fechacreacion from tb_Expediente_Incapacidades where id_Expediente=:id
+
+
+
+                select * from tb_signosVitales

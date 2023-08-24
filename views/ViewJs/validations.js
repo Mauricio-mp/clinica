@@ -1,5 +1,79 @@
 var KTFormControls={init:function(){
-
+    $("#FormEmpleadoExiste").validate({
+        lang: 'es',
+        live: 'enabled',
+        onkeydown:true,
+        rules:
+        {
+            txtIdentidad:{
+                required:true,
+                minlength:2
+            },
+            CbxTipoAtencion:{
+                required:true,
+            },
+            motivo:{
+                required:true,
+                minlength:5
+            },
+            CodigoEmpleado:{
+                required:true,
+            },
+            Nombre:{
+                required:true,
+            },
+            Apellido:{
+                required:true,
+            }
+            
+        },
+        messages: {
+       
+            txtIdentidad: {
+              required: "La identidad es requerida",
+              minlength:"Ingrese almenos 2 caracteres",
+            },
+            CbxTipoAtencion:{
+                required: "Porfavor Seleccione Tipo de Atencion",
+            },
+            motivo:{
+                required: "Ingrese Motivo de Visita",
+                minlength:"minimo 5 caracteres",
+            },
+            CodigoEmpleado:{
+                required:"Codigo de Empleado Requerido",
+            },
+            Nombre:{
+                required:"Nombre es requerido",
+            },
+            Apellido:{
+                required:"Apellido es Requerido",
+            }
+            
+           
+          },
+          errorPlacement:function(e,r)
+        {
+            
+            
+          /*  $('#BtnGuardarCambio').attr('disabled', true); */
+            var i=r.closest(".input-group");
+            i.length?i.after(e.addClass("invalid-feedback")):r.after(e.addClass("invalid-feedback"))
+        },onkeyup: function(element){
+            this.element(element);
+    
+        },invalidHandler:function(e,r)
+        {
+           
+            $("#kt_form_denis_msg").removeClass("kt--hide").show(),KTUtil.scrollTop()
+        },submitHandler:function(e){
+           
+            GuardarFormEmpleado();
+        },success: function(label){
+           
+            
+        }
+    }),
     $("#form_Incapacidad").validate({
         lang: 'es',
         live: 'enabled',

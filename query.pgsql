@@ -288,6 +288,17 @@ values('Administracion de Medicamentos','Tipo-Atencion',true,now(),'sistema'),
 ('Lavado de Oidos','Tipo-Atencion',true,now(),'sistema'),
 ('Consulta medica','Tipo-Atencion',true,now(),'sistema')
 ----------------------
+select * from public.tb_catalogos c
+INNER JOIN public.tb_signosvitales sv
+on sv.tipodeatencion=c.i   where ctipo='Tipo-Atencion'
+
+
+SELECT c.cnombre,count(sv.estado),extract(month from sv.fechacreacion)  from public.tb_catalogos c
+			INNER JOIN public.tb_signosvitales sv
+			on sv.tipodeatencion=c.cid
+			where extract(year from sv.fechacreacion)=2023 and extract(month from sv.fechacreacion)IN(7)
+			GROUP BY c.cnombre,sv.fechacreacion order by sv.fechacreacion asc
+
 
 select * from public.tb_catalogos
 

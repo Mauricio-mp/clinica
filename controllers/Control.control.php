@@ -4,9 +4,11 @@
  * Created By DMLL
  * Last Modification 2014-10-14 20:04
  */
-/*ini_set('display_errors', 1);
+/*
+ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL); */
+error_reporting(E_ALL); 
+*/
 session_start();
 ob_start();
 addToContext("page_title","Lista de Expedientes");
@@ -20,14 +22,36 @@ require_once("models/Control.model.php");
     $datos['fecha']=date('Y-m-d');
 
     switch ($opcion) {
+      case 'llenarTratamientos':
+        $expediente=$_POST['id'];
+        $id=$json[0]['id_usuario'];
+        $arrayName = array('data' =>$Control->llenarTratamientos($id,$expediente));
+        echo json_encode($arrayName);
+        break;
+    case 'llenarDiagnostico':
+      $expediente=$_POST['id'];
+       $id=$json[0]['id_usuario'];
+       $arrayName = array('data' =>$Control->llenarDiagnostico($id,$expediente));
+       echo json_encode($arrayName);
+      break;
+      case 'LLenarDatoGenerales':
+       $expediente=$_POST['id'];
+       $id=$json[0]['id_usuario'];
+       $arrayName = array('data' =>$Control->lledarGenerales($id,$expediente));
+       echo json_encode($arrayName);
+        break;
       case 'FinExpediente':
         $id=$_POST['id'];
         $msg=$Control->FinExpediente($id);
         print_r($msg);
       break;
       case 'llenar':
+
        $arrayName = array('data' => $Control->mostrarInfo($json[0]['id_usuario']));
-      echo json_encode($arrayName);
+     // echo json_encode($arrayName);
+     $arr = array_map("unserialize", array_unique(array_map("serialize", $Control->mostrarInfo($json[0]['id_usuario']))));
+     $arrayName = array('data' => $arr);
+    echo json_encode($arrayName);
         break;
         case 'llenarPreclinica':
          $id=$_POST['id'];
@@ -52,9 +76,13 @@ require_once("models/Control.model.php");
           $habitosnoToxicos=$_GET['habitosnoToxicos'];
           $txtHabitosSaludables=$_GET['txtHabitosSaludables'];
           $AntGo=$_GET['AntGo'];
+          $prclinicaActual=$Control->OptenerPrecilinicaActual($id);
 
-          $msg=$Control->GuardarAntecedentesPersonales($id,$txtApp,$txtAF,$txtAHGT,$txtAlergias,$txtVacunas,$txtAE,$txtHabitosToxicos,$habitosnoToxicos,$txtHabitosSaludables,$AntGo);
-          print_r($msg);
+          
+          $msg=$Control->GuardarAntecedentesPersonales($prclinicaActual,$id,$txtApp,$txtAF,$txtAHGT,$txtAlergias,$txtVacunas,$txtAE,$txtHabitosToxicos,$habitosnoToxicos,$txtHabitosSaludables,$AntGo);
+          
+    
+        print_r($msg);
           break;
 
           case 'Antecedentes':
@@ -96,6 +124,7 @@ require_once("models/Control.model.php");
           echo json_encode($arrayName);
           break;
           case 'guardarFisicos':
+            $prclinicaActual=$Control->OptenerPrecilinicaActual($_POST['expediente']);
             $fisicos = array(
             "txtPariencia"=> $_GET['txtPariencia'],
             "txtCabeza"=> $_GET['txtCabeza'],
@@ -111,7 +140,8 @@ require_once("models/Control.model.php");
             "txtExtremidades"=> $_GET['txtExtremidades'],
             "txtPielFaneas"=> $_GET['txtPielFaneas'],
             "txtNeurologico" =>$_GET['txtNeurologico'],
-            "expediente"=>$_POST['expediente']
+            "expediente"=>$_POST['expediente'],
+            "preclinica"=>$prclinicaActual
              );
 
              $msg=$Control->GuardarExamenFisico($fisicos);
@@ -154,7 +184,7 @@ require_once("models/Control.model.php");
 
             break;
           case 'GuardarLaboratorios':
-            
+            $prclinicaActual=$Control->OptenerPrecilinicaActual($_POST['GlobalExpediente']);
             $json = array(
               "txtHemograma"=>$_GET['txtHemograma'],
               "txtQuimica"=>$_GET['txtQuimica'],
@@ -163,7 +193,8 @@ require_once("models/Control.model.php");
               "txtCovid"=>$_GET['txtCovid'],
               "txtOtros"=>$_GET['txtOtros'],
               "expediente"=>$_POST['GlobalExpediente'],
-              "usuario"=>$json[0]['id_usuario']
+              "usuario"=>$json[0]['id_usuario'],
+              "preclinica"=>$prclinicaActual
             );
 
             $msg=$Control->GuardarExamenLaboratorio($json);
@@ -201,9 +232,17 @@ require_once("models/Control.model.php");
           case 'GuardarDiagnostico':
             $descripcion=$_GET['txtDescripcionDiagnostico'];
             $id=$_POST['id'];
-            $msg=$Control->GuardarDiagnostico($descripcion,$id);
+            $usuario=$json[0]['id_usuario'];
+            $prclinicaActual=$Control->OptenerPrecilinicaActual($id);
+            $msg=$Control->GuardarDiagnostico($prclinicaActual,$descripcion,$id,$usuario);
+            
             print_r($msg);
             break;
+            case 'llenarIncapacidades':
+              $id=$_POST['id'];
+            $arrayName = array('data' => $Control->LenarIncapacidad($id));
+          echo json_encode($arrayName);
+              break;
           case 'motrarincapacidad':
             $GlobalExpediente=$_POST['GlobalExpediente'];
             $msg=$Control->MotrarDiagnosticoActual($GlobalExpediente);
@@ -212,20 +251,28 @@ require_once("models/Control.model.php");
         case 'GuardarTratamiento':
           $tratamiento= $_POST['txtTratamiento'];
           $id=$_GET['id'];
-          $msg=$Control->UpdateTratamiento($tratamiento,$id);
+          $usuario=$json[0]['id_usuario'];
+          $diagnostico=$_POST['ComboDiagnosticos'];
+          $msg=$Control->UpdateTratamiento($tratamiento,$id,$usuario,$diagnostico);
           print_r($msg);
         break;
-        case 'motrarTratamiento':
+        case 'motrarDiagnosticos':
           $GlobalExpediente=$_POST['GlobalExpediente'];
-          $msg=$Control->MotrarTratamiento($GlobalExpediente);
-          echo json_encode($msg[0][tratamiento]);
+          $msg=$Control->MotrarDiagnosticos($GlobalExpediente);
+          echo json_encode($msg);
           break;    
         case 'GuardarIncapacidad':
           $FechaInicio=$_POST['FechaInicio'];
           $FechaFin=$_POST['FechaFinIncapacidad'];
           $txtincapacidad=$_POST['txtincapacidad'];
           $id=$_GET['id'];
-          $msg=$Control->GuardarIncapacidad($FechaFin,$FechaInicio,$txtincapacidad,$id);
+
+          $dias=$Control->diferenciasFechas($FechaInicio,$FechaFin);
+          $prclinicaActual=$Control->OptenerPrecilinicaActual($id);
+          
+          $msg=$Control->GuardarIncapacidad($FechaFin,$FechaInicio,$txtincapacidad,$id,$prclinicaActual,$dias,$json[0]['id_usuario']);
+          
+
           print_r($msg);
           break;  
     	default:

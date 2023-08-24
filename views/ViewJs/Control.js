@@ -12,16 +12,17 @@ var GlobalLaboratorio=false;
 
 function myfunct(params,nombre,fechacreacion,sp,hea,fog,nombrecompleto) {
   /*const json = JSON.parse(params); */
+  /*
   $('#textNombreExpediente').append('<h3 class="d-block w-100" >'+nombre+'<small class="float-right"><a class="nav-link active" href="javascript:FinalizarExpediente(\''+params+' \')">Finalizar Expediente</a></h3>');
- 
-
+  */
+  $('#textNombreExpediente').append('<h3 class="d-block w-100" >'+nombre+'<small class="float-right"></h3>');
   $('.motrarinfo1').append('<b>Fecha d\e Creacion</b> '+fechacreacion+'<br><b>Responsable:</b> '+nombrecompleto+'<br><b>Sintoma Principal:</b> '+sp);
   $('.motrarinfo2').append('<b>Historial de Enfermedad Actual:</b> '+hea+'<br>');
   $('.motrarinfo3').append('<b>Funciones organicas generales:</b> '+fog+'<br>');
   GlobalExpediente=params;
   $('.Acordiones').show();
   $('.busqueda').hide();
-
+  LlenarDatosGenerales(params);
   LlenarPreclinicas(params);
   Tabla_Antecedentes_Personales(params);
   CargarExamenesFisicos(params);
@@ -173,7 +174,62 @@ function CargarExamenesFisicos(id){
       ]
     })}};jQuery(document).ready(function(){KTDatatablesDataSourceAjaxClient.init()});
 }
-
+function LlenarDatosGenerales(params){
+  "use strict";
+  var KTDatatablesDataSourceAjaxClient={
+  init:function(){$("#DatosGenerales").DataTable(
+    {
+      destroy:true,
+      searching:true,
+      responsive:!0,
+      pagingType:"full_numbers",
+      "order": [[ 0, 'desc' ]],
+      ajax:{url:"index.php?page=Control&op=LLenarDatoGenerales",
+      type:"POST",
+      data:{pagination:{perpage:50},id:params}},
+      columns:[
+        {data:"id_general"},
+        {data:"sintoma_principal"},
+        {data:"historial_enfer"},
+        {data:"fun_organ_gen"},
+        {data:"fecha"},
+        {data:"horas"},
+        {data:"Accion",
+        responsivePriority:-1},
+  
+      
+      ],
+      
+      columnDefs:[
+        {
+          targets: 0,
+          visible: false,
+          searchable: false,
+      },
+        {targets:-1,
+          title:"Actions",
+          orderable:!1,
+          render:function(data, type, row, meta)
+          {
+            
+            return'\n                        <span class="dropdown">\n                         \n           \n                        </span>\n                        <a href="javascript:EliminarDatosGenerales(\' '+row['id_general']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class=""></i>\n             Anular          </a>'
+         }
+      },
+      { targets: -2, 
+        render: function (t, a, e, n) 
+        { 
+            var s = { 
+                 1: { title: "Sin Asignar", state: "primary" },
+                 2: { title: "Sin Aceptar", state: "success" }, 
+                 3: { title: "Recibido", state: "secondary" } }; 
+                // return void 0 === s[t] ? t : '<span class="kt-badge kt-badge--' + s[t].state + ' kt-badge--dot"></span>&nbsp;<span class="kt-font-bold kt-font-' + s[t].state + '">' + s[t].title + "</span>" 
+                return void 0 === s[t] ? t : '<span  class="badge badge-' + s[t].state + ' mb-1">' + s[t].title + ' </span >' 
+                }
+               }
+      
+      ]
+    })}};jQuery(document).ready(function(){KTDatatablesDataSourceAjaxClient.init()});
+}
 function LlenarPreclinicas(params){
   "use strict";
   var KTDatatablesDataSourceAjaxClient={
@@ -347,11 +403,14 @@ $.post("index.php?page=recibir&op=GuardarExpediente", {
       switch (Editar) {
         case false:
           var formulario = $("#From_Antecedentes_Personales").serialize();
+          
+          
       $.ajax({
         type: "POST",
         url: "index.php?page=Control&op=guardarANtecedente&"+formulario,
         data: {idExpediente:GlobalExpediente},
         success: function (response) {
+         
           if (response==true) {
             showSuccessToast(response);
             $('.Acordiones').show();
@@ -363,6 +422,7 @@ $.post("index.php?page=recibir&op=GuardarExpediente", {
          // showDangerToast(response);
         }
       });
+      
           break;
       case true:
         var formulario = $("#From_Antecedentes_Personales").serialize();
@@ -805,7 +865,6 @@ function agregarExamenLab(){
   $('#accordionExample4').hide();
   $('.Examenes_Laboratoriales').show();
 }
-
 $('#BtnAceptarLaboratoriales').click(function() {
   var form = $('#form_Examenes_Laboratoriales').serialize();
   if (GlobalEditarLaboratorio==true) {
@@ -845,6 +904,7 @@ $('#BtnAceptarLaboratoriales').click(function() {
   }
  
 });
+
 function FinalizarExpediente(param) {
 
 
@@ -876,79 +936,242 @@ function FinalizarExpediente(param) {
     }
   })
   }
+  function LlenarIncapacidades() {
+    "use strict";
+    var tramientoTabla={
+    init:function(){$("#TablaIncapacidades").DataTable(
+      {
+        destroy:true,
+        searching:true,
+        responsive:!0,
+        pagingType:"full_numbers",
+        "order": [[ 0, 'desc' ]],
+        ajax:{url:"index.php?page=Control&op=llenarIncapacidades",
+        type:"POST",
+        data:{pagination:{perpage:50},id:GlobalExpediente}},
+        columns:[
+          {data:"fechainicio"},
+          {data:"fechafin"},
+          {data:"dias"},
+          {data:"descripcion"},
+          {data:"fechacreacion",
+          responsivePriority:-1},
+  
+        
+        ],
+        
+        columnDefs:[
+          {
+            targets: 0,
+            visible: true,
+            searchable: false,
+        }
+          
+      
+        
+        ]
+      })}};jQuery(document).ready(function(){tramientoTabla.init()});
+  }
+  function TratamientoId(GlobalExpediente) {
+    "use strict";
+    var tramientoTabla={
+    init:function(){$("#TratamientoId").DataTable(
+      {
+        destroy:true,
+        searching:true,
+        responsive:!0,
+        pagingType:"full_numbers",
+        "order": [[ 0, 'desc' ]],
+        ajax:{url:"index.php?page=Control&op=llenarTratamientos",
+        type:"POST",
+        data:{pagination:{perpage:50},id:GlobalExpediente}},
+        columns:[
+          {data:"diagnostico"},
+          {data:"tratamiento"},
+          {data:"fecha"},
+          {data:"Accion",
+          responsivePriority:-1},
+  
+        
+        ],
+        
+        columnDefs:[
+          {
+            targets: 0,
+            visible: true,
+            searchable: false,
+        },
+          {targets:-1,
+            title:"Actions",
+            orderable:!1,
+            render:function(data, type, row, meta)
+            {
+              
+              return'\n                        <span class="dropdown">\n                         \n           \n                        </span>\n                        <a href="javascript:DetallePreclinica(\' '+row['pid_signos']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class=""></i>\n             Detalle          </a>'
+           }
+        },
+        { targets: -2, 
+          render: function (t, a, e, n) 
+          { 
+              var s = { 
+                   1: { title: "Sin Asignar", state: "primary" },
+                   2: { title: "Sin Aceptar", state: "success" }, 
+                   3: { title: "Recibido", state: "secondary" } }; 
+                  // return void 0 === s[t] ? t : '<span class="kt-badge kt-badge--' + s[t].state + ' kt-badge--dot"></span>&nbsp;<span class="kt-font-bold kt-font-' + s[t].state + '">' + s[t].title + "</span>" 
+                  return void 0 === s[t] ? t : '<span  class="badge badge-' + s[t].state + ' mb-1">' + s[t].title + ' </span >' 
+                  }
+                 }
+        
+        ]
+      })}};jQuery(document).ready(function(){tramientoTabla.init()});
+    }
+  function llenarDiagnosticos(GlobalExpediente){
+
+    "use strict";
+  var TablaDiagnostico={
+  init:function(){$("#Diagnostico").DataTable(
+    {
+      destroy:true,
+      searching:true,
+      responsive:!0,
+      pagingType:"full_numbers",
+      "order": [[ 0, 'desc' ]],
+      ajax:{url:"index.php?page=Control&op=llenarDiagnostico",
+      type:"POST",
+      data:{pagination:{perpage:50},id:GlobalExpediente}},
+      columns:[
+        {data:"descripcion"},
+        {data:"fechacreacion"},
+        {data:"Accion",
+        responsivePriority:-1},
+
+      
+      ],
+      
+      columnDefs:[
+        {
+          targets: 0,
+          visible: true,
+          searchable: false,
+      },
+        {targets:-1,
+          title:"Actions",
+          orderable:!1,
+          render:function(data, type, row, meta)
+          {
+            
+            return'\n                        <span class="dropdown">\n                         \n           \n                        </span>\n                        <a href="javascript:DetallePreclinica(\' '+row['pid_signos']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class=""></i>\n             Detalle          </a>'
+         }
+      },
+      { targets: -2, 
+        render: function (t, a, e, n) 
+        { 
+            var s = { 
+                 1: { title: "Sin Asignar", state: "primary" },
+                 2: { title: "Sin Aceptar", state: "success" }, 
+                 3: { title: "Recibido", state: "secondary" } }; 
+                // return void 0 === s[t] ? t : '<span class="kt-badge kt-badge--' + s[t].state + ' kt-badge--dot"></span>&nbsp;<span class="kt-font-bold kt-font-' + s[t].state + '">' + s[t].title + "</span>" 
+                return void 0 === s[t] ? t : '<span  class="badge badge-' + s[t].state + ' mb-1">' + s[t].title + ' </span >' 
+                }
+               }
+      
+      ]
+    })}};jQuery(document).ready(function(){TablaDiagnostico.init()});
+  }
 function Diagnostico(){
+ 
+  llenarDiagnosticos(GlobalExpediente);
   $('.Acordiones').hide();
   $('.Diagnostico').show('slow');
-  /*history.pushState(null, "", "index.php?page=cita");*/
-  $.ajax({
-    type: "POST",
-    url: "index.php?page=Control&op=motrarincapacidad",
-    data: {GlobalExpediente:GlobalExpediente},
-    success: function (response) {
-     var json=JSON.parse(response);
-      $('#txtDescripcionDiagnostico').val(json);
-    }
-  });
 }
 function GuardarDiagnosticos() {
   var formDiagnostico= $('#form_Diagnostico').serialize();
+
+  
   $.ajax({
     type: "POST",
     url: "index.php?page=Control&op=GuardarDiagnostico&"+formDiagnostico,
     data: {id:GlobalExpediente},
     success: function (response) {
+     console.log(response);
       if (response==true) {
+
+
+        
         showSuccessToast('Diagnostico agregado con exito');
+        llenarDiagnosticos(GlobalExpediente);
+        $('#form_Diagnostico')[0].reset();
+        /*
         $('.Acordiones').show('slow');
         $('.Diagnostico').hide();
         $('#form_Diagnostico')[0].reset();
+        */
+        
       }else{
         showDangerToast('Error'.response);
       }
     }
   });
+  
 }
 function Tratamiento(){
-
+  $('#ComboDiagnosticos').empty();
+  
   $.ajax({
     type: "POST",
-    url: "index.php?page=Control&op=motrarTratamiento",
+    url: "index.php?page=Control&op=motrarDiagnosticos",
     data: {GlobalExpediente:GlobalExpediente},
     success: function (response) {
+     
       $('.Acordiones').hide();
-      $('.Tratamiento').show('slow');
+      $('.Tratamiento').show();
      var json=JSON.parse(response);
-      $('#txtTratamiento').val(json);
+     /* $('#txtTratamiento').val(json);*/
+     for (let index = 0; index < json.length; index++) {
+      $('#ComboDiagnosticos').append($('<option>').val(json[index]['id_diagnostico']).text(json[index]['descripcion']));
+       
+     }
+    
+     
     
     }
   });
-  
+  TratamientoId(GlobalExpediente);
 }
 
 function Incapacidad(){
   $('.Acordiones').hide();
-  $('.Incapacidad').show('slow');
+  $('.Incapacidad').show();
+  LlenarIncapacidades();
 
 }
 
 function GuardarTratamiento(){
   var form = $('#form_Tratamiento').serialize();
 
+
   $.ajax({
     type: "POST",
     url: "index.php?page=Control&op=GuardarTratamiento&id="+GlobalExpediente,
     data: form,
     success: function (data) {
+    
+      
       if(data==true){
+        TratamientoId(GlobalExpediente);
       showSuccessToast('Tratamiento agregado con exito');
-        $('.Acordiones').show('slow');
-        $('.Tratamiento').hide();
+      /*  $('.Acordiones').show('slow');*/
+     /*   $('.Tratamiento').hide();*/
         $('#form_Tratamiento')[0].reset();
+  
+        
       }else{
         showDangerToast('Error'.response);
       }
+      
     }
   });
+  
 }
 
 function GuardarIncapacidad()
@@ -960,11 +1183,13 @@ function GuardarIncapacidad()
     url: "index.php?page=Control&op=GuardarIncapacidad&id="+GlobalExpediente,
     data: form,
     success: function (data) {
+      console.log(data);
       if(data==true){
         showSuccessToast('Incapacidad agregado con exito');
-          $('.Acordiones').show('slow');
-          $('.Incapacidad').hide();
+         /* $('.Acordiones').show('slow');*/
+         /* $('.Incapacidad').hide();*/
           $('#form_Incapacidad')[0].reset();
+          LlenarIncapacidades();
         }else{
           showDangerToast('Error'.response);
         }

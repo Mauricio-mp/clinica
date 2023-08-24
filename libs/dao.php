@@ -11,9 +11,11 @@
     function __construct()
     {
        $this->conn='';
+       $this->connVam='';
     }
     public function connect()
     {
+      
         try {
            $db=[
                 "host"=>"172.17.0.138",
@@ -45,6 +47,24 @@
             exit($exception->getMessage());
         }
     }
+    public function PDOConnect(){
+      $contraseña = "";
+      $usuario = "sa";
+      $nombreBaseDeDatos = "mpsiafi";
+      # Puede ser 127.0.0.1 o el nombre de tu equipo; o la IP de un servidor remoto
+      $rutaServidor = "172.17.0.162";
+      $puerto = "1433";
+      try {
+          $base_de_datos = new PDO("dblib:host=$rutaServidor;port=$puerto;dbname=$nombreBaseDeDatos", $usuario, $contraseña);
+  
+          $base_de_datos->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+           return $this->connVam=$base_de_datos;
+      } catch (Exception $e) {
+          return "Ocurrió un error con la base de datos: " . $e->getMessage();
+      }
+  }
+  
     public function SQLServer()
     {
       try {
@@ -68,7 +88,6 @@
 
    }
 
-   
 
 
    

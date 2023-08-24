@@ -10,6 +10,84 @@
 	<!--begin::Form-->
 <!-- tomado del Achivo rangos.js-->
 	<form class="kt-form kt-form--fit kt-form--label-right" method="POST" id="FormIncapacidad" >
+		<div class="modal fade" id="Detale" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg mt-25 mb-0" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Modal title</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group row">
+							<label for="example-text-input" class="col-2 col-form-label">PA:</label>
+							<div class="col-8">
+								<input class="form-control" type="text"  id="PA" name="PA" placeholder="PA">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="example-text-input" class="col-2 col-form-label">FC:</label>
+							<div class="col-8">
+								<input class="form-control" type="text"  id="FC" name="FC" placeholder="FC">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="example-text-input" class="col-2 col-form-label">Pulso</label>
+							<div class="col-8">
+								<input class="form-control" type="text"   id="pulso" name="pulso" placeholder="Pulso">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="example-text-input" class="col-2 col-form-label">FR</label>
+							<div class="col-8">
+								<input class="form-control" type="text"  id="FR" name="FR" placeholder="FR">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="example-text-input" class="col-2 col-form-label">T°</label>
+							<div class="col-8">
+								<input class="form-control" type="text" id="temparatura" name="temparatura"  placeholder="T°">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="example-text-input" class="col-2 col-form-label">Sp02</label>
+							<div class="col-8">
+								<input class="form-control" type="text"  id="Sp02" name="Sp02"  placeholder="Sp02">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="example-text-input" class="col-2 col-form-label">Glu</label>
+							<div class="col-8">
+								<input class="form-control" type="text" id="Glu" name="Glu" placeholder="Glu">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="example-text-input" class="col-2 col-form-label">Peso (Kg)</label>
+							<div class="col-8">
+								<input class="form-control" type="text" name="peso"  id="peso" placeholder="Peso">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="example-text-input" class="col-2 col-form-label">Talla (Mts)</label>
+							<div class="col-8">
+								<input class="form-control" type="text" name="talla" id="talla" placeholder="Talla">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="example-text-input" class="col-2 col-form-label">IMC</label>
+							<div class="col-8">
+								<input class="form-control" type="text"  name="imc" id="imc" placeholder="IMC">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary">Save changes</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="modal fade" id="kt_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
@@ -39,7 +117,6 @@
 				</div>
 			</div>
 		</div>
-	
 
 		<div class="kt-portlet__body">
 			<!--begin: Datatable -->
@@ -51,6 +128,7 @@
 														  <th>Nombre</th>
 														  <th>Apellido</th>
 														  <th>Motivo</th>
+														  <th>Tipo de Atencion</th>
 														  <th>Obervacion</th>
 														  <th>Fecha Ingreso</th>
 														  <th>Estado</th>

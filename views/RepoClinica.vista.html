@@ -1,0 +1,169 @@
+<link rel="stylesheet" href="css/home.css">
+<div class="kt-portlet">
+	<div class="kt-portlet__head">
+		<div class="kt-portlet__head-label">
+			<h3 class="kt-portlet__head-title">
+				Ingreso de Incapacidad
+			</h3>
+		</div>
+	</div>
+	<!--begin::Form-->
+<!-- tomado del Achivo rangos.js-->
+	
+	
+
+		<div class="kt-portlet__body">
+
+            <form method="POST" class="kt-form kt-form--fit kt-form--label-right" action="index.php?page=reporteClinica&op=prueba" id="FormularioReportegeneral" >
+                <div class="kt-portlet__body form_DatosGenerales" >
+                                  
+            
+                    <div class="tab-content">
+                        <div class="form-group row">
+                            <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Fecha Inicio</label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control" name="FechaInicio" id="FechaInicio">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Fecha Fin</label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control" name="FechaFin" id="FechaFin">
+                            </div>
+                        </div>
+                      
+                        <!--
+                        <div class="form-group row">
+                            <label for="exampleInputMobile" class="col-sm-3 col-form-label">Motivo de atenci&otilde;n</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number">
+                            </div>
+                        </div>
+                          	  
+                        -->
+                            
+                           
+                            
+                            
+                           
+                       
+                        
+                    </div>  
+                    <div class="kt-portlet__foot">
+                        <div class="kt-form__actions">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                            <button type="reset" onclick="location.href='index.php?page=cita'" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </div>    
+                </div>
+                
+            </form>
+            <!--begin: Datatable -->
+            {{if mostrar}}
+            
+                
+                <div class="card-body">
+                    
+                    <ul class="nav justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="excel/reporteClinica.php">Excel</a>
+                        </li>
+                      
+                    </ul>
+                </div>
+           
+            {{endif mostrar}}
+			<table class="table table-striped- table-bordered table-hover table-checkable" id="Tabla_Recibir" >
+										<thead>
+										  <tr>
+														  <th>Fecha</th>
+														  <th>Nombre</th>
+														  <th>Identidad</th>
+														  <th>Empleado</th>
+                                                          <th>Hora</th>
+                                                          <th># de Telefono</th>
+                                                          <th>Area/Departamento</th>
+                                                          <th>Motivo de visita</th>
+                                                          <th>Incapacidad</th>
+                                                          <th>Tratamiento</th>
+                                                          <th>Observaciones</th>
+                                               
+														  
+										  </tr>
+                                            
+											  
+                            </thead>
+                            <tbody>
+                            </tr>
+                            {{if mostrar}}
+                            <tr>
+                              <td>05/07/2023</td>
+                              <td>Maria Antonia Espinal Espinal</td>
+                              <td>1501-1967-00342</td>
+                              <td>000890</td>
+                              <td>11:40 - 11:50 am</td>
+                              <td>9499-2302</td>
+                              <td>MAIE</td>
+                              <td>Fiebre</td>
+                              <td>del 20/07/2023 al 22/07/2023</td>
+                              <td>Acetaminfen</td>
+                              <td>Consulta</td>
+ 
+                              
+                               </tr>
+                               <tr>
+                                <td>10/07/2023</td>
+                                <td>Jessica Aracely Fonseca Castro</td>
+                                <td>0801-1972-00932</td>
+                                <td>002200</td>
+                                <td>11:50 - 12:05 pm</td>
+                              <td>9957-9523</td>
+                                <td>Presupuesto</td>
+                                <td>Fiebre</td>
+                              <td>del 20/07/2023 al 22/07/2023</td>
+                              <td>Acetaminfen</td>
+                                <td>Consulta, receta</td>
+                        
+                                 </tr>
+                                 <tr>
+                                    <td>17/07/2023</td>
+                                    <td>Carmen Melissa Torres Salgado</td>
+                                    <td>0801-1985-19253</td>
+                                    <td>005897</td>
+                                    <td>08:05 - 08:15 am</td>
+                                    <td>9608-1453</td>
+                                    <td>Enjuiciamiento</td>
+                                    <td>Fiebre</td>
+                              <td>del 20/07/2023 al 22/07/2023</td>
+                              <td>Acetaminfen</td>
+                                    <td>Consulta, se le dio medicamento V.O (Nexium)</td>
+                                   
+                                     </tr>
+                                  
+                                    <tr>
+                                        <td>25/07/2023</td>
+                                        <td>Carmen Melissa Torres Salgado</td>
+                                        <td>0801-1985-19253</td>
+                                        <td>005897</td>
+                                        <td>08:05 - 08:15 am</td>
+                                        <td>9608-1453</td>
+                                        <td>Dexlanzopral 500mg</td>
+                                        <td>Fiebre</td>
+                              <td>del 20/07/2023 al 22/07/2023</td>
+                              <td>Acetaminfen</td>
+                                        <td>Consulta, se le dio medicamento V.O (Nexium)</td>
+                                       
+                                    </tr>
+                            {{endif mostrar}}
+                            </tbody>
+				
+				
+						</table>
+			<!--end: Datatable -->
+		</div>
+	
+
+	<!--end::Form-->
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="views/ViewJs/generalReporte.js"></script>

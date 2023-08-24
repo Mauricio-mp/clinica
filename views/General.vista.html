@@ -1,0 +1,273 @@
+<link rel="stylesheet" href="css/home.css">
+<div class="kt-portlet">
+	<div class="kt-portlet__head">
+		<div class="kt-portlet__head-label">
+			<h3 class="kt-portlet__head-title">
+				Ingreso de Incapacidad
+			</h3>
+		</div>
+	</div>
+	<!--begin::Form-->
+<!-- tomado del Achivo rangos.js-->
+	
+	
+
+		<div class="kt-portlet__body">
+
+            <form method="POST" class="kt-form kt-form--fit kt-form--label-right" action="index.php?page=reporteGeneral&op=prueba" id="FormularioReportegeneral" >
+                <div class="kt-portlet__body form_DatosGenerales" >
+                                  
+            
+                    <div class="tab-content">
+                        <div class="form-group row">
+                            <label for="exampleInputUsername2" class="col-sm-3 col-form-label">A&ntilde;o</label>
+                            <div class="col-sm-9">
+                                <select class="form-control col-sm-3"  id="CbxAnios" name="CbxAnios">
+                                    <option value="2023">2023</option>
+                                    <option value="2023">2022</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row" id="container">
+                            <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Mes</label>
+                            <div class="col-sm-9">
+                                <div class="checkbox-zoom zoom-default">
+                                    <label>
+                                        <input type="checkbox" value="0" id="todos" name="mes[]">
+                                        <span class="cr">
+                                            <i class="cr-icon ik ik-check txt-default"></i>
+                                        </span>
+                                        <span>Todos</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-zoom zoom-primary">
+                                    <label>
+                                        <input type="checkbox" value="1" name="mes[]">
+                                        <span class="cr">
+                                            <i class="cr-icon ik ik-check txt-default"></i>
+                                        </span>
+                                        <span>Enero</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-zoom zoom-primary">
+                                    <label>
+                                        <input type="checkbox" value="2" name="mes[]">
+                                        <span class="cr">
+                                            <i class="cr-icon ik ik-check txt-default"></i>
+                                        </span>
+                                        <span>Febrero</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-zoom zoom-primary">
+                                    <label>
+                                        <input type="checkbox" value="3" name="mes[]">
+                                        <span class="cr">
+                                            <i class="cr-icon ik ik-check txt-default"></i>
+                                        </span>
+                                        <span>Marzo</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-zoom zoom-primary">
+                                    <label>
+                                        <input type="checkbox" value="4" name="mes[]">
+                                        <span class="cr">
+                                            <i class="cr-icon ik ik-check txt-default"></i>
+                                        </span>
+                                        <span>Abril</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-zoom zoom-primary">
+                                    <label>
+                                        <input type="checkbox" value="5" name="mes[]">
+                                        <span class="cr">
+                                            <i class="cr-icon ik ik-check txt-default"></i>
+                                        </span>
+                                        <span>Mayo</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-zoom zoom-primary">
+                                    <label>
+                                        <input type="checkbox" value="6" name="mes[]">
+                                        <span class="cr">
+                                            <i class="cr-icon ik ik-check txt-default"></i>
+                                        </span>
+                                        <span>Junio</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-zoom zoom-primary">
+                                    <label>
+                                        <input type="checkbox" value="7" name="mes[]">
+                                        <span class="cr">
+                                            <i class="cr-icon ik ik-check txt-default"></i>
+                                        </span>
+                                        <span>Julio</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-zoom zoom-primary">
+                                    <label>
+                                        <input type="checkbox" value="8" name="mes[]">
+                                        <span class="cr">
+                                            <i class="cr-icon ik ik-check txt-default"></i>
+                                        </span>
+                                        <span>Agosto</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-zoom zoom-primary">
+                                    <label>
+                                        <input type="checkbox" value="9" name="mes[]">
+                                        <span class="cr">
+                                            <i class="cr-icon ik ik-check txt-default"></i>
+                                        </span>
+                                        <span>Septiembre</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-zoom zoom-primary">
+                                    <label>
+                                        <input type="checkbox" value="10" name="mes[]">
+                                        <span class="cr">
+                                            <i class="cr-icon ik ik-check txt-default"></i>
+                                        </span>
+                                        <span>Octubre</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-zoom zoom-primary">
+                                    <label>
+                                        <input type="checkbox" value="11" name="mes[]">
+                                        <span class="cr">
+                                            <i class="cr-icon ik ik-check txt-default"></i>
+                                        </span>
+                                        <span>Noviembre</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox-zoom zoom-primary">
+                                    <label>
+                                        <input type="checkbox" value="12" name="mes[]">
+                                        <span class="cr">
+                                            <i class="cr-icon ik ik-check txt-default"></i>
+                                        </span>
+                                        <span>Diciembre</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--
+                        <div class="form-group row">
+                            <label for="exampleInputMobile" class="col-sm-3 col-form-label">Motivo de atenci&otilde;n</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number">
+                            </div>
+                        </div>
+                          	  
+                        -->
+                            
+                           
+                            
+                            
+                           
+                       
+                        
+                    </div>  
+                    <div class="kt-portlet__foot">
+                        <div class="kt-form__actions">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                            <button type="reset" onclick="location.href='index.php?page=cita'" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </div>    
+                </div>
+                
+            </form>
+            <!--begin: Datatable -->
+            {{if mostrar}}
+            
+                
+                <div class="card-body">
+                    
+                    <ul class="nav justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="excel/reporte.php">Excel</a>
+                        </li>
+                      
+                    </ul>
+                </div>
+           
+            {{endif mostrar}}
+			<table class="table table-striped- table-bordered table-hover table-checkable" id="Tabla_Recibir" >
+										<thead>
+										  <tr>
+														  <th>Mes</th>
+														  <th>Administracion de Mediciamentos</th>
+														  <th>Nebulizaciones</th>
+														  <th>Bandejas</th>
+                                                          <th>Lavado de Oidos</th>
+                                                          <th>Toma de PA</th>
+                                                          <th>Toma De CLU</th>
+                                                          <th>Consultas Medicas</th>
+                                                          <th>Total Atenciones</th>
+														  
+										  </tr>
+                                            
+											  
+                            </thead>
+                            <tbody>
+                            </tr>
+                            {{if mostrar}}
+                            <tr>
+                              <td>JUNIO</td>
+                              <td>125</td>
+                              <td>75</td>
+                              <td>16</td>
+                              <td>2</td>
+                              <td>8</td>
+                              <td>2</td>
+                              <td>15</td>
+                              <td>133</td>
+                              
+                               </tr>
+                               <tr>
+                                <td>JULIO</td>
+                                <td>125</td>
+                                <td>75</td>
+                                <td>23</td>
+                                <td>8</td>
+                              <td>2</td>
+                                <td>98</td>
+                                <td>8</td>
+                                <td>222</td>
+                                 </tr>
+                                 <tr>
+                                    <td>AGOSTO</td>
+                                    <td>125</td>
+                                    <td>75</td>
+                                    <td>8</td>
+                                    <td>8</td>
+                              <td>2</td>
+                                    <td>4</td>
+                                    <td>2</td>
+                                    <td>99</td>
+                                     </tr>.
+                                     <tr>
+                                        <th></th>
+                                        <th>375</th>
+                                        <th>225</th>
+                                        <th>47</th>
+                                        <th>18</th>
+                                        <th>12</th>
+                                        <th>104</th>
+                                        <th>25</th>
+                                        <th>454</th>
+                                        
+                        </tr>
+                          
+                            {{endif mostrar}}
+                            </tbody>
+				
+				
+						</table>
+			<!--end: Datatable -->
+		</div>
+	
+
+	<!--end::Form-->
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="views/ViewJs/generalReporte.js"></script>
