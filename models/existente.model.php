@@ -57,6 +57,7 @@ class clinica extends Conexion implements cita
 	}
 	public function guardarSignosVitales($registroGuardado,$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion,$fechaInicio,$TipodeAtencion){
 		try {
+			
 			$conn= self::connect();
 		$fin=time();
 		$insert=$conn->prepare("INSERT INTO public.tb_signosVitales(tb_persona,presionarterial,frecuenciacardiaca,pulso,frecuenciarespiratoria,terperaturacorporal,saturacionoxigeno,glucosa,peso,talla,imc,motivo,estado,observacion,fechacreacion,fecha_inicio,fecha_fin,TipodeAtencion,anulado,esnuevo)
@@ -84,6 +85,7 @@ class clinica extends Conexion implements cita
 
 		return ($insert)? true: false;
 
+return $fechaInicio;
 		} catch (PDOException $exception) {
 			exit($exception->getMessage());
 		}

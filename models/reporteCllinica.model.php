@@ -7,10 +7,9 @@
 	date_default_timezone_set('America/Tegucigalpa');
 	interface clinica
 	{
-		public function mostrarInfo($myString,$CbxAnios);
-		public function unirconanio($msg);
-		public function unirTotales($uniranio);
 		
+		public function Mostrardatos($inicio,$fin);
+		public function recorrigo($array);
 	
 	}
 class Recibir extends Conexion implements clinica
@@ -18,67 +17,44 @@ class Recibir extends Conexion implements clinica
 	function __construct(){
         $this->msg='';
 	} 
-	public function unirTotales($uniranio)
-	{
+	function recorrigo($array)  {
+		//$array['tiempo']=$array['fecha_inicio']."hasta".$array['finalizado'];
+		$array['ini']=date('h:i A',$array['fecha_inicio']);
+		$array['fin']=date('h:i A',$array['finalizado']);
 
-		for ($i=0; $i <count($uniranio) ; $i++) { 
-$array2=0;
-			
-			
-			
-			$array2 = $this->obtenertotales(date('m',strtotime($uniranio[$i][0])));
-			//$array[]=$this->obtenertotales(date('m',strtotime($uniranio[$i][0])));
-			//$nuevoarreglo[]=array_merge($array2,$uniranio[$i]);
-			for ($j=0; $j <count($array2) ; $j++) { 
-				
-				
-				$arrayName[]= $array2[$j]['cnombre'];
-				//$arrayName['contar']=$array2[$j]['count'];
-				//$nuevoarreglo[]=array_merge($arrayName,$uniranio[$i]);
-				//$nuevoarreglo[] =array_merge((array)$arrayName, (array)$uniranio[$i]);
-			}
-			$nuevoarreglo[] =array_merge((array)$arrayName, (array)$uniranio[$i]);
-		}
-		return $nuevoarreglo;
-	}
-	public function unirconanio($msg)
-	{
-		for ($i=0; $i <count($msg) ; $i++) { 
+		$array['tiempo']=$array['ini']." - ".$array['fin'];
 
-			$array=  array('numMes' =>date('m',strtotime($msg[$i]['0'])),'mes'=>convertirFecha(date('m',strtotime($msg[$i][0])) ));
-			
-			$arreglo[]=array_merge($array,$msg[$i]);
-
-
-
-			
-			$array2 = array('denis' =>"sasasasas" );
-
-			$nuevoarreglo[]=array_merge($array2,$arreglo[$i]);
-			
-		}
-		return $arreglo;
-
-
+		$array['tiepmpoIncapacidad']=date('d/m/Y',strtotime($array['fechainicio']))." al ".date('d/m/Y',strtotime($array['fechafin']));
+		return $array;
 	}
 
-	public function mostrarInfo($myString,$CbxAnios)
-	{
+	public function Mostrardatos($inicio,$fin) {
 		try {
 			$conn= self::connect();
 
 		
 
 		
-		$sql=$conn->prepare('SELECT  DATE_TRUNC(\'month\',ts.fechacreacion) from tb_signosvitales ts where 
-		extract(month from ts.fechacreacion)in('.$myString.') and extract(year from ts.fechacreacion)=:CbxAnios
-		GROUP BY DATE_TRUNC(\'month\',ts.fechacreacion)');
-		$sql->execute(["CbxAnios"=>2023]);
+		$sql=$conn->prepare("SELECT tp.pidenticacion,tp.pcodigo,tp.telefono,TO_CHAR(ts.fechacreacion, 'DD/MM/YYYY') AS fechacreacion,tp.pnombre,tp.papellido,ts.anulado,ts.estado,
+		ts.fecha_inicio,ts.fecha_fin,ts.finalizado,tp.pdependencia,ts.motivo,
+		tei.fechainicio,tei.fechafin,ted.descripcion as diagnostico,tet.descripcion as tratamiento,
+		tei.fechainicio,tei.fechafin,tei.dias,tei.descripcion as incapacidad,tei.descripcion as des_incapacidad from tb_signosvitales ts 
+		inner join tb_persona tp 
+		on tp.pidpersona=CAST (ts.tb_persona AS INTEGER)  
+		inner join tb_expediente_incapacidades tei 
+		on tei.pid_signos = ts.pid 
+		inner join tb_expediente_diagnostico ted 
+		on ted.pid_signos =ts.pid 
+		inner join tb_expediente_tratamiento tet 
+		on tet.id_diagnostico =ted.id_diagnostico 
+		where ts.anulado=true
+		and ts.fechacreacion between :inicio and :fin");
+		$sql->execute(["inicio"=>$inicio,"fin"=>$fin]);
 		
 	$filas=$sql->fetchAll();
 
 	
-	return $filas;
+	return array_map('Recibir::recorrigo',$filas);
 
 		
 
@@ -87,35 +63,13 @@ $array2=0;
 		}
 		
 	}
-
-
-	public function obtenertotales($array)
-	{
 	
-	
-		$conn= self::connect();
-	
-			
-	
-			
-			$sql=$conn->prepare("SELECT c.cnombre,count(sv.anulado)  from public.tb_catalogos c
-			INNER JOIN public.tb_signosvitales sv
-			on sv.tipodeatencion=c.cid
-			where c.ctipo ='Tipo-Atencion'
-			and extract(year from sv.fechacreacion)=2023 and extract(month from sv.fechacreacion)IN(:mes)
-			GROUP BY c.cnombre");
-			$sql->execute(["mes"=>$array]);
-			
-		$filas=$sql->fetchAll();
-	
-		
-		return $filas;
-	}
 
 
 
 
 }
+
 function recorrer($array){
 	
 //return convertirFecha($array);

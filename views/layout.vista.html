@@ -197,9 +197,14 @@
                                 {{endif General}}
                                 {{if mes}}
                                 <div class="submenu-content">
-                                    <a href="index.php?page=reporteClinica" class="menu-item">Reporte General</a>
+                                    <a href="index.php?page=reporteClinica" class="menu-item">Reporte General(Incap.)</a>
                                 </div>
                                 {{endif mes}}
+                                {{if normal}}
+                                <div class="submenu-content">
+                                    <a href="index.php?page=reporteConsultas" class="menu-item">Reporte General(Consultas)</a>
+                                </div>
+                                {{endif normal}}
                                
                             </div>
                             {{endif reportes}}

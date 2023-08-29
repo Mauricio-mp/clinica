@@ -149,7 +149,7 @@ class clinica extends Conexion implements cita
 					  $date2 = new DateTime();
 					  $diff = $date1->diff($date2);
 					  $fila['edad']= $diff->y."";
-
+						$fila['time']=time();
 					  if($fila['cstatus']=='A'){
 						$fila['cstatus']=1;
 					  }else if ($fila['cstatus']=='I'){
@@ -196,7 +196,7 @@ class clinica extends Conexion implements cita
 					  $date2 = new DateTime();
 					  $diff = $date1->diff($date2);
 					  $fila['edad']= $diff->y."";
-
+					  $fila['time']=time();
 					  if($fila['cstatus']=='A'){
 						$fila['cstatus']=1;
 					  }else if ($fila['cstatus']=='I'){
@@ -239,7 +239,7 @@ class clinica extends Conexion implements cita
 					  $date2 = new DateTime();
 					  $diff = $date1->diff($date2);
 					  $fila['edad']= $diff->y."";
-
+					  $fila['time']=time();
 					  if($fila['cstatus']=='A'){
 						$fila['cstatus']=1;
 					  }else if ($fila['cstatus']=='I'){

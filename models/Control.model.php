@@ -29,7 +29,7 @@
 		public function MotrarDiagnosticos($expediente);
 		public function GuardarIncapacidad($FechaFin,$FechaInicio,$txtincapacidad,$id,$preclinica,$dias,$usuario);
 		public function lledarGenerales($id,$expediente);
-		public function llenarDiagnostico($id,$expediente);
+		public function llenarDiagnostico($id,$expediente,$prclinicaActual);
 		public function llenarTratamientos($id,$expediente);
 		public function OptenerPrecilinicaActual($id);
 		public function LenarIncapacidad($id);
@@ -74,13 +74,14 @@ class Recibir extends Conexion implements clinica
 			]);
 			return $filas=$sql->fetchAll(PDO::FETCH_ASSOC);
 	}
-	public function llenarDiagnostico($id,$expediente)
+	public function llenarDiagnostico($id,$expediente,$prclinicaActual)
 	{
 		$conn= self::connect();
-		$sql=$conn->prepare("SELECT ed.id_diagnostico,ed.id_expediente,ed.descripcion,TO_CHAR(ed.fechacreacion, 'DD/MM/YYYY') AS fechacreacion,ed.usuariocreacion,ed.estado from tb_expediente_diagnostico ed where ed.id_expediente=:expediente order by ed.id_diagnostico desc");
+		$sql=$conn->prepare("SELECT ed.id_diagnostico,ed.pid_signos,ed.id_expediente,ed.descripcion,TO_CHAR(ed.fechacreacion, 'DD/MM/YYYY') AS fechacreacion,ed.usuariocreacion,ed.estado from tb_expediente_diagnostico ed where ed.id_expediente=:expediente  order by ed.id_diagnostico desc");
 		$sql->execute(
 			[
-				"expediente"=>1
+				"expediente"=>$expediente
+			
 			]);
 			return $filas=$sql->fetchAll(PDO::FETCH_ASSOC);
 	}

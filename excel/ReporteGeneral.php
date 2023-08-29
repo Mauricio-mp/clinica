@@ -6,14 +6,16 @@ ob_start();
 
 
 
-//  error_reporting(E_ALL);
-//    ini_set('display_errors', '1');
+// error_reporting(E_ALL);
+ //  ini_set('display_errors', '1');
 require "../Classes/PHPExcel.php";
 require "../Classes/PHPExcel/Writer/Excel5.php"; 
 header('Content-Type: text/html; charset=ISO-8859-1');
 
+$motivos=$_SESSION['motivos'];
+$datos=$_SESSION['valores'];
 
-$var=$_SESSION['datosPorPreclinica'];
+
 
 $objPHPExcel = new PHPExcel();
 // Set document properties
@@ -25,6 +27,7 @@ $objPHPExcel->getProperties()->setCreator("Govinda")
                              ->setKeywords("office 2007 openxml php")
                              ->setCategory("Test result file");
 
+// Add some data
 function cellColor($cells,$color){
     global $objPHPExcel;
 
@@ -35,9 +38,10 @@ function cellColor($cells,$color){
         )
     ));
 }
+
 $activeSheet = $objPHPExcel->getActiveSheet();
-
-
+    //..
+    //...
 $activeSheet->getStyle("A")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 $activeSheet->getStyle("B")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 $activeSheet->getStyle("C")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -45,12 +49,11 @@ $activeSheet->getStyle("D")->getAlignment()->setHorizontal(\PHPExcel_Style_Align
 $activeSheet->getStyle("E")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 $activeSheet->getStyle("F")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 $activeSheet->getStyle("G")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-$activeSheet->getStyle("H")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-$activeSheet->getStyle("I")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-$activeSheet->getStyle("J")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-$activeSheet->getStyle("K")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-$activeSheet->getStyle("M")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-							 
+$activeSheet->getStyle("H")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+$activeSheet->getStyle("I")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+$activeSheet->getStyle("J")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+$activeSheet->getStyle("k")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
 cellColor('A1', '3498DB');
 cellColor('B1', '3498DB');
 cellColor('C1', '3498DB');
@@ -62,11 +65,8 @@ cellColor('H1', '3498DB');
 cellColor('I1', '3498DB');
 cellColor('J1', '3498DB');
 cellColor('k1', '3498DB');
-cellColor('L1', '3498DB');
-cellColor('M1', '3498DB');
 
 
-// Add some data
 $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
 $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(50);
 $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(30);
@@ -78,8 +78,6 @@ $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(30);
 $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(30);
 $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(30);
 $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(30);
-$objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(30);
-$objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(30);
 
 $objPHPExcel->getActiveSheet()->getStyle("A1")->getFont()->setBold(true);
 $objPHPExcel->getActiveSheet()->getStyle("B1")->getFont()->setBold(true);
@@ -92,24 +90,22 @@ $objPHPExcel->getActiveSheet()->getStyle("H1")->getFont()->setBold(true);
 $objPHPExcel->getActiveSheet()->getStyle("I1")->getFont()->setBold(true);
 $objPHPExcel->getActiveSheet()->getStyle("J1")->getFont()->setBold(true);
 $objPHPExcel->getActiveSheet()->getStyle("K1")->getFont()->setBold(true);
-$objPHPExcel->getActiveSheet()->getStyle("L1")->getFont()->setBold(true);
-$objPHPExcel->getActiveSheet()->getStyle("M1")->getFont()->setBold(true);
 
 
-$objPHPExcel->setActiveSheetIndex(0)
-->setCellValue('A1', 'Fecha')
-->setCellValue('B1', 'Nombre')
-->setCellValue('C1', 'Identidad')
-->setCellValue('D1', 'Empleado')
-->setCellValue('E1', 'Hora')
-->setCellValue('F1', '# de Telefono')
-->setCellValue('G1', 'Area/Departamento')
-->setCellValue('H1', 'Motivo de Visita')
-->setCellValue('I1', 'Diagnostico')
-->setCellValue('J1', 'Tratamiento')
-->setCellValue('K1', 'Incapacidad')
-->setCellValue('L1', 'Dias')
-->setCellValue('M1', 'Observaciones');
+
+	$objPHPExcel->setActiveSheetIndex(0)
+	->setCellValue('A1', 'MES')
+->setCellValue('B1', $motivos[0]['cnombre'])
+->setCellValue('C1', $motivos[1]['cnombre'])
+->setCellValue('D1', $motivos[2]['cnombre'])
+->setCellValue('E1', $motivos[3]['cnombre'])
+->setCellValue('F1', $motivos[4]['cnombre'])
+->setCellValue('G1', $motivos[5]['cnombre'])
+->setCellValue('H1', $motivos[6]['cnombre'])
+->setCellValue('I1', $motivos[7]['cnombre'])
+->setCellValue('J1', $motivos[8]['cnombre'])
+->setCellValue('K1', 'Total');
+
 
 
 
@@ -130,43 +126,35 @@ for ($i=0; $i <count($var) ; $i++) {
 	$objPHPExcel->getActiveSheet()->SetCellValue('I'.$cont, $var[$i]['ocupacionimputado']);
 	$cont++;
 }
-    <td>{{fechacreacion}}</td>
-                              <td>{{pnombre}} {{papellido}}</td>
-                              <td>{{pidenticacion}}</td>
-                              <td>{{pcodigo}}</td>
-                              <td>{{tiempo}}</td>
-                              <td>{{telefono}}</td>
-                              <td>{{pdependencia}}</td>
-                              <td>{{motivo}}</td>
-                              <td>{{diagnostico}}</td>
-                              <td>{{tratamiento}}</td>
-                              <td>{{tiepmpoIncapacidad}}</td>
-                              <td>{{dias}}</td>
-                              <td>{{des_incapacidad}}</td>
+    
 */
 $cont=2;
-for ($i=0; $i <count($var) ; $i++) { 
-	$objPHPExcel->getActiveSheet()->SetCellValue(A.$cont, $var[$i]['fechacreacion']);
-	$objPHPExcel->getActiveSheet()->SetCellValue(B.$cont, $var[$i]['pnombre'].' '.$var[$i]['papellido'] );
-$objPHPExcel->getActiveSheet()->SetCellValue(C.$cont, $var[$i]['pidenticacion']);
-$objPHPExcel->getActiveSheet()->SetCellValue(D.$cont, $var[$i]['pcodigo']);
-$objPHPExcel->getActiveSheet()->SetCellValue(E.$cont, $var[$i]['tiempo']);
-$objPHPExcel->getActiveSheet()->SetCellValue(F.$cont, $var[$i]['telefono']);
-$objPHPExcel->getActiveSheet()->SetCellValue(G.$cont, $var[$i]['pdependencia']);
-$objPHPExcel->getActiveSheet()->SetCellValue(H.$cont, $var[$i]['motivo']);
-$objPHPExcel->getActiveSheet()->SetCellValue(I.$cont, $var[$i]['diagnostico']);
-$objPHPExcel->getActiveSheet()->SetCellValue(J.$cont, $var[$i]['tratamiento']);
-$objPHPExcel->getActiveSheet()->SetCellValue(K.$cont, $var[$i]['tiepmpoIncapacidad']);
-$objPHPExcel->getActiveSheet()->SetCellValue(L.$cont, $var[$i]['dias']);
-$objPHPExcel->getActiveSheet()->SetCellValue(M.$cont, $var[$i]['des_incapacidad']);
+$sumador=0;
+for ($j=0; $j <count($datos) ; $j++) { 
+$sumador=$datos[$j]['suma']+$sumador;
+$objPHPExcel->getActiveSheet()->SetCellValue('A'.$cont, $datos[$j]['mes']);
+$objPHPExcel->getActiveSheet()->SetCellValue('B'.$cont, $datos[$j][0]);
+$objPHPExcel->getActiveSheet()->SetCellValue('C'.$cont, $datos[$j][1]);
+$objPHPExcel->getActiveSheet()->SetCellValue('D'.$cont, $datos[$j][2]);
+$objPHPExcel->getActiveSheet()->SetCellValue('E'.$cont, $datos[$j][3]);
+$objPHPExcel->getActiveSheet()->SetCellValue('F'.$cont, $datos[$j][4]);
+$objPHPExcel->getActiveSheet()->SetCellValue('G'.$cont, $datos[$j][5]);
+$objPHPExcel->getActiveSheet()->SetCellValue('H'.$cont, $datos[$j][6]);
+$objPHPExcel->getActiveSheet()->SetCellValue('I'.$cont, $datos[$j][7]);
+$objPHPExcel->getActiveSheet()->SetCellValue('J'.$cont, $datos[$j][8]);
+$objPHPExcel->getActiveSheet()->SetCellValue('K'.$cont, $datos[$j]['suma']);
 
+$cont++;
 }
+
+$objPHPExcel->getActiveSheet()->SetCellValue('K'.$cont, number_format($sumador,2));
 
 
   
 
-
-
+// print_r('<pre>');
+// print_r($datos);
+// print_r('</pre>');
 
 
 // Rename worksheet
@@ -177,7 +165,7 @@ $objPHPExcel->setActiveSheetIndex(0);
 
 // Redirect output to a clientâ€™s web browser (Excel5)
 header('Content-Type: application/vnd.ms-excel; charset=UTF-8');
-header('Content-Disposition: attachment;filename="userList.xls"');
+header('Content-Disposition: attachment;filename="Reporte_Mensual_Clinica.xls"');
 header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
 header('Cache-Control: max-age=1');
@@ -187,6 +175,7 @@ header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
 header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
 header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
 header ('Pragma: public'); // HTTP/1.0
+
 
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 $objWriter->save('php://output');

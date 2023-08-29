@@ -3,17 +3,13 @@
 	<div class="kt-portlet__head">
 		<div class="kt-portlet__head-label">
 			<h3 class="kt-portlet__head-title">
-				Ingreso de Incapacidad
+				{{page_title}}
 			</h3>
 		</div>
 	</div>
 	<!--begin::Form-->
 <!-- tomado del Achivo rangos.js-->
-	
-	
-
 		<div class="kt-portlet__body">
-
             <form method="POST" class="kt-form kt-form--fit kt-form--label-right" action="index.php?page=reporteClinica&op=prueba" id="FormularioReportegeneral" >
                 <div class="kt-portlet__body form_DatosGenerales" >
                                   
@@ -61,7 +57,6 @@
             <!--begin: Datatable -->
             {{if mostrar}}
             
-                
                 <div class="card-body">
                     
                     <ul class="nav justify-content-end">
@@ -71,9 +66,8 @@
                       
                     </ul>
                 </div>
-           
             {{endif mostrar}}
-			<table class="table table-striped- table-bordered table-hover table-checkable" id="Tabla_Recibir" >
+			<table class="table table-striped- table-bordered table-hover table-checkable" id="Tablaincapaci" >
 										<thead>
 										  <tr>
 														  <th>Fecha</th>
@@ -84,8 +78,10 @@
                                                           <th># de Telefono</th>
                                                           <th>Area/Departamento</th>
                                                           <th>Motivo de visita</th>
-                                                          <th>Incapacidad</th>
+                                                          <th>Diagnostico</th>
                                                           <th>Tratamiento</th>
+                                                          <th>Incapacidad</th>
+                                                          <th>dias</th>
                                                           <th>Observaciones</th>
                                                
 														  
@@ -95,66 +91,25 @@
                             </thead>
                             <tbody>
                             </tr>
-                            {{if mostrar}}
+                            {{foreach mostrar}}
                             <tr>
-                              <td>05/07/2023</td>
-                              <td>Maria Antonia Espinal Espinal</td>
-                              <td>1501-1967-00342</td>
-                              <td>000890</td>
-                              <td>11:40 - 11:50 am</td>
-                              <td>9499-2302</td>
-                              <td>MAIE</td>
-                              <td>Fiebre</td>
-                              <td>del 20/07/2023 al 22/07/2023</td>
-                              <td>Acetaminfen</td>
-                              <td>Consulta</td>
- 
+                              <td>{{fechacreacion}}</td>
+                              <td>{{pnombre}} {{papellido}}</td>
+                              <td>{{pidenticacion}}</td>
+                              <td>{{pcodigo}}</td>
+                              <td>{{tiempo}}</td>
+                              <td>{{telefono}}</td>
+                              <td>{{pdependencia}}</td>
+                              <td>{{motivo}}</td>
+                              <td>{{diagnostico}}</td>
+                              <td>{{tratamiento}}</td>
+                              <td>{{tiepmpoIncapacidad}}</td>
+                              <td>{{dias}}</td>
+                              <td>{{des_incapacidad}}</td>
                               
                                </tr>
-                               <tr>
-                                <td>10/07/2023</td>
-                                <td>Jessica Aracely Fonseca Castro</td>
-                                <td>0801-1972-00932</td>
-                                <td>002200</td>
-                                <td>11:50 - 12:05 pm</td>
-                              <td>9957-9523</td>
-                                <td>Presupuesto</td>
-                                <td>Fiebre</td>
-                              <td>del 20/07/2023 al 22/07/2023</td>
-                              <td>Acetaminfen</td>
-                                <td>Consulta, receta</td>
-                        
-                                 </tr>
-                                 <tr>
-                                    <td>17/07/2023</td>
-                                    <td>Carmen Melissa Torres Salgado</td>
-                                    <td>0801-1985-19253</td>
-                                    <td>005897</td>
-                                    <td>08:05 - 08:15 am</td>
-                                    <td>9608-1453</td>
-                                    <td>Enjuiciamiento</td>
-                                    <td>Fiebre</td>
-                              <td>del 20/07/2023 al 22/07/2023</td>
-                              <td>Acetaminfen</td>
-                                    <td>Consulta, se le dio medicamento V.O (Nexium)</td>
-                                   
-                                     </tr>
-                                  
-                                    <tr>
-                                        <td>25/07/2023</td>
-                                        <td>Carmen Melissa Torres Salgado</td>
-                                        <td>0801-1985-19253</td>
-                                        <td>005897</td>
-                                        <td>08:05 - 08:15 am</td>
-                                        <td>9608-1453</td>
-                                        <td>Dexlanzopral 500mg</td>
-                                        <td>Fiebre</td>
-                              <td>del 20/07/2023 al 22/07/2023</td>
-                              <td>Acetaminfen</td>
-                                        <td>Consulta, se le dio medicamento V.O (Nexium)</td>
-                                       
-                                    </tr>
-                            {{endif mostrar}}
+                             
+                            {{endfor mostrar}}
                             </tbody>
 				
 				
@@ -166,4 +121,4 @@
 	<!--end::Form-->
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="views/ViewJs/generalReporte.js"></script>
+<script src="views/ViewJs/generalClinica.js"></script>

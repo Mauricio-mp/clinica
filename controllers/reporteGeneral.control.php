@@ -11,16 +11,24 @@ error_reporting(E_ALL);
 */
 session_start();
 ob_start();
-addToContext("page_title","Registro de Preclinicas");
+addToContext("page_title","Reporte Mensual");
   require_once("libs/template_engine.php");
 require_once("models/ReporteGeneral.model.php");
   function run(){
     $datos=[];
     $opcion =$_GET['op'];
     $json = json_decode($_COOKIE['user_logged'],true);
-
-
+   
+    $obj= new Recibir();
+   
 switch ($opcion) {
+  case 'ExportExcel':
+
+   
+
+
+
+    break;
   case 'prueba':
     $datos['mostrar']=true;
     renderizar("General",$datos);
@@ -45,12 +53,36 @@ switch ($opcion) {
    print_r($unirTotales);
    print_r('</pre>');
     break;
-  
+  case 'mostrardatos':
+    $obj= new Recibir();
+    $datos['motivos']=$obj->mostrarmotivos($val=true);
+    $CbxAnios=$_POST['CbxAnios'];
+    $mes=$_POST['mes'];
+    for ($i=0; $i <count($mes) ; $i++) {   
+      $cost .= '\''.$mes[$i].'\''. ',';  
+    }
+    $myString = substr($cost, 0, -1);
+
+    $info=$obj->mostrarnuevoInfo($myString,$CbxAnios);
+
+    $msg=$obj->mostrarmotivos($val=false);
+    $datos['val']=$obj->resultado($msg,$info,$CbxAnios);
+
+    // print_r('<pre>');
+    // print_r($datos);
+    // print_r('</pre>');
+    
+  $_SESSION['motivos']=$datos['motivos'];
+  $_SESSION['valores']= $datos['val'];
+    $datos['val']=$obj->resultado($msg,$info,$CbxAnios);
+    renderizar("General",$datos);
+   
+
+    break;
   default:
   renderizar("General",$datos);
     break;
 }
-
 
 
     

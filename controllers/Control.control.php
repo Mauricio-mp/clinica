@@ -31,7 +31,8 @@ require_once("models/Control.model.php");
     case 'llenarDiagnostico':
       $expediente=$_POST['id'];
        $id=$json[0]['id_usuario'];
-       $arrayName = array('data' =>$Control->llenarDiagnostico($id,$expediente));
+       $prclinicaActual=$Control->OptenerPrecilinicaActual($expediente);
+       $arrayName = array('data' =>$Control->llenarDiagnostico($id,$expediente,$prclinicaActual));
        echo json_encode($arrayName);
       break;
       case 'LLenarDatoGenerales':

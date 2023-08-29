@@ -63,7 +63,9 @@ VALUES('Reporte_general');
 INSERT INTO public.permisos
 (descripcion)
 VALUES('Reporte_mes');
-
+INSERT INTO public.permisos
+(descripcion)
+VALUES('Reporte_Normal');
 
 
 INSERT INTO public.roles_permisos
@@ -94,6 +96,9 @@ VALUES(4, 3);
 INSERT INTO public.roles_permisos
 (id_rol, id_permiso)
 VALUES(4, 4);
+INSERT INTO public.roles_permisos
+(id_rol, id_permiso)
+VALUES(4, 5);
 
 
 INSERT INTO public.usuarios
@@ -444,7 +449,7 @@ create table tb_Expediente_Incapacidades (
 select * from tb_persona 
 select * from tb_signosVitales where pid >22
 SELECT * FROM tb_catalogos where ctipo='Tipo-Sangre'
-
+select * from tb_Expediente_Diagnostico
 
 delete from tb_signosVitales
 delete from tb_Expediente_traslado
@@ -465,17 +470,18 @@ create table tb_Expediente_Empleado (
 	  REFERENCES tb_persona(pidpersona)   
 );
 
-drop database clinica1
+drop database clinica
 create database clinica
 SELECT  * FROM pg_stat_activity WHERE datname='clinica';
-SELECT pg_terminate_backend(21641);
-SELECT pg_terminate_backend(20620);
+SELECT pg_terminate_backend(106269);
+SELECT pg_terminate_backend(54904);
 ---------------------------------------------------------------
 select max(pid_signos) from tb_Expediente_Preclinicas where id_Expediente=1
 
 select TO_CHAR (fechainicio:: DATE, 'dd/mm/YYYY') as fechaInicio,TO_CHAR (fechafin:: DATE, 'dd/mm/YYYY') as 
 fechaFin,dias,descripcion,fechacreacion from tb_Expediente_Incapacidades where id_Expediente=:id
 
+select * from public.permisos
 
-
-                select * from tb_signosVitales
+SELECT ed.id_diagnostico,ed.pid_signos,ed.id_expediente,ed.descripcion,TO_CHAR(ed.fechacreacion, 'DD/MM/YYYY') AS fechacreacion,ed.usuariocreacion,ed.estado from
+ tb_expediente_diagnostico ed where ed.id_expediente=2 and ed.pid_signos=2  order by ed.id_diagnostico desc

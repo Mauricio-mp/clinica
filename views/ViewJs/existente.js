@@ -72,8 +72,9 @@ $( document ).ready(function() {
       url: "index.php?page=EmpleadoExistente&op=InPrec&id="+text,
       data:form,
       success: function (response) {
+       
         if (response==true) {
-          showSuccessToast('Ficha Ingresada con Exito');
+         showSuccessToast('Ficha Ingresada con Exito');
           setTimeout(saludos, 4000);
        
 

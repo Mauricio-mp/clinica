@@ -1079,7 +1079,7 @@ function FinalizarExpediente(param) {
     })}};jQuery(document).ready(function(){TablaDiagnostico.init()});
   }
 function Diagnostico(){
- 
+
   llenarDiagnosticos(GlobalExpediente);
   $('.Acordiones').hide();
   $('.Diagnostico').show('slow');
@@ -1099,6 +1099,7 @@ function GuardarDiagnosticos() {
 
         
         showSuccessToast('Diagnostico agregado con exito');
+       
         llenarDiagnosticos(GlobalExpediente);
         $('#form_Diagnostico')[0].reset();
         /*

@@ -129,9 +129,9 @@ var result;
   
 }
 
-function myfunct(codigo,identidad){
+function myfunct(codigo,identidad,time){
   if(EmpleadoSiExiste(identidad)==true){
-    window.location.href='index.php?page=EmpleadoExistente&id='+identidad+'&cod='+codigo;
+    window.location.href='index.php?page=EmpleadoExistente&id='+identidad+'&cod='+codigo+'&time='+time;
   }else{
     EmpleadoNoexiste(codigo);
   }
@@ -162,7 +162,6 @@ switch (e.target.value) {
     break;
 }
 }
-
 function Busqueda (form){
 "use strict";
 
@@ -191,7 +190,7 @@ init:function(){$("#tabla_ajax1").DataTable(
         orderable:!1,
         render:function(data, type, row, meta)
         {
-          return'\n                        <span class="dropdown">\n                                                                            </span>\n                        <a href="javascript:myfunct(\' '+row['cempno']+' \',\' '+row['cfedid']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class="la la-edit"></i>\n                        </a>'
+          return'\n                        <span class="dropdown">\n                                                                            </span>\n                        <a href="javascript:myfunct(\' '+row['cempno']+' \',\' '+row['cfedid']+' \',\' '+row['time']+' \')" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">\n                          <i class="la la-edit"></i>\n                        </a>'
        }
     },
     {targets:-5,render:function(a,t,e,n)

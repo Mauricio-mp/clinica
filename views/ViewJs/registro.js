@@ -61,6 +61,7 @@ function BorarPreclinica(id){
   })
 
 }
+
 function BusquedaNuevo (){
     "use strict";
    

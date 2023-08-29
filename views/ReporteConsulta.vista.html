@@ -14,7 +14,7 @@
 
 		<div class="kt-portlet__body">
 
-            <form method="POST" class="kt-form kt-form--fit kt-form--label-right" action="index.php?page=reporteGeneral&op=mostrardatos" id="FormularioReportegeneral" >
+            <form method="POST" class="kt-form kt-form--fit kt-form--label-right" action="index.php?page=reporteConsultas&op=mostrardatos" id="FormularioReportegeneral" >
                 <div class="kt-portlet__body form_DatosGenerales" >
                                   
             
@@ -70,39 +70,42 @@
                     </div>  
                     <div class="kt-portlet__foot">
                         <div class="kt-form__actions">
-                            <button type="submit" class="btn btn-success">Buscar</button>
-                            <button type="reset" onclick="location.href='index.php?page=cita'" class="btn btn-secondary">Cancelar</button>
+                            <button type="submit" class="btn btn-success">Submit</button>
+                            <button type="reset" onclick="location.href='index.php?page=cita'" class="btn btn-secondary">Cancel</button>
                         </div>
                     </div>    
                 </div>
                 
             </form>
             <!--begin: Datatable -->
-            {{if val}}
+            {{if mostrar}}
             
                 
                 <div class="card-body">
                     
                     <ul class="nav justify-content-end">
                         <li class="nav-item">
-                            <a class="nav-link active" href="excel/ReporteGeneral.php">Excel</a>
+                            <a class="nav-link active" href="excel/reporteConsulta.php"><h1>Excel</h1></a>
                         </li>
                       
                     </ul>
                 </div>
            
-            {{endif val}}
-			<table class="table table-striped- table-bordered table-hover table-checkable" id="TablaReporteGeneral" >
+            {{endif mostrar}}
+			<table class="table table-striped- table-bordered table-hover table-checkable" id="Taba_reporte_Consulta" >
 										<thead>
                                             
 										  <tr>
-                                                <th>Mes</th>
-                                            {{foreach motivos}}
-														 
-														  <th>{{cnombre}}</th>
-														
-                                                          {{endfor motivos}}
-                                                          <th>Total</th>
+                                                <th>Nombre</th>
+                                                <th>Identidad</th>
+                                                <th>Fecha</th>	 
+												<th>Numero de empleado</th>
+                                                <th>Hora</th>	
+                                                <th>Telefono</th> 
+                                                <th>Ocupacion</th>  
+                                                <th>Area/Departamento</th>
+                                                <th>Tipo de Consulta</th>
+                                                <th>Observaciones</th>
 										  </tr>
                                                      
                                          
@@ -111,29 +114,29 @@
                             </thead>
                             <tbody>
                             </tr>
-                            {{foreach val}}
+                            {{foreach mostrar}}
                             <tr>
-                              <td>{{mes}}</td>
-                              <td>{{0}}</td>
-                              <td>{{1}}</td>
-                              <td>{{2}}</td>
-                              <td>{{3}}</td>
-                              <td>{{4}}</td>
-                              <td>{{5}}</td>
-                              <td>{{6}}</td>
-                              <td>{{7}}</td>
-                              <td>{{8}}</td>
-                              <th>{{suma}}</th>
+                              <td>{{pnombre}} {{papellido}}</td>
+                              <td>{{pidenticacion}}</td>
+                              <td>{{fechacreacion}}</td>
+                              <td>{{pcodigo}}</td>
+                              <td>{{tiempo}}</td>
+                              <td>{{telefono}}</td>
+                              <td>{{pocupacion}}</td>
+                              <td>{{pdependencia}}</td>
+                              <td>{{cnombre}}</td>
+                              <td>{{descr}}</td>
                                </tr>
-                            {{endfor val}}
+                            {{endfor mostrar}}
                             </tbody>
 				
 				
 						</table>
 			<!--end: Datatable -->
 		</div>
+	
 
 	<!--end::Form-->
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="views/ViewJs/generalReporte.js"></script>
+<script src="views/ViewJs/ReporteConsulta.js"></script>

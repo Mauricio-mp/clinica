@@ -16,8 +16,10 @@ addToContext("form_title","Busqueda");
 
   function run(){
     $cuenta=[];
+  
       $opcion =$_GET['op'];
       $op=($opcion)? $opcion: 'DetalleEmpleado';
+      setcookie("inicio",trim($_GET['time']),time()+28800);
  // $opcion='empleado';
     $id=$_GET['id'];
     $clinicaNew=new Clinica();
@@ -101,6 +103,7 @@ addToContext("form_title","Busqueda");
       break;
       case 'InPrec':
         //datos generales
+     
         $CodigoEmpleado=$_POST['CodigoEmpleado'];
         $Nombre=$_POST['Nombre'];
         $Apellido=$_POST['Apellido'];
@@ -137,7 +140,7 @@ addToContext("form_title","Busqueda");
         $registroGuardado=$clinica->UpdateEmpleado($txtIdentidad,$CodigoEmpleado,$Nombre,$Apellido,$FechaNacimiento,$txtEdad,$txtSexo,$EstadoCivil,$txtOcupacion,$Dependencia,$txtReligion,$txtRaza,$txtTipoSanguineo,$txtResidencia,$txtTelefono);
         //print_r($registroGuardado);
 
-        print_r($clinica->guardarSignosVitales($_GET['id'],$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion,$_COOKIE["inicio"],$TipodeAtencion));
+        print_r($clinica->guardarSignosVitales($_GET['id'],$PA,$FC,$pulso,$FR,$temperatura,$Sp02,$Glu,$peso,$talla,$imc,$motivo,$txtObservacion,$_COOKIE['inicio'],$TipodeAtencion));
 
 
 

@@ -127,6 +127,10 @@ $consultaRol->execute(['rol' => $rol]);
           $_SESSION['reportes']=true;
           $_SESSION['mes']=true;
       }  
+      if($fila[$i]['id_permiso']==5){
+        $_SESSION['reportes']=true;
+        $_SESSION['normal']=true;
+    }
     }
         return true;
       }else{

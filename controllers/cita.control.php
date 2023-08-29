@@ -22,7 +22,6 @@ addToContext("form_title","Busqueda");
     $clinicaNew=new Clinica();
     $cuenta['listaEStadoCivil']=$clinicaNew->GetListaEstadoCivil();
     $cuenta['TipoSanguineo']=$clinicaNew->GetListaSangre();
-  
     switch ($opcion) {
       case 'consultarEmpleadoExiste':
         $identidad=$_POST['identidad'];

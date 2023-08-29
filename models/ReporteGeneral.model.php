@@ -1,14 +1,20 @@
 <?php
-
-		ini_set("memory_limit",-1);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL); 
+//	ini_set("memory_limit",-1);
+require_once "./Classes/PHPExcel.php";
+require_once "./Classes/PHPExcel/Writer/Excel5.php"; 
     require_once("libs/dao.php");
 	date_default_timezone_set('America/Tegucigalpa');
 	interface clinica
 	{
-		public function mostrarInfo($myString,$CbxAnios);
+	
 		public function unirconanio($msg);
 		public function unirTotales($uniranio);
-		
+		public function mostrarnuevoInfo($meses,$anio);
+		public function mostrarmotivos($val);
+		public function resultado($msg,$mes,$CbxAnios);
 	
 	}
 class Recibir extends Conexion implements clinica
@@ -16,6 +22,70 @@ class Recibir extends Conexion implements clinica
 	function __construct(){
         $this->msg='';
 	} 
+	public function resultado($msg,$mes,$CbxAnios){
+
+		
+
+		for ($i=0; $i <count($mes) ; $i++) { 
+			$getmes=$mes[$i];
+			$sumador=0;
+			for ($j=0; $j <count($msg) ; $j++) { 
+					
+					$conn= self::connect();
+					$sql=$conn->prepare("SELECT count(ts.pid) as valor from tb_signosvitales ts 
+					where ts.tipodeatencion =:tipo and extract('month' from ts.fechacreacion) IN(:mes) and extract('year' from ts.fechacreacion) IN(:anio) and ts.anulado=true");
+					$sql->execute(["mes"=>$getmes,"anio"=>$CbxAnios,"tipo"=>$msg[$j]]);
+					$filas=$sql->fetchAll(PDO::FETCH_COLUMN);
+					
+					$count['mes']=convertirFecha($getmes);
+					$count[]=$filas[0];
+					$sumador=$filas[0]+$sumador;
+					$count['suma']=$sumador;
+					$arr[$i]=$count;
+					
+			}
+			unset($count);
+			
+		}
+		return $arr;
+	}
+	public function mostrarmotivos($val) {
+		$conn= self::connect();
+		if($val==true){
+			$sql=$conn->prepare("select cnombre from tb_catalogos tc where ctipo='Tipo-Atencion' and estado=true");
+			$sql->execute();
+			$filas=$sql->fetchAll();
+		}else{
+			$sql=$conn->prepare("select cid from tb_catalogos tc where ctipo='Tipo-Atencion' and estado=true");
+			$sql->execute();
+			$filas=$sql->fetchAll(PDO::FETCH_COLUMN);
+		}
+		
+		
+		
+	
+	return $filas;
+	}
+	public function mostrarnuevoInfo($meses,$anio) {
+		$conn= self::connect();
+	
+		
+
+		
+		$sql=$conn->prepare("select DISTINCT DATE_TRUNC('month', ts.fechacreacion) as mes from tb_signosvitales ts 
+		inner join tb_catalogos tc
+		on tc.cid =ts.tipodeatencion where extract('month' from ts.fechacreacion) IN($meses)");
+		$sql->execute();
+		
+	$filas=$sql->fetchAll();
+
+	for ($i=0; $i <count($filas) ; $i++) { 
+		$cont[]=date('m',strtotime($filas[$i]['mes']));
+		
+
+	}
+	return $cont;
+	}
 	public function unirTotales($uniranio)
 	{
 
@@ -60,31 +130,7 @@ $array2=0;
 
 	}
 
-	public function mostrarInfo($myString,$CbxAnios)
-	{
-		try {
-			$conn= self::connect();
-
-		
-
-		
-		$sql=$conn->prepare('SELECT  DATE_TRUNC(\'month\',ts.fechacreacion) from tb_signosvitales ts where 
-		extract(month from ts.fechacreacion)in('.$myString.') and extract(year from ts.fechacreacion)=:CbxAnios
-		GROUP BY DATE_TRUNC(\'month\',ts.fechacreacion)');
-		$sql->execute(["CbxAnios"=>2023]);
-		
-	$filas=$sql->fetchAll();
-
 	
-	return $filas;
-
-		
-
-		}catch (PDOException $exception) {
-			exit($exception->getMessage());
-		}
-		
-	}
 
 
 	public function obtenertotales($array)
