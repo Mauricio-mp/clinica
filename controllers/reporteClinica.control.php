@@ -18,7 +18,8 @@ require_once("models/reporteCllinica.model.php");
     $datos=[];
     $opcion =$_GET['op'];
     $json = json_decode($_COOKIE['user_logged'],true);
-
+    $recibir= new Recibir();
+    $datos['anios']=$recibir->mostrarAnio();
 
 switch ($opcion) {
   case 'prueba':

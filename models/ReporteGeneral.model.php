@@ -15,6 +15,7 @@ require_once "./Classes/PHPExcel/Writer/Excel5.php";
 		public function mostrarnuevoInfo($meses,$anio);
 		public function mostrarmotivos($val);
 		public function resultado($msg,$mes,$CbxAnios);
+		public function mostrarAnio();
 	
 	}
 class Recibir extends Conexion implements clinica
@@ -22,6 +23,15 @@ class Recibir extends Conexion implements clinica
 	function __construct(){
         $this->msg='';
 	} 
+	public function mostrarAnio() {
+		$i=date('Y');
+		$j=0;
+		for ($i; $i >=2023 ; $i--) { 
+			$anio[$j]['aaa']=$i;
+			$j++;
+		}
+		return $anio;
+	}
 	public function resultado($msg,$mes,$CbxAnios){
 
 		

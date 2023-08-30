@@ -10,6 +10,7 @@
 		
 		public function Mostrardatos($inicio,$fin);
 		public function recorrigo($array);
+		public function mostrarAnio();
 	
 	}
 class Recibir extends Conexion implements clinica
@@ -17,6 +18,15 @@ class Recibir extends Conexion implements clinica
 	function __construct(){
         $this->msg='';
 	} 
+	public function mostrarAnio() {
+		$i=date('Y');
+		$j=0;
+		for ($i; $i >=2023 ; $i--) { 
+			$anio[$j]['aaa']=$i;
+			$j++;
+		}
+		return $anio;
+	}
 	function recorrigo($array)  {
 		//$array['tiempo']=$array['fecha_inicio']."hasta".$array['finalizado'];
 		$array['ini']=date('h:i A',$array['fecha_inicio']);

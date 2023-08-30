@@ -20,7 +20,7 @@ require_once("models/ReporteConsulta.model.php");
     $json = json_decode($_COOKIE['user_logged'],true);
    
     $obj= new Consulta();
-   
+    $datos['anios']=$obj->mostrarAnio();
 switch ($opcion) {
  
   case 'mostrardatos':

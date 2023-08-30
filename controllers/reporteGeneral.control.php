@@ -20,7 +20,8 @@ require_once("models/ReporteGeneral.model.php");
     $json = json_decode($_COOKIE['user_logged'],true);
    
     $obj= new Recibir();
-   
+    $datos['anios']=$obj->mostrarAnio();
+
 switch ($opcion) {
   case 'ExportExcel':
 

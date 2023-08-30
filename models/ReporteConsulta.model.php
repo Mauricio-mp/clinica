@@ -8,6 +8,7 @@
 	interface clinica
 	{
 		function mostrarInfo($anio,$mes);
+		public function mostrarAnio();
 	
 	}
 class Consulta extends Conexion implements clinica
@@ -15,6 +16,15 @@ class Consulta extends Conexion implements clinica
 	function __construct(){
         $this->msg='';
 	} 
+	public function mostrarAnio() {
+		$i=date('Y');
+		$j=0;
+		for ($i; $i >=2023 ; $i--) { 
+			$anio[$j]['aaa']=$i;
+			$j++;
+		}
+		return $anio;
+	}
     function recorrer($fila)  {
         if($fila['finalizado']==''){
          
